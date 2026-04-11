@@ -1,0 +1,66 @@
+# ========== Databases ==========
+*.db
+*.sqlite
+*.sqlite3
+
+# ========== Documentation (internal only) ==========
+webui/**/*.md
+api_server/**/*.md
+webui/*.md
+api_server/*.md
+
+# ========== Local config & secrets ==========
+.env
+.env.*
+!.env.example
+config.local.*
+*.secret
+
+# ========== Claude / AI tooling ==========
+.claude/
+.playwright-mcp/
+.sisyphus/
+_claude_code_leaked_source_code/
+ai_read_here_first/
+pending_jobs/
+sisyphus/
+skills/
+
+# ========== Screenshots ==========
+screenshot/
+*.png
+*.jpg
+*.jpeg
+screenshot_b64.txt
+
+# ========== Python ==========
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# ========== Node / Frontend ==========
+node_modules/
+dist/
+.next/
+.nuxt/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ========== OS ==========
+.DS_Store
+Thumbs.db
+desktop.ini
