@@ -1,3 +1,8 @@
+"""Jupyter notebook editing tool.
+
+Based on TypeScript NotebookEditTool implementation.
+Edits Jupyter notebook cells with conflict detection.
+"""
 import json
 import secrets
 from dataclasses import dataclass, field

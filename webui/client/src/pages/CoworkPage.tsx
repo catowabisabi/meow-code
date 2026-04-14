@@ -747,66 +747,30 @@ export default function CoworkPage() {
 
   // Empty state — no folder selected or no messages
   if (!currentFolder && messages.length === 0) {
+    const handleBrowse = async () => {
+      try {
+        const res = await fetch('/api/files/browse', { method: 'POST' })
+        const data = await res.json()
+        if (data.path) setCurrentFolder(data.path)
+      } catch { /* ignore */ }
+    }
     return (
       <div style={styles.container}>
-        <div style={styles.emptyState}>
-          <div style={styles.emptyIcon}>&#128194;</div>
-          <div style={styles.emptyTitle}>Start a new task</div>
-          <div style={{ fontSize: '13px', color: 'var(--text-muted)', textAlign: 'center' }}>
-            Select a project folder to begin working with AI
-          </div>
-          <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
-            <select
-              style={{ ...styles.folderInput, cursor: 'pointer' }}
-              value={folderDraft}
-              onChange={(e) => {
-                const val = e.target.value
-                if (val === '__custom__') {
-                  setShowFolderDropdown(false)
-                } else {
-                  setFolderDraft(val)
-                  setCurrentFolder(val)
-                }
-              }}
-            >
-              <option value="">選擇資料夾...</option>
-              {directories.map(d => (
-                <option key={d.path} value={d.path}>{d.label} ({d.path})</option>
-              ))}
-              <option value="__custom__">自訂路徑...</option>
-            </select>
-          </div>
-          <div style={{ display: 'flex', gap: '8px', marginTop: '8px', width: '100%', maxWidth: '400px' }}>
-            <input
-              type="file"
-              id="folder-browse"
-              // @ts-ignore - webkitdirectory is a non-standard but widely supported attribute
-              webkitdirectory=""
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                const files = e.target.files
-                if (files && files.length > 0) {
-                  const folderPath = files[0].webkitRelativePath.split('/')[0]
-                  setFolderDraft(folderPath)
-                  setCurrentFolder(folderPath)
-                }
-              }}
-            />
-            <label htmlFor="folder-browse" style={{ ...styles.browseBtn, cursor: 'pointer' }}>
-              <span>&#128193;</span> Browse Folders
-            </label>
-            {showFolderDropdown && (
-              <input
-                style={{ ...styles.folderInput, flex: 1 }}
-                placeholder="C:\Users\Chris\Desktop\project"
-                value={folderDraft}
-                onChange={(e) => setFolderDraft(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') handleSelectFolder() }}
-                autoFocus
-              />
-            )}
-          </div>
-          <button style={styles.startBtn} onClick={handleSelectFolder}>Open Folder</button>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '16px' }}>
+          <div style={{ fontSize: '48px', opacity: 0.4 }}>📁</div>
+          <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>開啟專案資料夾</div>
+          <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>選擇一個資料夾開始協作</div>
+          <button
+            onClick={handleBrowse}
+            style={{
+              padding: '12px 32px', borderRadius: '8px', border: 'none',
+              background: 'var(--accent-blue)', color: '#fff',
+              fontSize: '14px', fontWeight: 600, cursor: 'pointer',
+              marginTop: '8px',
+            }}
+          >
+            選擇資料夾
+          </button>
         </div>
       </div>
     )
@@ -948,3 +912,4 @@ export default function CoworkPage() {
     </div>
   )
 }
+

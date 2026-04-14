@@ -2,6 +2,8 @@
 REST API routes for file operations (used by code editor).
 """
 import os
+import subprocess
+import sys
 from pathlib import Path
 from typing import Annotated
 
@@ -142,6 +144,59 @@ async def list_directories() -> DirectoriesResponse:
             )
 
     return DirectoriesResponse(directories=directories)
+
+
+@router.post("/browse")
+async def browse_folder():
+    """Open native OS folder picker dialog and return selected path."""
+    try:
+        if sys.platform == "win32":
+            ps_script = (
+                "Add-Type -AssemblyName System.Windows.Forms; "
+                "$d = New-Object System.Windows.Forms.FolderBrowserDialog; "
+                "$d.Description = 'Select a project folder'; "
+                "if ($d.ShowDialog() -eq 'OK') { $d.SelectedPath } else { '' }"
+            )
+            result = subprocess.run(
+                ["powershell", "-Command", ps_script],
+                capture_output=True, text=True, timeout=120,
+            )
+            selected = result.stdout.strip()
+        elif sys.platform == "darwin":
+            # macOS: use osascript to open Finder folder dialog
+            apple_script = (
+                'set theFolder to POSIX path of '
+                '(choose folder with prompt "Select a project folder")'
+            )
+            result = subprocess.run(
+                ["osascript", "-e", apple_script],
+                capture_output=True, text=True, timeout=120,
+            )
+            selected = result.stdout.strip().rstrip("/")
+        else:
+            # Linux: try zenity (GTK), then kdialog (KDE)
+            selected = ""
+            for cmd in [
+                ["zenity", "--file-selection", "--directory", "--title=Select a project folder"],
+                ["kdialog", "--getexistingdirectory", os.path.expanduser("~"), "--title", "Select a project folder"],
+            ]:
+                try:
+                    result = subprocess.run(
+                        cmd, capture_output=True, text=True, timeout=120,
+                    )
+                    if result.returncode == 0:
+                        selected = result.stdout.strip()
+                        break
+                except FileNotFoundError:
+                    continue
+
+        if not selected:
+            return {"cancelled": True}
+        return {"path": selected}
+    except subprocess.TimeoutExpired:
+        return {"cancelled": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("", response_model=ListFilesResponse)

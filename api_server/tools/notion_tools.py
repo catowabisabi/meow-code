@@ -1,3 +1,8 @@
+"""Notion integration tool.
+
+Based on TypeScript NotionTool implementation.
+Provides Notion page creation and search capabilities.
+"""
 import os
 from typing import Any, Dict
 

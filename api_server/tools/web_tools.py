@@ -13,7 +13,7 @@ from .types import ToolDef, ToolContext, ToolResult
 MAX_CONTENT_SIZE = 50000
 FETCH_TIMEOUT = 30.0
 CONNECT_TIMEOUT = 10.0
-USER_AGENT = 'Mozilla/5.0 (compatible; AICodeAssistant/1.0)'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 
 
 def extract_text(html_content: str) -> str:
@@ -25,32 +25,41 @@ def extract_text(html_content: str) -> str:
     return text.strip()
 
 
-def extract_ddg_results(html: str, limit: int) -> list:
+def _resolve_ddg_url(raw_url: str) -> str:
+    """Extract the real URL from a DDG redirect."""
+    if 'uddg=' in raw_url:
+        m = re.search(r'uddg=([^&]+)', raw_url)
+        if m:
+            return urllib.parse.unquote(m.group(1))
+    if raw_url.startswith('//'):
+        return 'https:' + raw_url
+    return raw_url
+
+
+def extract_ddg_results(html_text: str, limit: int) -> list:
     results = []
-    blocks = html.split('class="result-link"')
-    
-    for block in blocks[1:limit + 1]:
-        href_match = re.search(r'href="([^"]*)"', block)
-        text_match = re.search(r'>([^<]+)</a>', block)
-        
-        if href_match and text_match:
-            url = href_match.group(1)
-            if 'duckduckgo.com' in url:
-                continue
-            results.append({
-                'title': text_match.group(1).strip(),
-                'url': url,
-                'snippet': '',
-            })
-    
-    if not results:
-        for url, title in re.findall(r'<a[^>]+href="(https?://[^"]*)"[^>]*>([^<]+)</a>', html):
-            if len(results) >= limit:
-                break
-            if 'duckduckgo.com' in url:
-                continue
-            results.append({'title': title.strip(), 'url': url, 'snippet': ''})
-    
+
+    for m in re.finditer(
+        r"<a\s+[^>]*?href=['\"]([^'\"]+)['\"][^>]*?class=['\"]result-link['\"][^>]*>([^<]+)</a>"
+        r"|<a\s+[^>]*?class=['\"]result-link['\"][^>]*?href=['\"]([^'\"]+)['\"][^>]*>([^<]+)</a>",
+        html_text,
+    ):
+        raw_url = m.group(1) or m.group(3) or ''
+        title = m.group(2) or m.group(4) or ''
+        if not raw_url:
+            continue
+        url = _resolve_ddg_url(raw_url)
+        if 'duckduckgo.com' in url:
+            continue
+        snippet = ''
+        pos = m.end()
+        snip_match = re.search(r"class=['\"]result-snippet['\"][^>]*>(.*?)</td>", html_text[pos:pos + 500], re.DOTALL)
+        if snip_match:
+            snippet = re.sub(r'<[^>]+>', '', snip_match.group(1)).strip()
+        results.append({'title': title.strip(), 'url': url, 'snippet': snippet})
+        if len(results) >= limit:
+            break
+
     return results
 
 

@@ -395,8 +395,8 @@ async def run_all_tests():
         for i, test in enumerate(ALL_ENDPOINTS):
             result = await test_endpoint(client, test)
             results.append(result)
-            status_icon = "✅" if result["success"] else "❌"
-            print(f"  {status_icon} [{i+1}/{total}] {result['method']} {result['name']} → {result['status']} ({result['duration_ms']}ms)")
+            status_icon = "[PASS]" if result["success"] else "[FAIL]"
+            print(f"  {status_icon} [{i+1}/{total}] {result['method']} {result['name']} -> {result['status']} ({result['duration_ms']}ms)")
 
     passed = sum(1 for r in results if r["success"])
     failed = total - passed

@@ -1,3 +1,8 @@
+"""List MCP resources tool.
+
+Based on TypeScript ListMcpResourcesTool implementation.
+Lists available resources from MCP servers.
+"""
 from typing import Optional, Dict, Any
 
 from .types import ToolDef, ToolContext, ToolResult

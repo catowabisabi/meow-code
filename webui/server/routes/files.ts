@@ -4,6 +4,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import * as os from 'os'
+import { execSync } from 'child_process'
 
 export function registerFileRoutes(router: Map<string, (req: Request) => Promise<Response>>) {
   // GET /api/files/directories — Get common project directories
@@ -31,6 +32,21 @@ export function registerFileRoutes(router: Map<string, (req: Request) => Promise
     ]
 
     return Response.json({ directories })
+  })
+
+  // POST /api/browse-folder — Open native Windows folder picker dialog
+  router.set('POST:/api/browse-folder', async () => {
+    try {
+      const ps = `Add-Type -AssemblyName System.Windows.Forms; $d = New-Object System.Windows.Forms.FolderBrowserDialog; $d.Description = 'Select a project folder'; if ($d.ShowDialog() -eq 'OK') { $d.SelectedPath } else { '' }`
+      const result = execSync(`powershell -Command "${ps}"`, { encoding: 'utf-8', timeout: 60000 }).trim()
+      if (!result) {
+        return Response.json({ cancelled: true })
+      }
+      return Response.json({ path: result })
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      return Response.json({ error: msg }, { status: 500 })
+    }
   })
 
   // GET /api/files?path=... — List files in a directory

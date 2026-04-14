@@ -1,3 +1,8 @@
+"""Read MCP resource tool.
+
+Based on TypeScript ReadMcpResourceTool implementation.
+Reads content from MCP server resources.
+"""
 from typing import Dict, Any
 
 from .types import ToolDef, ToolContext, ToolResult

@@ -164,8 +164,84 @@ function renderInline(text: string): JSX.Element {
   return <span>{parts}</span>
 }
 
+// Parse <think>...</think> tags from plain text into segments
+function parseThinkTags(text: string): Array<{ kind: 'text' | 'think'; content: string }> {
+  const result: Array<{ kind: 'text' | 'think'; content: string }> = []
+  const regex = /<think>([\s\S]*?)<\/think>/g
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      result.push({ kind: 'text', content: text.slice(lastIndex, match.index) })
+    }
+    result.push({ kind: 'think', content: match[1]! })
+    lastIndex = regex.lastIndex
+  }
+  if (lastIndex < text.length) {
+    result.push({ kind: 'text', content: text.slice(lastIndex) })
+  }
+  return result
+}
+
+function ThinkingBlock({ text, show, onToggle }: { text: string; show: boolean; onToggle: () => void }) {
+  return (
+    <div>
+      <button style={styles.thinkingToggle} onClick={onToggle}>
+        {show ? '▼' : '▶'} 思考過程
+      </button>
+      {show && <div style={styles.thinkingContent}>{text}</div>}
+    </div>
+  )
+}
+
+// Generate a brief human-readable summary for a tool call
+function toolSummary(name: string, input: Record<string, unknown> | undefined): string {
+  if (!input) return name || 'tool'
+  const n = name || 'tool'
+  // Pick the most meaningful input value for display
+  const key = input.query || input.command || input.url || input.path || input.pattern || input.text || input.content
+  if (key && typeof key === 'string') {
+    const short = key.length > 60 ? key.slice(0, 57) + '...' : key
+    // Friendly name mapping
+    const friendly: Record<string, string> = {
+      web_search: 'Web Search', web_fetch: 'Web Fetch', file_read: 'Read', file_write: 'Write',
+      file_edit: 'Edit', bash: 'Shell', grep: 'Grep', glob: 'Glob',
+    }
+    return `${friendly[n] || n}: ${short}`
+  }
+  return n
+}
+
+function ToolUseCard({ name, input }: { name: string; input?: Record<string, unknown> }) {
+  const [expanded, setExpanded] = useState(false)
+  const summary = toolSummary(name, input)
+  return (
+    <div style={styles.toolCard}>
+      <div
+        style={{ ...styles.toolName, cursor: input ? 'pointer' : 'default', userSelect: 'none' }}
+        onClick={() => input && setExpanded(v => !v)}
+      >
+        <span>🔧</span>
+        <span style={{ flex: 1 }}>{summary}</span>
+        {input && <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{expanded ? '▼' : '▶'}</span>}
+      </div>
+      {expanded && input && (
+        <div style={styles.toolInput}>{JSON.stringify(input, null, 2)}</div>
+      )}
+    </div>
+  )
+}
+
 export default function MessageBubble({ message }: { message: ChatMessage }) {
-  const [showThinking, setShowThinking] = useState(false)
+  // Each thinking block has its own independent open/close state
+  const [openThinking, setOpenThinking] = useState<Set<string>>(new Set())
+  const toggleThinking = (key: string) => {
+    setOpenThinking(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key); else next.add(key)
+      return next
+    })
+  }
   const isUser = message.role === 'user'
 
   return (
@@ -174,38 +250,46 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
         <div style={styles.bubble(isUser)}>
           {message.content.map((block, i) => {
             switch (block.type) {
-              case 'text':
-                return <div key={i}>{renderMarkdown(block.text || '')}</div>
-
-              case 'thinking':
+              case 'text': {
+                const segments = parseThinkTags(block.text || '')
+                if (segments.length === 1 && segments[0]!.kind === 'text') {
+                  return <div key={i}>{renderMarkdown(segments[0]!.content)}</div>
+                }
                 return (
                   <div key={i}>
-                    <button
-                      style={styles.thinkingToggle}
-                      onClick={() => setShowThinking(!showThinking)}
-                    >
-                      {showThinking ? '▼' : '▶'} 思考過程
+                    {segments.map((seg, j) => {
+                      const key = `${i}-${j}`
+                      return seg.kind === 'think' ? (
+                        <ThinkingBlock
+                          key={key}
+                          text={seg.content}
+                          show={openThinking.has(key)}
+                          onToggle={() => toggleThinking(key)}
+                        />
+                      ) : (
+                        <div key={key}>{renderMarkdown(seg.content)}</div>
+                      )
+                    })}
+                  </div>
+                )
+              }
+
+              case 'thinking': {
+                const key = `think-${i}`
+                return (
+                  <div key={i}>
+                    <button style={styles.thinkingToggle} onClick={() => toggleThinking(key)}>
+                      {openThinking.has(key) ? '▼' : '▶'} 思考過程
                     </button>
-                    {showThinking && (
+                    {openThinking.has(key) && (
                       <div style={styles.thinkingContent}>{block.text}</div>
                     )}
                   </div>
                 )
+              }
 
               case 'tool_use':
-                return (
-                  <div key={i} style={styles.toolCard}>
-                    <div style={styles.toolName}>
-                      <span>🔧</span>
-                      <span>調用工具: {block.name || block.id}</span>
-                    </div>
-                    {block.input && (
-                      <div style={styles.toolInput}>
-                        {JSON.stringify(block.input, null, 2)}
-                      </div>
-                    )}
-                  </div>
-                )
+                return <ToolUseCard key={i} name={block.name || block.id || ''} input={block.input as Record<string, unknown>} />
 
               case 'tool_result':
                 return (

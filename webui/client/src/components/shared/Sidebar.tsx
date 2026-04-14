@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLayoutStore } from '../../stores/layoutStore.ts'
+import SettingsPage from '../../pages/SettingsPage.tsx'
 
 // ---------- Types ----------
 
@@ -115,6 +116,9 @@ export default function Sidebar() {
   // User dropdown
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef<HTMLDivElement>(null)
+
+  // Settings modal
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   // Hovered item tracking
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
@@ -433,40 +437,8 @@ export default function Sidebar() {
       {/* Agent Dashboard Indicator */}
       {!collapsed && <div style={{ padding: '8px 12px' }}><AgentDashboardIndicator agents={agents} /></div>}
 
-      {/* ============ BOTTOM: Settings + User Panel ============ */}
+      {/* ============ BOTTOM: User Panel ============ */}
       <div style={{ flexShrink: 0 }}>
-        {/* Settings button */}
-        <div style={{ padding: collapsed ? '4px' : '4px 8px' }}>
-          <button
-            title={collapsed ? 'Settings' : undefined}
-            onClick={() => navigate('/settings')}
-            onMouseEnter={() => setHoveredBottomNav('/settings')}
-            onMouseLeave={() => setHoveredBottomNav(null)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              width: '100%',
-              padding: collapsed ? '6px 0' : '5px 12px',
-              justifyContent: collapsed ? 'center' : 'flex-start',
-              borderRadius: '6px',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '13px',
-              color: isPathActive('/settings') ? C.text : hoveredBottomNav === '/settings' ? C.text : C.textSecondary,
-              background: isPathActive('/settings') ? C.bgActive : hoveredBottomNav === '/settings' ? C.bgHover : 'transparent',
-              transition: 'all 0.12s ease',
-              outline: 'none',
-              fontFamily: 'inherit',
-            }}
-          >
-            <span style={{ fontSize: '14px', lineHeight: 1, flexShrink: 0 }}>⚙️</span>
-            {!collapsed && <span>Settings</span>}
-          </button>
-        </div>
-
-        {/* Divider */}
-        <div style={{ height: 1, background: C.border, margin: collapsed ? '0 4px' : '0 12px' }} />
 
         {/* User panel */}
         <div ref={userMenuRef} style={{ position: 'relative' }}>
@@ -557,9 +529,8 @@ export default function Sidebar() {
               }}
             >
               {[
-                { label: 'Customize', action: () => navigate('/customize') },
-                { label: 'Teams', action: () => navigate('/teams') },
-                { label: 'Language', action: () => {} },
+                { label: '⚙️  Settings', action: () => setSettingsOpen(true) },
+                { label: '👥  Teams', action: () => navigate('/teams') },
                 { label: 'Log out', action: () => {} },
               ].map((item, i) => (
                 <UserMenuItem
@@ -608,6 +579,67 @@ export default function Sidebar() {
       >
         {collapsed ? '\u203A' : '\u2039'}
       </button>
+
+      {/* Settings Modal */}
+      {settingsOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.6)',
+            zIndex: 9000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onClick={(e) => { if (e.target === e.currentTarget) setSettingsOpen(false) }}
+        >
+          <div
+            style={{
+              width: '90vw',
+              maxWidth: '860px',
+              maxHeight: '85vh',
+              background: '#151517',
+              border: `1px solid ${C.border}`,
+              borderRadius: '14px',
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              boxShadow: '0 24px 64px rgba(0,0,0,0.7)',
+            }}
+          >
+            {/* Modal header */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '16px 24px',
+              borderBottom: `1px solid ${C.border}`,
+              flexShrink: 0,
+            }}>
+              <span style={{ fontSize: '16px', fontWeight: 600, color: C.text }}>Settings</span>
+              <button
+                onClick={() => setSettingsOpen(false)}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  color: C.textMuted, fontSize: '20px', lineHeight: 1,
+                  padding: '4px 8px', borderRadius: '6px',
+                  outline: 'none', fontFamily: 'inherit',
+                  transition: 'color 0.12s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = C.text }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = C.textMuted }}
+              >
+                ✕
+              </button>
+            </div>
+            {/* Modal body */}
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+              <SettingsPage />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

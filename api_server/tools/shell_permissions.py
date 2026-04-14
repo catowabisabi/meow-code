@@ -1,3 +1,8 @@
+"""Shell permission checking and validation.
+
+Based on TypeScript BashTool/permissions.ts implementations.
+Provides command validation against security denylists.
+"""
 import re
 from dataclasses import dataclass
 from typing import Callable, Awaitable

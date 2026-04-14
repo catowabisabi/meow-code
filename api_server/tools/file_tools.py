@@ -1,3 +1,8 @@
+"""File operations tool - read, write, edit files.
+
+Based on TypeScript FileEditTool, FileReadTool, FileWriteTool implementations.
+Provides safe file operations with conflict detection and backup.
+"""
 import difflib
 import math
 import os

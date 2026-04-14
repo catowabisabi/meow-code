@@ -961,66 +961,30 @@ export default function CodeModePage() {
 
   // Empty state
   if (!currentFolder && messages.length === 0) {
+    const handleBrowse = async () => {
+      try {
+        const res = await fetch('/api/files/browse', { method: 'POST' })
+        const data = await res.json()
+        if (data.path) setCurrentFolder(data.path)
+      } catch { /* ignore */ }
+    }
     return (
       <div style={styles.container}>
-        <div style={styles.emptyState}>
-          <div style={styles.emptyIcon}>&#128269;</div>
-          <div style={styles.emptyTitle}>Select a project to analyze</div>
-          <div style={{ fontSize: '13px', color: 'var(--text-muted)', textAlign: 'center' }}>
-            Enter a project folder path to begin code analysis
-          </div>
-          <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
-            <select
-              style={{ ...styles.folderInput, cursor: 'pointer' }}
-              value={folderDraft}
-              onChange={(e) => {
-                const val = e.target.value
-                if (val === '__custom__') {
-                  setShowFolderDropdown(false)
-                } else {
-                  setFolderDraft(val)
-                  setCurrentFolder(val)
-                }
-              }}
-            >
-              <option value="">選擇資料夾...</option>
-              {directories.map(d => (
-                <option key={d.path} value={d.path}>{d.label} ({d.path})</option>
-              ))}
-              <option value="__custom__">自訂路徑...</option>
-            </select>
-          </div>
-          <div style={{ display: 'flex', gap: '8px', marginTop: '8px', width: '100%', maxWidth: '400px' }}>
-            <input
-              type="file"
-              id="folder-browse"
-              // @ts-ignore - webkitdirectory is a non-standard but widely supported attribute
-              webkitdirectory=""
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                const files = e.target.files
-                if (files && files.length > 0) {
-                  const folderPath = files[0].webkitRelativePath.split('/')[0]
-                  setFolderDraft(folderPath)
-                  setCurrentFolder(folderPath)
-                }
-              }}
-            />
-            <label htmlFor="folder-browse" style={{ ...styles.browseBtn, cursor: 'pointer' }}>
-              <span>&#128193;</span> Browse Folders
-            </label>
-            {showFolderDropdown && (
-              <input
-                style={{ ...styles.folderInput, flex: 1 }}
-                placeholder="C:\Users\Chris\Desktop\project"
-                value={folderDraft}
-                onChange={(e) => setFolderDraft(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') handleSelectFolder() }}
-                autoFocus
-              />
-            )}
-          </div>
-          <button style={styles.startBtn} onClick={handleSelectFolder}>Analyze Project</button>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '16px' }}>
+          <div style={{ fontSize: '48px', opacity: 0.4 }}>📁</div>
+          <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>開啟專案資料夾</div>
+          <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>選擇一個資料夾開始程式碼分析</div>
+          <button
+            onClick={handleBrowse}
+            style={{
+              padding: '12px 32px', borderRadius: '8px', border: 'none',
+              background: colors.accentOrange, color: '#fff',
+              fontSize: '14px', fontWeight: 600, cursor: 'pointer',
+              marginTop: '8px',
+            }}
+          >
+            選擇資料夾
+          </button>
         </div>
       </div>
     )
@@ -1211,21 +1175,8 @@ export default function CodeModePage() {
               <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>PROBLEMS</span>
               <button onClick={() => setRightOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 12 }}>✕</button>
             </div>
-            <div style={{ padding: 8, fontSize: 12 }}>
-              <div style={{ color: '#f87171', marginBottom: 8 }}>3 errors</div>
-              <div style={{ padding: '4px 8px', color: '#9ca3af', marginBottom: 4, borderLeft: '2px solid #f87171' }}>
-                <div>src/utils/api.ts:12</div>
-                <div style={{ color: '#ef4444' }}>Cannot find name 'fetch'</div>
-              </div>
-              <div style={{ padding: '4px 8px', color: '#9ca3af', marginBottom: 4, borderLeft: '2px solid #f87171' }}>
-                <div>src/components/App.tsx:45</div>
-                <div style={{ color: '#ef4444' }}>Property 'map' does not exist</div>
-              </div>
-              <div style={{ color: '#facc15', marginBottom: 8, marginTop: 16 }}>2 warnings</div>
-              <div style={{ padding: '4px 8px', color: '#9ca3af', marginBottom: 4, borderLeft: '2px solid #facc15' }}>
-                <div>src/index.ts:5</div>
-                <div style={{ color: '#eab308' }}>Unused variable 'x'</div>
-              </div>
+            <div style={{ padding: 8, fontSize: 12, color: 'var(--text-muted)' }}>
+              No problems detected.
             </div>
           </div>
         )}
@@ -1233,3 +1184,4 @@ export default function CodeModePage() {
     </div>
   )
 }
+

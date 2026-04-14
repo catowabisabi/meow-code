@@ -1,3 +1,8 @@
+"""Skill management and invocation tool.
+
+Based on TypeScript SkillTool implementation.
+Loads and executes skills from the skill registry.
+"""
 from .types import ToolDef, ToolContext, ToolResult
 from api_server.services.skills.registry import (
     get_skill,

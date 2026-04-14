@@ -1,3 +1,8 @@
+"""PowerShell execution tool.
+
+Based on TypeScript PowerShellTool implementation.
+Executes PowerShell commands with permission checking.
+"""
 import asyncio
 import os
 import signal

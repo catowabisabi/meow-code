@@ -1,0 +1,7363 @@
+Files with less than 10 Chinese characters in F:\codebase\cato-claude\_claude_code_leaked_source_code\src
+================================================================================
+Total files scanned: 1884
+Files with < 10 Chinese characters: 1873
+================================================================================
+
+QueryEngine.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 查詢引擎核心管理對話
+
+Task.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 任務系統定義任務類型
+
+Tool.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工具系統定義工具輸入
+
+bootstrap\state.ts
+  Chinese chars: 52
+  First 10 Chinese chars: 引導狀態管理本模組負
+
+bridge\bridgeApi.ts
+  Chinese chars: 81
+  First 10 Chinese chars: 橋接客戶端模組本模組
+
+bridge\bridgeDebug.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 橋接調試模組負責模式
+
+bridge\bridgeMain.ts
+  Chinese chars: 53
+  First 10 Chinese chars: 橋接主入口模組負責獨
+
+bridge\bridgeMessaging.ts
+  Chinese chars: 0
+
+bridge\bridgePermissionCallbacks.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 橋接權限回調類型模組
+
+bridge\bridgePointer.ts
+  Chinese chars: 40
+  First 10 Chinese chars: 橋接指針模組負責橋接
+
+bridge\bridgeStatusUtil.ts
+  Chinese chars: 46
+  First 10 Chinese chars: 橋接狀態工具模組負責
+
+bridge\bridgeUI.ts
+  Chinese chars: 54
+  First 10 Chinese chars: 橋接輸出模組負責橋接
+
+bridge\capacityWake.ts
+  Chinese chars: 0
+
+bridge\codeSessionApi.ts
+  Chinese chars: 0
+
+bridge\createSession.ts
+  Chinese chars: 48
+  First 10 Chinese chars: 橋接會話創建模組負責
+
+bridge\debugUtils.ts
+  Chinese chars: 58
+  First 10 Chinese chars: 橋接調試工具模組負責
+
+bridge\envLessBridgeConfig.ts
+  Chinese chars: 61
+  First 10 Chinese chars: 無環境變量橋接配置模
+
+bridge\flushGate.ts
+  Chinese chars: 0
+
+bridge\inboundAttachments.ts
+  Chinese chars: 0
+
+bridge\inboundMessages.ts
+  Chinese chars: 46
+  First 10 Chinese chars: 入站訊息處理模組負責
+
+bridge\initReplBridge.ts
+  Chinese chars: 0
+
+bridge\jwtUtils.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 工具模組負責令牌的解
+
+bridge\pollConfig.ts
+  Chinese chars: 51
+  First 10 Chinese chars: 橋接輪詢配置模組負責
+
+bridge\pollConfigDefaults.ts
+  Chinese chars: 0
+
+bridge\remoteBridgeCore.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 遠端橋接核心負責無環
+
+bridge\replBridge.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 橋接核心負責模式的橋
+
+bridge\replBridgeHandle.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 橋接句柄全局引用模組
+
+bridge\replBridgeTransport.ts
+  Chinese chars: 39
+  First 10 Chinese chars: 橋接傳輸適配器模組負
+
+bridge\sessionIdCompat.ts
+  Chinese chars: 0
+
+bridge\sessionRunner.ts
+  Chinese chars: 51
+  First 10 Chinese chars: 會話運行器模組負責創
+
+bridge\trustedDevice.ts
+  Chinese chars: 58
+  First 10 Chinese chars: 受信任設備令牌模組負
+
+bridge\types.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 橋接類型定義模組負責
+
+bridge\workSecret.ts
+  Chinese chars: 56
+  First 10 Chinese chars: 工作密鑰與會話工具模
+
+buddy\CompanionSprite.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 負責渲染動畫元件用於
+
+buddy\companion.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 夥伴模組負責生成和管
+
+buddy\prompt.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 夥伴提示模組負責生成
+
+buddy\sprites.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 夥伴精靈模組負責定義
+
+buddy\types.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 夥伴類型模組定義夥伴
+
+buddy\useBuddyNotification.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 負責處理通知的管理通
+
+cli\exit.ts
+  Chinese chars: 0
+
+cli\handlers\agents.ts
+  Chinese chars: 0
+
+cli\handlers\auth.ts
+  Chinese chars: 0
+
+cli\handlers\autoMode.ts
+  Chinese chars: 0
+
+cli\handlers\mcp.tsx
+  Chinese chars: 0
+
+cli\handlers\plugins.ts
+  Chinese chars: 0
+
+cli\handlers\util.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 工具處理模組負責處理
+
+cli\ndjsonSafeStringify.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 安全序列化模組負責安
+
+cli\print.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 打印模組負責主要的打
+
+cli\remoteIO.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 遠端模組負責模式的雙
+
+cli\structuredIO.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 結構化模組負責的結構
+
+cli\transports\HybridTransport.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 混合傳輸器負責使用讀
+
+cli\transports\SSETransport.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 傳輸器負責使用進行伺
+
+cli\transports\SerialBatchEventUploader.ts
+  Chinese chars: 45
+  First 10 Chinese chars: 序列批次事件上傳模組
+
+cli\transports\WebSocketTransport.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 傳輸器負責基於的雙向
+
+cli\transports\WorkerStateUploader.ts
+  Chinese chars: 44
+  First 10 Chinese chars: 工作狀態上傳模組負責
+
+cli\transports\ccrClient.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 客戶端傳輸負責處理的
+
+cli\transports\transportUtils.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 負責根據選擇適當的傳
+
+cli\update.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 更新模組負責檢查更新
+
+commands.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 命令系統註冊並分發所
+
+commands\add-dir\add-dir.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 添加目錄命令負責將新
+
+commands\add-dir\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 新增目錄命令模組負責
+
+commands\add-dir\validation.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 新增目錄驗證模組負責
+
+commands\advisor.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 顧問命令模組負責處理
+
+commands\agents\agents.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 代理選單命令負責顯示
+
+commands\agents\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 代理命令模組負責處理
+
+commands\branch\branch.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 分支命令實作模組負責
+
+commands\branch\index.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 分支命令模組負責分支
+
+commands\bridge-kick.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 負責注入故障狀態以測
+
+commands\bridge\bridge.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 橋接命令負責橋接模式
+
+commands\bridge\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 橋接命令模組負責處理
+
+commands\brief.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 簡報命令模組負責生成
+
+commands\btw\btw.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 命令負責即時備註功能
+
+commands\btw\index.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 順便說命令模組負責處
+
+commands\chrome\chrome.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 集成命令負責擴展集成
+
+commands\chrome\index.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 命令模組負責處理相關
+
+commands\clear\caches.ts
+  Chinese chars: 0
+
+commands\clear\clear.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 清除命令實作模組負責
+
+commands\clear\conversation.ts
+  Chinese chars: 0
+
+commands\clear\index.ts
+  Chinese chars: 0
+
+commands\color\color.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 顏色命令實作模組負責
+
+commands\color\index.ts
+  Chinese chars: 0
+
+commands\commit-push-pr.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 提交推送命令模組負責
+
+commands\commit.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 提交命令模組負責執行
+
+commands\compact\compact.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 精簡命令實作模組負責
+
+commands\compact\index.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 精簡命令模組負責精簡
+
+commands\config\config.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 配置命令負責顯示配置
+
+commands\config\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 設定命令模組負責處理
+
+commands\context\context-noninteractive.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 非互動式上下文模組負
+
+commands\context\context.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 上下文視圖化命令負責
+
+commands\context\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 上下文命令模組負責處
+
+commands\copy\copy.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 複製命令負責將對話內
+
+commands\copy\index.ts
+  Chinese chars: 0
+
+commands\cost\cost.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 成本命令實作模組負責
+
+commands\cost\index.ts
+  Chinese chars: 0
+
+commands\createMovedToPluginCommand.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 移動到插件命令工廠模
+
+commands\desktop\desktop.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 桌面移交命令負責桌面
+
+commands\desktop\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 桌面版命令模組負責處
+
+commands\diff\diff.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 差異對話命令負責顯示
+
+commands\diff\index.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 差異比較命令模組負責
+
+commands\doctor\doctor.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 醫生診斷命令負責系統
+
+commands\doctor\index.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 診斷命令模組負責執行
+
+commands\effort\effort.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 努力追蹤命令負責追蹤
+
+commands\effort\index.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工作量命令模組負責處
+
+commands\exit\exit.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 退出命令負責應用程序
+
+commands\exit\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 退出命令模組負責處理
+
+commands\export\export.tsx
+  Chinese chars: 12
+  First 10 Chinese chars: 導出命令負責對話導出
+
+commands\export\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 匯出命令模組負責處理
+
+commands\extra-usage\extra-usage-core.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 額外用量核心模組負責
+
+commands\extra-usage\extra-usage-noninteractive.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 非互動式額外用量模組
+
+commands\extra-usage\extra-usage.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 額外使用量命令負責顯
+
+commands\extra-usage\index.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 額外用量命令模組負責
+
+commands\fast\fast.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 快速模式命令負責快速
+
+commands\fast\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 快速模式命令模組負責
+
+commands\feedback\feedback.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 反饋命令負責用戶反饋
+
+commands\feedback\index.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 回饋命令模組負責處理
+
+commands\files\files.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 檔案命令實作模組負責
+
+commands\files\index.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 檔案命令模組負責檔案
+
+commands\heapdump\heapdump.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 堆積傾印命令實作模組
+
+commands\heapdump\index.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 堆積傾印命令模組負責
+
+commands\help\help.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 幫助命令負責顯示幫助
+
+commands\help\index.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 幫助命令模組負責顯示
+
+commands\hooks\hooks.tsx
+  Chinese chars: 10
+  First 10 Chinese chars: 配置命令負責配置管理
+
+commands\hooks\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 鉤子命令模組負責處理
+
+commands\ide\ide.tsx
+  Chinese chars: 10
+  First 10 Chinese chars: 命令負責集成相關功能
+
+commands\ide\index.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 命令模組負責處理整合
+
+commands\init-verifiers.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 初始化驗證器命令模組
+
+commands\init.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 初始化命令模組負責處
+
+commands\insights.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 洞察命令模組負責收集
+
+commands\install-github-app\ApiKeyStep.tsx
+  Chinese chars: 13
+  First 10 Chinese chars: 金鑰步驟負責輸入或選
+
+commands\install-github-app\CheckExistingSecretStep.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 檢查現有密鑰步驟負責
+
+commands\install-github-app\CheckGitHubStep.tsx
+  Chinese chars: 12
+  First 10 Chinese chars: 檢查步驟負責檢查安裝
+
+commands\install-github-app\ChooseRepoStep.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 選擇倉庫步驟負責選擇
+
+commands\install-github-app\CreatingStep.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 創建步驟負責顯示工作
+
+commands\install-github-app\ErrorStep.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 錯誤步驟負責顯示安裝
+
+commands\install-github-app\ExistingWorkflowStep.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 現有工作流程步驟負責
+
+commands\install-github-app\InstallAppStep.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 安裝應用步驟負責顯示
+
+commands\install-github-app\OAuthFlowStep.tsx
+  Chinese chars: 12
+  First 10 Chinese chars: 流程步驟負責執行授權
+
+commands\install-github-app\SuccessStep.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 成功步驟負責顯示安裝
+
+commands\install-github-app\WarningsStep.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 警告步驟負責顯示設定
+
+commands\install-github-app\index.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 安裝命令模組負責處理
+
+commands\install-github-app\install-github-app.tsx
+  Chinese chars: 11
+  First 10 Chinese chars: 安裝負責安裝命令主流
+
+commands\install-github-app\setupGitHubActions.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 設定模組負責設定整合
+
+commands\install-slack-app\index.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 安裝命令模組負責處理
+
+commands\install-slack-app\install-slack-app.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 安裝實作模組負責執行
+
+commands\install.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 安裝命令負責插件和擴
+
+commands\keybindings\index.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 快捷鍵命令模組負責處
+
+commands\keybindings\keybindings.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 快捷鍵實作模組負責處
+
+commands\login\index.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 登入命令模組負責處理
+
+commands\login\login.tsx
+  Chinese chars: 30
+  First 10 Chinese chars: 登入負責處理使用者登
+
+commands\logout\index.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 登出命令模組負責處理
+
+commands\logout\logout.tsx
+  Chinese chars: 32
+  First 10 Chinese chars: 登出負責處理使用者登
+
+commands\mcp\addCommand.ts
+  Chinese chars: 0
+
+commands\mcp\index.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 命令模組負責處理相關
+
+commands\mcp\mcp.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 負責管理伺服器設定連
+
+commands\mcp\xaaIdpCommand.ts
+  Chinese chars: 0
+
+commands\memory\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 記憶命令模組負責處理
+
+commands\memory\memory.tsx
+  Chinese chars: 30
+  First 10 Chinese chars: 記憶負責管理的記憶功
+
+commands\mobile\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 行動版命令模組負責處
+
+commands\mobile\mobile.tsx
+  Chinese chars: 32
+  First 10 Chinese chars: 手機配對負責生成碼讓
+
+commands\model\index.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 模型命令模組負責處理
+
+commands\model\model.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 模型選擇負責讓使用者
+
+commands\output-style\index.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 輸出風格命令模組負責
+
+commands\output-style\output-style.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 輸出樣式已停用此命令
+
+commands\passes\index.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 通行證命令模組負責處
+
+commands\passes\passes.tsx
+  Chinese chars: 32
+  First 10 Chinese chars: 通行證負責顯示使用者
+
+commands\permissions\index.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 權限命令模組負責處理
+
+commands\permissions\permissions.tsx
+  Chinese chars: 36
+  First 10 Chinese chars: 權限管理負責顯示及管
+
+commands\plan\index.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 計劃命令模組負責處理
+
+commands\plan\plan.tsx
+  Chinese chars: 43
+  First 10 Chinese chars: 計劃模式負責啟用及管
+
+commands\plugin\AddMarketplace.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 新增市集負責新增插件
+
+commands\plugin\BrowseMarketplace.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 瀏覽市集負責瀏覽和查
+
+commands\plugin\DiscoverPlugins.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 探索插件負責搜尋和探
+
+commands\plugin\ManageMarketplaces.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 管理市集負責管理已配
+
+commands\plugin\ManagePlugins.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 管理插件負責管理已安
+
+commands\plugin\PluginErrors.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 插件錯誤負責格式化和
+
+commands\plugin\PluginOptionsDialog.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 插件選項對話框負責插
+
+commands\plugin\PluginOptionsFlow.tsx
+  Chinese chars: 0
+
+commands\plugin\PluginSettings.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 插件設定負責插件設定
+
+commands\plugin\PluginTrustWarning.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 插件信任警告負責顯示
+
+commands\plugin\UnifiedInstalledCell.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 統一已安裝單元負責統
+
+commands\plugin\ValidatePlugin.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 驗證插件負責驗證插件
+
+commands\plugin\index.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 插件命令索引負責導出
+
+commands\plugin\parseArgs.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 外掛解析參數模組負責
+
+commands\plugin\plugin.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 插件命令負責執行插件
+
+commands\plugin\pluginDetailsHelpers.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 插件詳情輔助負責插件
+
+commands\plugin\usePagination.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 外掛分頁模組負責處理
+
+commands\pr_comments\index.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 評論命令負責獲取評論
+
+commands\privacy-settings\index.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 隱私設定命令模組負責
+
+commands\privacy-settings\privacy-settings.tsx
+  Chinese chars: 35
+  First 10 Chinese chars: 隱私設定負責管理使用
+
+commands\rate-limit-options\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 速率限制選項命令模組
+
+commands\rate-limit-options\rate-limit-options.tsx
+  Chinese chars: 39
+  First 10 Chinese chars: 速率限制選項負責在達
+
+commands\release-notes\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 版本資訊命令模組負責
+
+commands\release-notes\release-notes.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 版本資訊實作模組負責
+
+commands\reload-plugins\index.ts
+  Chinese chars: 0
+
+commands\reload-plugins\reload-plugins.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 重新載入外掛實作模組
+
+commands\remote-env\index.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 遠端環境命令模組負責
+
+commands\remote-env\remote-env.tsx
+  Chinese chars: 33
+  First 10 Chinese chars: 遠端環境負責顯示遠端
+
+commands\remote-setup\api.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 遠端設定模組負責處理
+
+commands\remote-setup\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 遠端設定命令模組負責
+
+commands\remote-setup\remote-setup.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 遠端設定負責將連接到
+
+commands\rename\generateSessionName.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 生成階段名稱模組負責
+
+commands\rename\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 重新命名命令模組負責
+
+commands\rename\rename.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 重新命名實作模組負責
+
+commands\resume\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 繼續命令模組負責處理
+
+commands\resume\resume.tsx
+  Chinese chars: 36
+  First 10 Chinese chars: 繼續對話負責恢復先前
+
+commands\review.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 審查命令模組負責處理
+
+commands\review\UltrareviewOverageDialog.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 超額審查對話框負責顯
+
+commands\review\reviewRemote.ts
+  Chinese chars: 0
+
+commands\review\ultrareviewCommand.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 超額審查命令負責發起
+
+commands\review\ultrareviewEnabled.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 啟用狀態負責檢查功能
+
+commands\rewind\index.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 回退命令負責將代碼和
+
+commands\rewind\rewind.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 命令負責處理命令開啟
+
+commands\sandbox-toggle\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 沙箱切換命令模組負責
+
+commands\sandbox-toggle\sandbox-toggle.tsx
+  Chinese chars: 36
+  First 10 Chinese chars: 沙箱切換負責管理沙箱
+
+commands\security-review.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 安全審查命令模組負責
+
+commands\session\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 階段命令模組負責處理
+
+commands\session\session.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 遠端負責在遠端模式顯
+
+commands\skills\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 技能命令模組負責處理
+
+commands\skills\skills.tsx
+  Chinese chars: 31
+  First 10 Chinese chars: 技能選單負責顯示可用
+
+commands\stats\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 統計命令模組負責顯示
+
+commands\stats\stats.tsx
+  Chinese chars: 35
+  First 10 Chinese chars: 統計資訊負責顯示使用
+
+commands\status\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 狀態命令模組負責顯示
+
+commands\status\status.tsx
+  Chinese chars: 34
+  First 10 Chinese chars: 狀態設定負責顯示的狀
+
+commands\statusline.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 狀態行命令負責狀態行
+
+commands\stickers\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 貼紙命令模組負責處理
+
+commands\stickers\stickers.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 貼紙實作模組負責處理
+
+commands\tag\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 標籤命令模組負責處理
+
+commands\tag\tag.tsx
+  Chinese chars: 31
+  First 10 Chinese chars: 標籤負責為目前加上可
+
+commands\tasks\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 任務命令模組負責處理
+
+commands\tasks\tasks.tsx
+  Chinese chars: 12
+  First 10 Chinese chars: 任務命令負責後台任務
+
+commands\terminalSetup\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 終端機設定命令模組負
+
+commands\terminalSetup\terminalSetup.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 終端設置命令負責終端
+
+commands\theme\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 主題命令模組負責處理
+
+commands\theme\theme.tsx
+  Chinese chars: 13
+  First 10 Chinese chars: 主題命令負責主題選擇
+
+commands\thinkback-play\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 回顧播放命令模組負責
+
+commands\thinkback-play\thinkback-play.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 回顧播放實作模組負責
+
+commands\thinkback\index.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 回顧命令模組負責處理
+
+commands\thinkback\thinkback.tsx
+  Chinese chars: 13
+  First 10 Chinese chars: 回顧命令負責回顧和反
+
+commands\ultraplan.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 超级计划命令負責超级
+
+commands\upgrade\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 升級命令模組負責處理
+
+commands\upgrade\upgrade.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 升级命令負責应用程序
+
+commands\usage\index.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 用量命令模組負責顯示
+
+commands\usage\usage.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 使用量命令負責顯示使
+
+commands\version.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 版本命令模組負責顯示
+
+commands\vim\index.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 命令模組負責處理模式
+
+commands\vim\vim.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 實作模組負責模式實際
+
+commands\voice\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 語音命令模組負責處理
+
+commands\voice\voice.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 語音實作模組負責語音
+
+components\AgentProgressLine.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 代理進度線組件負責代
+
+components\App.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 應用主組件負責應用的
+
+components\ApproveApiKey.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 審批密鑰組件負責密鑰
+
+components\AutoModeOptInDialog.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 自動模式選擇對話框組
+
+components\AutoUpdater.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 自動更新器組件負責應
+
+components\AutoUpdaterWrapper.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 自動更新器包裝器組件
+
+components\AwsAuthStatusBox.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 認證狀態框組件負責認
+
+components\BaseTextInput.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 基礎文本輸入框組件負
+
+components\BashModeProgress.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 模式進度組件負責模式
+
+components\BridgeDialog.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 橋接對話框組件負責橋
+
+components\BypassPermissionsModeDialog.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 繞過權限模式對話框組
+
+components\ChannelDowngradeDialog.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 頻道降級對話框組件負
+
+components\ClaudeCodeHint\PluginHintMenu.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 插件提示選單組件負責
+
+components\ClaudeInChromeOnboarding.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 中的入職組件負責擴展
+
+components\ClaudeMdExternalIncludesDialog.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 外部包含對話框組件負
+
+components\ClickableImageRef.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 可點擊圖像引用組件負
+
+components\CompactSummary.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 緊湊摘要組件負責緊湊
+
+components\ConfigurableShortcutHint.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 可配置快捷鍵提示組件
+
+components\ConsoleOAuthFlow.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 控制台流程組件負責控
+
+components\ContextSuggestions.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 上下文建議組件負責上
+
+components\ContextVisualization.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 上下文可視化組件負責
+
+components\CoordinatorAgentStatus.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 協調代理狀態組件負責
+
+components\CostThresholdDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 成本閾值對話框組件負
+
+components\CtrlOToExpand.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 擴展提示組件負責擴展
+
+components\CustomSelect\SelectMulti.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 多選下拉選單負責處理
+
+components\CustomSelect\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 自訂選取元件模組負責
+
+components\CustomSelect\option-map.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 選項對應模組負責處理
+
+components\CustomSelect\select-input-option.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 輸入選項負責下拉選單
+
+components\CustomSelect\select-option.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 選項負責下拉選單中單
+
+components\CustomSelect\select.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 下拉選單負責下拉選單
+
+components\CustomSelect\use-multi-select-state.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 多選狀態鉤子模組負責
+
+components\CustomSelect\use-select-input.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 選取輸入鉤子模組負責
+
+components\CustomSelect\use-select-navigation.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 選取導航鉤子模組負責
+
+components\CustomSelect\use-select-state.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 選取狀態鉤子模組負責
+
+components\DesktopHandoff.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 桌面移交組件負責桌面
+
+components\DesktopUpsell\DesktopUpsellStartup.tsx
+  Chinese chars: 26
+  First 10 Chinese chars: 桌面版升級推廣負責桌
+
+components\DevBar.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 開發調試欄組件負責開
+
+components\DevChannelsDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 開發頻道對話框組件負
+
+components\DiagnosticsDisplay.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 診斷顯示組件負責診斷
+
+components\EffortCallout.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 工作量提示組件負責工
+
+components\EffortIndicator.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 工作量指示器元件模組
+
+components\ExitFlow.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 退出流程組件負責應用
+
+components\ExportDialog.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 導出對話框組件負責導
+
+components\FallbackToolUseErrorMessage.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 後備工具使用錯誤消息
+
+components\FallbackToolUseRejectedMessage.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 後備工具使用拒絕消息
+
+components\FastIcon.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 快速圖標組件負責快速
+
+components\Feedback.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 反饋組件負責用戶反饋
+
+components\FeedbackSurvey\FeedbackSurvey.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 意見調查負責收集用戶
+
+components\FeedbackSurvey\FeedbackSurveyView.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 意見調查視圖負責渲染
+
+components\FeedbackSurvey\TranscriptSharePrompt.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 對話記錄分享提示負責
+
+components\FeedbackSurvey\submitTranscriptShare.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 提交回饋分享模組負責
+
+components\FeedbackSurvey\useDebouncedDigitInput.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 數位輸入防抖動鉤子模
+
+components\FeedbackSurvey\useFeedbackSurvey.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 意見調查鉤子負責管理
+
+components\FeedbackSurvey\useMemorySurvey.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 記憶調查鉤子負責管理
+
+components\FeedbackSurvey\usePostCompactSurvey.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 精簡調查鉤子負責管理
+
+components\FeedbackSurvey\useSurveyState.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 調查狀態鉤子負責管理
+
+components\FileEditToolDiff.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 文件編輯工具差異組件
+
+components\FileEditToolUpdatedMessage.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 文件編輯工具更新消息
+
+components\FileEditToolUseRejectedMessage.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 文件編輯工具拒絕消息
+
+components\FilePathLink.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 文件路徑鏈接組件負責
+
+components\FullscreenLayout.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 全屏佈局組件負責應用
+
+components\GlobalSearchDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 全局搜索對話框組件負
+
+components\HelpV2\Commands.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 命令說明負責顯示可用
+
+components\HelpV2\General.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 一般說明負責顯示一般
+
+components\HelpV2\HelpV2.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 說明中心負責顯示整合
+
+components\HighlightedCode.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 代碼高亮組件負責代碼
+
+components\HighlightedCode\Fallback.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 代碼高亮後備負責在語
+
+components\HistorySearchDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 歷史搜索對話框組件負
+
+components\IdeAutoConnectDialog.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 自動連接對話框組件負
+
+components\IdeOnboardingDialog.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 入職對話框組件負責入
+
+components\IdeStatusIndicator.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 狀態指示器組件負責連
+
+components\IdleReturnDialog.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 空閒返回對話框組件負
+
+components\InterruptedByUser.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 用戶中斷提示組件負責
+
+components\InvalidConfigDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 無效配置對話框組件負
+
+components\InvalidSettingsDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 無效設置對話框組件負
+
+components\KeybindingWarnings.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 鍵綁定警告組件負責顯
+
+components\LanguagePicker.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 語言選擇器組件負責編
+
+components\LogSelector.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 日誌選擇器組件負責日
+
+components\LogoV2\AnimatedAsterisk.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 動態星號負責顯示動畫
+
+components\LogoV2\AnimatedClawd.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 動態吉祥物負責顯示動
+
+components\LogoV2\ChannelsNotice.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 頻道通知負責顯示頻道
+
+components\LogoV2\Clawd.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 吉祥物負責顯示角色的
+
+components\LogoV2\CondensedLogo.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 精簡標誌負責顯示精簡
+
+components\LogoV2\EmergencyTip.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 緊急提示負責顯示緊急
+
+components\LogoV2\Feed.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 資訊流負責顯示系統資
+
+components\LogoV2\FeedColumn.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 資訊流欄位負責渲染資
+
+components\LogoV2\GuestPassesUpsell.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 訪客通行證升級負責顯
+
+components\LogoV2\LogoV2.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 主標誌負責顯示主要的
+
+components\LogoV2\Opus1mMergeNotice.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 合併通知負責顯示版本
+
+components\LogoV2\OverageCreditUpsell.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 超額額度升級負責顯示
+
+components\LogoV2\VoiceModeNotice.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 語音模式通知負責顯示
+
+components\LogoV2\WelcomeV2.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 歡迎畫面負責顯示系統
+
+components\LogoV2\feedConfigs.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 資訊流配置負責定義資
+
+components\LspRecommendation\LspRecommendationMenu.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 推薦選單負責顯示相關
+
+components\MCPServerApprovalDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 服務器審批對話框組件
+
+components\MCPServerDesktopImportDialog.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 服務器桌面導入對話框
+
+components\MCPServerDialogCopy.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 服務器對話框複製組件
+
+components\MCPServerMultiselectDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 服務器多選對話框組件
+
+components\ManagedSettingsSecurityDialog\ManagedSettingsSecurityDialog.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 托管設定安全對話框負
+
+components\ManagedSettingsSecurityDialog\utils.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 受管理設定安全對話方
+
+components\Markdown.tsx
+  Chinese chars: 11
+  First 10 Chinese chars: 渲染組件負責內容的渲
+
+components\MarkdownTable.tsx
+  Chinese chars: 11
+  First 10 Chinese chars: 表格組件負責表格的渲
+
+components\MemoryUsageIndicator.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 內存使用指示器組件負
+
+components\Message.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 消息組件負責單條消息
+
+components\MessageModel.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 消息模型組件負責消息
+
+components\MessageResponse.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 消息響應組件負責消息
+
+components\MessageRow.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 消息行組件負責單條消
+
+components\MessageSelector.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 消息選擇器組件負責消
+
+components\MessageTimestamp.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 消息時間戳組件負責消
+
+components\Messages.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 消息列表組件負責消息
+
+components\ModelPicker.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 模型選擇器組件負責模
+
+components\NativeAutoUpdater.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 原生自動更新器組件負
+
+components\NotebookEditToolUseRejectedMessage.tsx
+  Chinese chars: 31
+  First 10 Chinese chars: 筆記本編輯工具拒絕消
+
+components\OffscreenFreeze.tsx
+  Chinese chars: 26
+  First 10 Chinese chars: 屏幕外凍結組件負責在
+
+components\Onboarding.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 入職引導組件負責新用
+
+components\OutputStylePicker.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 輸出樣式選擇器組件負
+
+components\PackageManagerAutoUpdater.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 包管理器自動更新器組
+
+components\Passes\Passes.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 通行證負責顯示與管理
+
+components\PrBadge.tsx
+  Chinese chars: 13
+  First 10 Chinese chars: 徽章組件負責狀態的徽
+
+components\PressEnterToContinue.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 按繼續提示組件負責操
+
+components\PromptInput\HistorySearchInput.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 歷史搜索輸入組件負責
+
+components\PromptInput\IssueFlagBanner.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 問題標誌橫幅組件負責
+
+components\PromptInput\Notifications.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 通知組件負責顯示應用
+
+components\PromptInput\PromptInput.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 提示輸入組件負責處理
+
+components\PromptInput\PromptInputFooter.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 提示輸入底部組件負責
+
+components\PromptInput\PromptInputFooterLeftSide.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 提示輸入底部左側組件
+
+components\PromptInput\PromptInputFooterSuggestions.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 提示輸入底部建議組件
+
+components\PromptInput\PromptInputHelpMenu.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 提示輸入幫助菜單組件
+
+components\PromptInput\PromptInputModeIndicator.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 提示輸入模式指示器組
+
+components\PromptInput\PromptInputQueuedCommands.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 提示輸入排隊命令組件
+
+components\PromptInput\PromptInputStashNotice.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 提示輸入藏匿通知組件
+
+components\PromptInput\SandboxPromptFooterHint.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 沙箱提示符底部提示組
+
+components\PromptInput\ShimmeredInput.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 閃爍輸入組件負責顯示
+
+components\PromptInput\VoiceIndicator.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 語音指示器組件負責顯
+
+components\PromptInput\inputModes.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 輸入模式工具模組負責
+
+components\PromptInput\inputPaste.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 輸入貼上處理模組負責
+
+components\PromptInput\useMaybeTruncateInput.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 截斷輸入鉤子模組負責
+
+components\PromptInput\usePromptInputPlaceholder.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 提示文字鉤子模組負責
+
+components\PromptInput\useShowFastIconHint.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 快速圖示提示鉤子模組
+
+components\PromptInput\useSwarmBanner.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 群組橫幅鉤子模組負責
+
+components\PromptInput\utils.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 提示輸入工具模組負責
+
+components\QuickOpenDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 快速打開對話框組件負
+
+components\RemoteCallout.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 遠程提醒組件負責遠程
+
+components\RemoteEnvironmentDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 遠程環境對話框組件負
+
+components\ResumeTask.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 恢復任務組件負責任務
+
+components\SandboxViolationExpandedView.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 沙箱違規詳情視圖組件
+
+components\ScrollKeybindingHandler.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 滾動鍵綁定處理器組件
+
+components\SearchBox.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 搜索框組件負責搜索功
+
+components\SentryErrorBoundary.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 錯誤邊界元件模組負責
+
+components\SessionBackgroundHint.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 會話後台提示組件負責
+
+components\SessionPreview.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 會話預覽組件負責會話
+
+components\Settings\Config.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 設定配置負責系統設定
+
+components\Settings\Settings.tsx
+  Chinese chars: 12
+  First 10 Chinese chars: 設定負責顯示主要設定
+
+components\Settings\Status.tsx
+  Chinese chars: 12
+  First 10 Chinese chars: 狀態負責顯示系統狀態
+
+components\Settings\Usage.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 用量負責顯示系統資源
+
+components\ShowInIDEPrompt.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 在中顯示提示組件負責
+
+components\SkillImprovementSurvey.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 技能改進調查組件負責
+
+components\Spinner.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 旋轉指示器組件負責加
+
+components\Spinner\FlashingChar.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 閃爍字元負責顯示閃爍
+
+components\Spinner\GlimmerMessage.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 微光訊息負責顯示微光
+
+components\Spinner\ShimmerChar.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 閃耀字元負責顯示閃耀
+
+components\Spinner\SpinnerAnimationRow.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 旋轉動畫列負責顯示旋
+
+components\Spinner\SpinnerGlyph.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 旋轉圖示負責顯示旋轉
+
+components\Spinner\TeammateSpinnerLine.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 隊友旋轉線負責顯示隊
+
+components\Spinner\TeammateSpinnerTree.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 隊友旋轉樹負責顯示多
+
+components\Spinner\index.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 旋轉指示器元件模組負
+
+components\Spinner\teammateSelectHint.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 隊友選擇提示負責顯示
+
+components\Spinner\useShimmerAnimation.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 微光動畫鉤子模組負責
+
+components\Spinner\useStalledAnimation.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 停滯動畫鉤子模組負責
+
+components\Spinner\utils.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 旋轉指示器工具模組負
+
+components\Stats.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 統計組件負責應用統計
+
+components\StatusLine.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 狀態行組件負責應用狀
+
+components\StatusNotices.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 狀態通知組件負責應用
+
+components\StructuredDiff.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 結構化差異組件負責結
+
+components\StructuredDiffList.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 結構化差異列表組件負
+
+components\StructuredDiff\Fallback.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 結構化差異後備負責在
+
+components\StructuredDiff\colorDiff.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 結構化差異著色模組負
+
+components\TagTabs.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 標籤頁籤組件負責標籤
+
+components\TaskListV2.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 任務列表組件負責任務
+
+components\TeammateViewHeader.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 隊友視圖頭部組件負責
+
+components\TeleportError.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 遠程傳輸錯誤組件負責
+
+components\TeleportProgress.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 遠程傳輸進度組件負責
+
+components\TeleportRepoMismatchDialog.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 遠程倉庫不匹配對話框
+
+components\TeleportResumeWrapper.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 遠程恢復包裝器組件負
+
+components\TeleportStash.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 遠程暫存組件負責遠程
+
+components\TextInput.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 文本輸入框組件負責文
+
+components\ThemePicker.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 主題選擇器負責讓用戶
+
+components\ThinkingToggle.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 思考切換負責切換思考
+
+components\TokenWarning.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 代幣警告負責顯示代幣
+
+components\ToolUseLoader.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 工具使用載入器負責顯
+
+components\TrustDialog\TrustDialog.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 信任對話框組件負責信
+
+components\TrustDialog\utils.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 信任對話方塊工具模組
+
+components\ValidationErrorsList.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 驗證錯誤列表負責顯示
+
+components\VimTextInput.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 文本輸入框組件負責模
+
+components\VirtualMessageList.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 虛擬訊息列表負責使用
+
+components\WorkflowMultiselectDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 工作流程多選對話框負
+
+components\WorktreeExitDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 工作樹退出對話框負責
+
+components\agents\AgentDetail.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 代理詳細資訊負責顯示
+
+components\agents\AgentEditor.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 代理編輯器負責編輯代
+
+components\agents\AgentNavigationFooter.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 代理導航頁腳負責顯示
+
+components\agents\AgentsList.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 代理列表負責顯示所有
+
+components\agents\AgentsMenu.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 代理選單負責顯示代理
+
+components\agents\ColorPicker.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 顏色選擇器負責讓用戶
+
+components\agents\ModelSelector.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 模型選擇器負責選擇代
+
+components\agents\ToolSelector.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 工具選擇器負責選擇代
+
+components\agents\agentFileUtils.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 代理檔案工具模組負責
+
+components\agents\generateAgent.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 代理生成模組負責動態
+
+components\agents\new-agent-creation\CreateAgentWizard.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 創建代理向導組件負責
+
+components\agents\new-agent-creation\wizard-steps\ColorStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 顏色步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\ConfirmStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 確認步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\ConfirmStepWrapper.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 確認步驟包裝器組件負
+
+components\agents\new-agent-creation\wizard-steps\DescriptionStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 描述步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\GenerateStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 生成步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\LocationStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 位置步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\MemoryStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 內存步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\MethodStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 方法步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\ModelStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 模型步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\PromptStep.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 提示詞步驟組件負責新
+
+components\agents\new-agent-creation\wizard-steps\ToolsStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 工具步驟組件負責新代
+
+components\agents\new-agent-creation\wizard-steps\TypeStep.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 類型步驟組件負責新代
+
+components\agents\types.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 代理類型定義模組定義
+
+components\agents\utils.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 代理工具模組負責代理
+
+components\agents\validateAgent.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 代理驗證模組負責驗證
+
+components\design-system\Byline.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 並列資訊負責將多個子
+
+components\design-system\Dialog.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 對話框負責顯示模態對
+
+components\design-system\Divider.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 分隔線負責在終端機中
+
+components\design-system\FuzzyPicker.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 模糊選擇器負責提供模
+
+components\design-system\KeyboardShortcutHint.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 鍵盤快捷鍵提示負責顯
+
+components\design-system\ListItem.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 清單項目負責在清單中
+
+components\design-system\LoadingState.tsx
+  Chinese chars: 26
+  First 10 Chinese chars: 載入狀態負責顯示旋轉
+
+components\design-system\Pane.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 面板區塊負責提供終端
+
+components\design-system\ProgressBar.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 進度條負責顯示操作進
+
+components\design-system\Ratchet.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 齒輪鎖定組件負責管理
+
+components\design-system\StatusIcon.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 狀態圖示負責根據狀態
+
+components\design-system\Tabs.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 標籤頁組件負責提供分
+
+components\design-system\ThemeProvider.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 主題提供者負責管理全
+
+components\design-system\ThemedBox.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 主題盒子負責提供帶有
+
+components\design-system\ThemedText.tsx
+  Chinese chars: 28
+  First 10 Chinese chars: 主題文字負責在子樹中
+
+components\design-system\color.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 設計系統顏色模組負責
+
+components\diff\DiffDetailView.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 差異詳細視圖負責顯示
+
+components\diff\DiffDialog.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 差異對話框負責顯示差
+
+components\diff\DiffFileList.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 差異文件列表負責顯示
+
+components\grove\Grove.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 叢林負責顯示叢林功能
+
+components\hooks\HooksConfigMenu.tsx
+  Chinese chars: 0
+
+components\hooks\PromptDialog.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 提示對話框負責顯示鉤
+
+components\hooks\SelectEventMode.tsx
+  Chinese chars: 0
+
+components\hooks\SelectHookMode.tsx
+  Chinese chars: 0
+
+components\hooks\SelectMatcherMode.tsx
+  Chinese chars: 0
+
+components\hooks\ViewHookMode.tsx
+  Chinese chars: 0
+
+components\mcp\CapabilitiesSection.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 功能區段負責顯示伺服
+
+components\mcp\ElicitationDialog.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 請求對話框負責顯示請
+
+components\mcp\MCPAgentServerMenu.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 代理伺服器選單負責顯
+
+components\mcp\MCPListPanel.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 伺服器清單面板負責顯
+
+components\mcp\MCPReconnect.tsx
+  Chinese chars: 26
+  First 10 Chinese chars: 重新連線負責處理伺服
+
+components\mcp\MCPRemoteServerMenu.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 遠端伺服器選單負責處
+
+components\mcp\MCPSettings.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 設定負責管理與顯示伺
+
+components\mcp\MCPStdioServerMenu.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 伺服器選單負責顯示與
+
+components\mcp\MCPToolDetailView.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 工具詳細視圖負責顯示
+
+components\mcp\MCPToolListView.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 工具清單視圖負責顯示
+
+components\mcp\McpParsingWarnings.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 解析警告負責顯示設定
+
+components\mcp\index.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 元件模組負責匯出相關
+
+components\mcp\utils\reconnectHelpers.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 重新連線輔助工具負責
+
+components\memory\MemoryFileSelector.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 記憶文件選擇器組件負
+
+components\memory\MemoryUpdateNotification.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 記憶更新通知組件負責
+
+components\messageActions.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 消息操作組件負責消息
+
+components\messages\AdvisorMessage.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 顧問消息組件負責顯示
+
+components\messages\AssistantRedactedThinkingMessage.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 助手塗黑思考消息組件
+
+components\messages\AssistantTextMessage.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 助手文本消息組件負責
+
+components\messages\AssistantThinkingMessage.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 助手思考消息組件負責
+
+components\messages\AssistantToolUseMessage.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 助手工具使用消息組件
+
+components\messages\AttachmentMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 附件消息組件負責顯示
+
+components\messages\CollapsedReadSearchContent.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 折疊讀取搜索內容組件
+
+components\messages\CompactBoundaryMessage.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 緊湊邊界消息組件負責
+
+components\messages\GroupedToolUseContent.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 分組工具使用內容組件
+
+components\messages\HighlightedThinkingText.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 高亮思考文本組件負責
+
+components\messages\HookProgressMessage.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 鉤子進度消息組件負責
+
+components\messages\PlanApprovalMessage.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 計劃審批消息組件負責
+
+components\messages\RateLimitMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 速率限制消息組件負責
+
+components\messages\ShutdownMessage.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 關閉消息組件負責顯示
+
+components\messages\SystemAPIErrorMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 系統錯誤消息組件負責
+
+components\messages\SystemTextMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 系統文本消息組件負責
+
+components\messages\TaskAssignmentMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 任務分配消息組件負責
+
+components\messages\UserAgentNotificationMessage.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 用戶代理通知消息組件
+
+components\messages\UserBashInputMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 用戶輸入消息組件負責
+
+components\messages\UserBashOutputMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 用戶輸出消息組件負責
+
+components\messages\UserChannelMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 用戶頻道消息組件負責
+
+components\messages\UserCommandMessage.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 用戶命令消息組件負責
+
+components\messages\UserImageMessage.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 用戶圖像消息組件負責
+
+components\messages\UserLocalCommandOutputMessage.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 用戶本地命令輸出消息
+
+components\messages\UserMemoryInputMessage.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 用戶內存輸入消息組件
+
+components\messages\UserPlanMessage.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 用戶計劃消息組件負責
+
+components\messages\UserPromptMessage.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 用戶提示消息組件負責
+
+components\messages\UserResourceUpdateMessage.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 用戶資源更新消息組件
+
+components\messages\UserTeammateMessage.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 用戶隊友消息組件負責
+
+components\messages\UserTextMessage.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 用戶文本消息組件負責
+
+components\messages\UserToolResultMessage\RejectedPlanMessage.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 拒絕的計劃消息組件負
+
+components\messages\UserToolResultMessage\RejectedToolUseMessage.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 拒絕的工具使用消息組
+
+components\messages\UserToolResultMessage\UserToolCanceledMessage.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 用戶工具取消消息組件
+
+components\messages\UserToolResultMessage\UserToolErrorMessage.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 用戶工具錯誤消息組件
+
+components\messages\UserToolResultMessage\UserToolRejectMessage.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 用戶工具拒絕消息組件
+
+components\messages\UserToolResultMessage\UserToolResultMessage.tsx
+  Chinese chars: 31
+  First 10 Chinese chars: 用戶工具結果消息組件
+
+components\messages\UserToolResultMessage\UserToolSuccessMessage.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 用戶工具成功消息組件
+
+components\messages\UserToolResultMessage\utils.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 用戶工具結果消息鉤子
+
+components\messages\nullRenderingAttachments.ts
+  Chinese chars: 0
+
+components\messages\teamMemCollapsed.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 團隊內存折疊組件負責
+
+components\messages\teamMemSaved.ts
+  Chinese chars: 0
+
+components\permissions\AskUserQuestionPermissionRequest\AskUserQuestionPermissionRequest.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 詢問用戶權限請求組件
+
+components\permissions\AskUserQuestionPermissionRequest\PreviewBox.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 預覽框組件負責問題預
+
+components\permissions\AskUserQuestionPermissionRequest\PreviewQuestionView.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 預覽問題視圖組件負責
+
+components\permissions\AskUserQuestionPermissionRequest\QuestionNavigationBar.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 問題導航欄組件負責問
+
+components\permissions\AskUserQuestionPermissionRequest\QuestionView.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 問題視圖組件負責顯示
+
+components\permissions\AskUserQuestionPermissionRequest\SubmitQuestionsView.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 提交問題視圖組件負責
+
+components\permissions\AskUserQuestionPermissionRequest\use-multiple-choice-state.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 多選狀態鉤子模組負責
+
+components\permissions\BashPermissionRequest\BashPermissionRequest.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 權限請求組件負責處理
+
+components\permissions\BashPermissionRequest\bashToolUseOptions.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 工具使用選項組件負責
+
+components\permissions\ComputerUseApproval\ComputerUseApproval.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 計算機使用審批組件負
+
+components\permissions\EnterPlanModePermissionRequest\EnterPlanModePermissionRequest.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 進入計劃模式權限請求
+
+components\permissions\ExitPlanModePermissionRequest\ExitPlanModePermissionRequest.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 退出計劃模式權限請求
+
+components\permissions\FallbackPermissionRequest.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 後備權限請求組件負責
+
+components\permissions\FileEditPermissionRequest\FileEditPermissionRequest.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 文件編輯權限請求組件
+
+components\permissions\FilePermissionDialog\FilePermissionDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 文件權限對話框組件負
+
+components\permissions\FilePermissionDialog\ideDiffConfig.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 差異配置模組定義檔案
+
+components\permissions\FilePermissionDialog\permissionOptions.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 文件權限對話框選項組
+
+components\permissions\FilePermissionDialog\useFilePermissionDialog.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 檔案權限對話方塊鉤子
+
+components\permissions\FilePermissionDialog\usePermissionHandler.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 權限處理器鉤子模組負
+
+components\permissions\FileWritePermissionRequest\FileWritePermissionRequest.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 文件寫入權限請求組件
+
+components\permissions\FileWritePermissionRequest\FileWriteToolDiff.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 文件寫入工具差異組件
+
+components\permissions\FilesystemPermissionRequest\FilesystemPermissionRequest.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 文件系統權限請求組件
+
+components\permissions\NotebookEditPermissionRequest\NotebookEditPermissionRequest.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 筆記本編輯權限請求組
+
+components\permissions\NotebookEditPermissionRequest\NotebookEditToolDiff.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 筆記本編輯工具差異組
+
+components\permissions\PermissionDecisionDebugInfo.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 權限決策調試信息組件
+
+components\permissions\PermissionDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 權限對話框組件負責顯
+
+components\permissions\PermissionExplanation.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 權限說明組件負責顯示
+
+components\permissions\PermissionPrompt.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 權限提示組件負責顯示
+
+components\permissions\PermissionRequest.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 權限請求組件負責根據
+
+components\permissions\PermissionRequestTitle.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 權限請求標題組件負責
+
+components\permissions\PermissionRuleExplanation.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 權限規則說明組件負責
+
+components\permissions\PowerShellPermissionRequest\PowerShellPermissionRequest.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 權限請求組件負責處理
+
+components\permissions\PowerShellPermissionRequest\powershellToolUseOptions.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 工具使用選項組件負責
+
+components\permissions\SandboxPermissionRequest.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 沙箱權限請求組件負責
+
+components\permissions\SedEditPermissionRequest\SedEditPermissionRequest.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 替換編輯權限請求組件
+
+components\permissions\SkillPermissionRequest\SkillPermissionRequest.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 技能權限請求組件負責
+
+components\permissions\WebFetchPermissionRequest\WebFetchPermissionRequest.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 網頁獲取權限請求組件
+
+components\permissions\WorkerBadge.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 工作器徽章組件負責顯
+
+components\permissions\WorkerPendingPermission.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 工作器待決權限組件負
+
+components\permissions\hooks.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 權限處理鉤子模組負責
+
+components\permissions\rules\AddPermissionRules.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 添加權限規則組件負責
+
+components\permissions\rules\AddWorkspaceDirectory.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 添加工作區目錄組件負
+
+components\permissions\rules\PermissionRuleDescription.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 權限規則描述組件負責
+
+components\permissions\rules\PermissionRuleInput.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 權限規則輸入組件負責
+
+components\permissions\rules\PermissionRuleList.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 權限規則列表組件負責
+
+components\permissions\rules\RecentDenialsTab.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 最近拒絕標籤組件負責
+
+components\permissions\rules\RemoveWorkspaceDirectory.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 移除工作區目錄組件負
+
+components\permissions\rules\WorkspaceTab.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 工作區標籤組件負責工
+
+components\permissions\shellPermissionHelpers.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 權限輔助函數組件負責
+
+components\permissions\useShellPermissionFeedback.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 殼層權限回饋鉤子模組
+
+components\permissions\utils.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 權限工具模組負責權限
+
+components\sandbox\SandboxConfigTab.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 沙箱配置標籤負責顯示
+
+components\sandbox\SandboxDependenciesTab.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 沙箱依賴標籤負責顯示
+
+components\sandbox\SandboxDoctorSection.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 沙箱診斷區塊負責顯示
+
+components\sandbox\SandboxOverridesTab.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 沙箱覆寫標籤負責顯示
+
+components\sandbox\SandboxSettings.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 沙箱設定負責顯示沙箱
+
+components\shell\ExpandShellOutputContext.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 擴展輸出上下文負責提
+
+components\shell\OutputLine.tsx
+  Chinese chars: 13
+  First 10 Chinese chars: 輸出行負責渲染輸出的
+
+components\shell\ShellProgressMessage.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 進度訊息負責顯示命令
+
+components\shell\ShellTimeDisplay.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 時間顯示負責顯示命令
+
+components\skills\SkillsMenu.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 技能選單負責顯示技能
+
+components\tasks\AsyncAgentDetailDialog.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 非同步代理詳細對話框
+
+components\tasks\BackgroundTask.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 背景任務負責顯示背景
+
+components\tasks\BackgroundTaskStatus.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 背景任務狀態負責顯示
+
+components\tasks\BackgroundTasksDialog.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 背景任務對話框負責顯
+
+components\tasks\DreamDetailDialog.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 夢境詳細對話框負責顯
+
+components\tasks\InProcessTeammateDetailDialog.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 進行中隊友詳細對話框
+
+components\tasks\RemoteSessionDetailDialog.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 遠端工作階段詳細對話
+
+components\tasks\RemoteSessionProgress.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 遠端工作階段進度負責
+
+components\tasks\ShellDetailDialog.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 詳細對話框負責顯示命
+
+components\tasks\ShellProgress.tsx
+  Chinese chars: 11
+  First 10 Chinese chars: 進度負責顯示命令的進
+
+components\tasks\renderToolActivity.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 渲染工具活動負責渲染
+
+components\tasks\taskStatusUtils.tsx
+  Chinese chars: 0
+
+components\teams\TeamStatus.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 團隊狀態負責顯示團隊
+
+components\teams\TeamsDialog.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 團隊對話框組件負責團
+
+components\ui\OrderedList.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 有序列表組件負責有序
+
+components\ui\OrderedListItem.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 有序列表項組件負責有
+
+components\ui\TreeSelect.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 樹狀選擇組件負責層級
+
+components\wizard\WizardDialogLayout.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 向導對話框佈局組件負
+
+components\wizard\WizardNavigationFooter.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 向導導航底部組件負責
+
+components\wizard\WizardProvider.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 向導提供者組件負責向
+
+components\wizard\index.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 向導元件模組負責匯出
+
+components\wizard\useWizard.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 向導鉤子模組負責向導
+
+constants\betas.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 功能標頭常量定義各類
+
+constants\common.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 通用常量定義日期時間
+
+constants\cyberRiskInstruction.ts
+  Chinese chars: 60
+  First 10 Chinese chars: 網路風險指令負責提供
+
+constants\errorIds.ts
+  Chinese chars: 48
+  First 10 Chinese chars: 錯誤常數負責定義錯誤
+
+constants\figures.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 符號常量定義終端機輸
+
+constants\files.ts
+  Chinese chars: 56
+  First 10 Chinese chars: 檔案常數負責定義二進
+
+constants\github-app.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 整合常量定義工作流程
+
+constants\keys.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 金鑰常量定義不同環境
+
+constants\messages.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 訊息常量定義各種訊息
+
+constants\oauth.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 認證常量定義設定範圍
+
+constants\outputStyles.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 輸出風格配置定義不同
+
+constants\product.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 產品常量定義產品相關
+
+constants\prompts.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 系統提示詞常量定義系
+
+constants\spinnerVerbs.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 旋轉器動詞定義載入訊
+
+constants\system.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 系統常量定義系統提示
+
+constants\systemPromptSections.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 系統提示區段管理管理
+
+constants\toolLimits.ts
+  Chinese chars: 64
+  First 10 Chinese chars: 工具限制負責定義工具
+
+constants\turnCompletionVerbs.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 回合完成動詞定義回合
+
+constants\xml.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 標籤常量定義訊息中使
+
+context.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 上下文管理處理系統提
+
+context\QueuedMessageContext.tsx
+  Chinese chars: 50
+  First 10 Chinese chars: 排隊訊息上下文管理訊
+
+context\fpsMetrics.tsx
+  Chinese chars: 39
+  First 10 Chinese chars: 指標上下文提供每秒幀
+
+context\mailbox.tsx
+  Chinese chars: 46
+  First 10 Chinese chars: 信箱上下文提供者提供
+
+context\modalContext.tsx
+  Chinese chars: 47
+  First 10 Chinese chars: 模態對話方塊上下文提
+
+context\notifications.tsx
+  Chinese chars: 50
+  First 10 Chinese chars: 通知系統提供應用程式
+
+context\overlayContext.tsx
+  Chinese chars: 39
+  First 10 Chinese chars: 疊加層追蹤上下文協調
+
+context\promptOverlayContext.tsx
+  Chinese chars: 42
+  First 10 Chinese chars: 提示詞疊加層上下文提
+
+context\stats.tsx
+  Chinese chars: 52
+  First 10 Chinese chars: 統計指標儲存與管理提
+
+context\voice.tsx
+  Chinese chars: 47
+  First 10 Chinese chars: 語音狀態管理提供語音
+
+cost-tracker.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 成本追蹤系統追蹤使用
+
+costHook.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 成本摘要用於顯示會話
+
+dialogLaunchers.tsx
+  Chinese chars: 0
+
+entrypoints\agentSdkTypes.ts
+  Chinese chars: 0
+
+entrypoints\cli.tsx
+  Chinese chars: 42
+  First 10 Chinese chars: 入口點啟動引導程式處
+
+entrypoints\init.ts
+  Chinese chars: 57
+  First 10 Chinese chars: 初始化入口點負責啟動
+
+entrypoints\mcp.ts
+  Chinese chars: 48
+  First 10 Chinese chars: 伺服器入口點作為伺服
+
+entrypoints\sandboxTypes.ts
+  Chinese chars: 59
+  First 10 Chinese chars: 沙箱類型定義作為沙箱
+
+entrypoints\sdk\controlSchemas.ts
+  Chinese chars: 48
+  First 10 Chinese chars: 控制定義實作與間控制
+
+entrypoints\sdk\coreSchemas.ts
+  Chinese chars: 59
+  First 10 Chinese chars: 核心可序列化資料類型
+
+entrypoints\sdk\coreTypes.ts
+  Chinese chars: 61
+  First 10 Chinese chars: 核心類型消費者與建構
+
+history.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 歷史記錄管理處理對話
+
+hooks\fileSuggestions.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 檔案建議模組負責生成
+
+hooks\notifs\useAutoModeUnavailableNotification.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 自動模式不可用通知鉤
+
+hooks\notifs\useCanSwitchToExistingSubscription.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 訂閱切換鉤子負責檢查
+
+hooks\notifs\useDeprecationWarningNotification.tsx
+  Chinese chars: 50
+  First 10 Chinese chars: 棄用警告通知鉤子負責
+
+hooks\notifs\useFastModeNotification.tsx
+  Chinese chars: 51
+  First 10 Chinese chars: 快速模式通知鉤子負責
+
+hooks\notifs\useIDEStatusIndicator.tsx
+  Chinese chars: 49
+  First 10 Chinese chars: 狀態指示器鉤子負責監
+
+hooks\notifs\useInstallMessages.tsx
+  Chinese chars: 55
+  First 10 Chinese chars: 安裝訊息鉤子負責檢查
+
+hooks\notifs\useLspInitializationNotification.tsx
+  Chinese chars: 40
+  First 10 Chinese chars: 初始化通知鉤子負責監
+
+hooks\notifs\useMcpConnectivityStatus.tsx
+  Chinese chars: 40
+  First 10 Chinese chars: 連線狀態鉤子負責監控
+
+hooks\notifs\useModelMigrationNotifications.tsx
+  Chinese chars: 55
+  First 10 Chinese chars: 模型遷移通知鉤子負責
+
+hooks\notifs\useNpmDeprecationNotification.tsx
+  Chinese chars: 39
+  First 10 Chinese chars: 棄用通知鉤子負責提醒
+
+hooks\notifs\usePluginAutoupdateNotification.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 插件自動更新通知鉤子
+
+hooks\notifs\usePluginInstallationStatus.tsx
+  Chinese chars: 51
+  First 10 Chinese chars: 插件安裝狀態鉤子負責
+
+hooks\notifs\useRateLimitWarningNotification.tsx
+  Chinese chars: 53
+  First 10 Chinese chars: 速率限制警告通知鉤子
+
+hooks\notifs\useSettingsErrors.tsx
+  Chinese chars: 50
+  First 10 Chinese chars: 設定錯誤鉤子負責監控
+
+hooks\notifs\useStartupNotification.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 啟動通知鉤子模組負責
+
+hooks\notifs\useTeammateShutdownNotification.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 隊友關閉通知鉤子模組
+
+hooks\renderPlaceholder.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 渲染佔位符模組負責處
+
+hooks\toolPermission\PermissionContext.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工具權限上下文模組負
+
+hooks\toolPermission\handlers\coordinatorHandler.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 協調者處理器模組負責
+
+hooks\toolPermission\handlers\interactiveHandler.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 互動式處理器模組負責
+
+hooks\toolPermission\handlers\swarmWorkerHandler.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 群組工作者處理器模組
+
+hooks\toolPermission\permissionLogging.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 工具權限日誌模組負責
+
+hooks\unifiedSuggestions.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 統一建議模組負責整合
+
+hooks\useAfterFirstRender.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 首次渲染後鉤子模組負
+
+hooks\useApiKeyVerification.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 金鑰驗證鉤子模組負責
+
+hooks\useArrowKeyHistory.tsx
+  Chinese chars: 50
+  First 10 Chinese chars: 方向鍵歷史導航鉤子負
+
+hooks\useAssistantHistory.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 助手歷史鉤子模組負責
+
+hooks\useAwaySummary.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 離開摘要鉤子模組負責
+
+hooks\useBackgroundTaskNavigation.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 背景任務導航鉤子模組
+
+hooks\useBlink.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 游標閃爍鉤子模組負責
+
+hooks\useCanUseTool.tsx
+  Chinese chars: 52
+  First 10 Chinese chars: 工具使用許可鉤子負責
+
+hooks\useCancelRequest.ts
+  Chinese chars: 0
+
+hooks\useChromeExtensionNotification.tsx
+  Chinese chars: 47
+  First 10 Chinese chars: 擴充功能通知鉤子負責
+
+hooks\useClaudeCodeHintRecommendation.tsx
+  Chinese chars: 40
+  First 10 Chinese chars: 提示推薦負責顯示由標
+
+hooks\useClipboardImageHint.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 剪貼簿圖片提示鉤子模
+
+hooks\useCommandKeybindings.tsx
+  Chinese chars: 53
+  First 10 Chinese chars: 命令快捷鍵負責註冊命
+
+hooks\useCommandQueue.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 命令佇列鉤子模組負責
+
+hooks\useCopyOnSelect.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 選取複製鉤子模組負責
+
+hooks\useDeferredHookMessages.ts
+  Chinese chars: 0
+
+hooks\useDiffData.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 差異資料鉤子模組負責
+
+hooks\useDiffInIDE.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 差異檢視鉤子模組負責
+
+hooks\useDirectConnect.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 直接連線鉤子模組負責
+
+hooks\useDoublePress.ts
+  Chinese chars: 69
+  First 10 Chinese chars: 雙擊處理負責創建一個
+
+hooks\useDynamicConfig.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 動態配置負責從獲取動
+
+hooks\useElapsedTime.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 經過時間負責計算並格
+
+hooks\useExitOnCtrlCD.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 退出鉤子模組負責處理
+
+hooks\useExitOnCtrlCDWithKeybindings.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 快捷鍵退出鉤子模組負
+
+hooks\useFileHistorySnapshotInit.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 檔案歷史快照初始化鉤
+
+hooks\useGlobalKeybindings.tsx
+  Chinese chars: 0
+
+hooks\useHistorySearch.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 歷史搜尋鉤子模組負責
+
+hooks\useIDEIntegration.tsx
+  Chinese chars: 38
+  First 10 Chinese chars: 整合鉤子負責初始化和
+
+hooks\useIdeAtMentioned.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 提及監聽鉤子模組負責
+
+hooks\useIdeConnectionStatus.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 連線狀態鉤子模組負責
+
+hooks\useIdeLogging.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 日誌鉤子模組負責處理
+
+hooks\useIdeSelection.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 選取監聽鉤子模組負責
+
+hooks\useInboxPoller.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 收件匣輪詢鉤子模組負
+
+hooks\useInputBuffer.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 輸入緩衝區鉤子模組負
+
+hooks\useIssueFlagBanner.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 問題標記橫幅鉤子模組
+
+hooks\useLogMessages.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 日誌訊息鉤子模組負責
+
+hooks\useLspPluginRecommendation.tsx
+  Chinese chars: 37
+  First 10 Chinese chars: 外掛程式推薦負責檢測
+
+hooks\useMailboxBridge.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 信箱橋接鉤子模組負責
+
+hooks\useMainLoopModel.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 主迴圈模型鉤子模組負
+
+hooks\useManagePlugins.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 外掛管理鉤子模組負責
+
+hooks\useMemoryUsage.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 記憶體使用量鉤子模組
+
+hooks\useMergedClients.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 合併客戶端鉤子模組負
+
+hooks\useMergedCommands.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 合併命令鉤子模組負責
+
+hooks\useMergedTools.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 合併工具鉤子模組負責
+
+hooks\useMinDisplayTime.ts
+  Chinese chars: 42
+  First 10 Chinese chars: 最小顯示時間負責節流
+
+hooks\useNotifyAfterTimeout.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 超時通知鉤子模組負責
+
+hooks\useOfficialMarketplaceNotification.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 官方市場通知負責處理
+
+hooks\usePasteHandler.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 貼上處理鉤子模組負責
+
+hooks\usePluginRecommendationBase.tsx
+  Chinese chars: 51
+  First 10 Chinese chars: 外掛程式推薦基礎負責
+
+hooks\usePrStatus.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 狀態鉤子模組負責監控
+
+hooks\usePromptSuggestion.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 提示建議鉤子模組負責
+
+hooks\usePromptsFromClaudeInChrome.tsx
+  Chinese chars: 43
+  First 10 Chinese chars: 擴充功能提示鉤子負責
+
+hooks\useQueueProcessor.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 佇列處理器鉤子模組負
+
+hooks\useRemoteSession.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 遠端階段鉤子模組負責
+
+hooks\useReplBridge.tsx
+  Chinese chars: 45
+  First 10 Chinese chars: 橋接器鉤子負責管理與
+
+hooks\useSSHSession.ts
+  Chinese chars: 0
+
+hooks\useScheduledTasks.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 排程任務鉤子模組負責
+
+hooks\useSearchInput.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 搜尋輸入鉤子模組負責
+
+hooks\useSessionBackgrounding.ts
+  Chinese chars: 0
+
+hooks\useSettings.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 設定鉤子負責從存取目
+
+hooks\useSettingsChange.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 設定變更鉤子模組負責
+
+hooks\useSkillImprovementSurvey.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 技能改進調查鉤子模組
+
+hooks\useSkillsChange.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 技能變更鉤子模組負責
+
+hooks\useSwarmInitialization.ts
+  Chinese chars: 0
+
+hooks\useSwarmPermissionPoller.ts
+  Chinese chars: 0
+
+hooks\useTaskListWatcher.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 任務列表監聽鉤子模組
+
+hooks\useTasksV2.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 任務管理鉤子模組負責
+
+hooks\useTeammateViewAutoExit.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 隊友視圖自動退出鉤子
+
+hooks\useTeleportResume.tsx
+  Chinese chars: 45
+  First 10 Chinese chars: 遠端恢復鉤子負責處理
+
+hooks\useTerminalSize.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 終端機尺寸鉤子模組負
+
+hooks\useTextInput.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 文字輸入鉤子模組負責
+
+hooks\useTimeout.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 超時鉤子模組負責處理
+
+hooks\useTurnDiffs.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 回合差異鉤子模組負責
+
+hooks\useTypeahead.tsx
+  Chinese chars: 52
+  First 10 Chinese chars: 自動完成建議鉤子負責
+
+hooks\useUpdateNotification.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 更新通知鉤子模組負責
+
+hooks\useVimInput.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 輸入鉤子模組負責處理
+
+hooks\useVirtualScroll.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 虛擬滾動負責層面的虛
+
+hooks\useVoice.ts
+  Chinese chars: 72
+  First 10 Chinese chars: 語音輸入負責處理按住
+
+hooks\useVoiceEnabled.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 語音啟用鉤子模組負責
+
+hooks\useVoiceIntegration.tsx
+  Chinese chars: 47
+  First 10 Chinese chars: 語音整合鉤子負責整合
+
+ink.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 渲染系統基於的終端渲
+
+ink\Ansi.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 元件負責解析並渲染轉
+
+ink\bidi.ts
+  Chinese chars: 0
+
+ink\clearTerminal.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 清除終端負責清除終端
+
+ink\colorize.ts
+  Chinese chars: 48
+  First 10 Chinese chars: 顏色應用負責將顏色值
+
+ink\components\AlternateScreen.tsx
+  Chinese chars: 24
+  First 10 Chinese chars: 替代屏幕元件負責切換
+
+ink\components\App.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 應用根元件負責管理應
+
+ink\components\AppContext.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 應用上下文負責提供應
+
+ink\components\Box.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 盒元件負責提供基础的
+
+ink\components\Button.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 按鈕元件負責渲染可交
+
+ink\components\ClockContext.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 時鐘上下文負責提供動
+
+ink\components\CursorDeclarationContext.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 游標聲明上下文負責追
+
+ink\components\ErrorOverview.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 錯誤概覽元件負責格式
+
+ink\components\Link.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 連結元件負責渲染可點
+
+ink\components\Newline.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 換行符元件負責插入多
+
+ink\components\NoSelect.tsx
+  Chinese chars: 26
+  First 10 Chinese chars: 禁止選取元件負責防止
+
+ink\components\RawAnsi.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 原始元件負責直接渲染
+
+ink\components\ScrollBox.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 滾動框元件負責提供可
+
+ink\components\Spacer.tsx
+  Chinese chars: 10
+  First 10 Chinese chars: 元件負責提供間距元件
+
+ink\components\StdinContext.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 標準輸入上下文負責提
+
+ink\components\TerminalFocusContext.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 終端焦點上下文負責追
+
+ink\components\TerminalSizeContext.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 終端尺寸上下文負責提
+
+ink\components\Text.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 文字元件負責渲染帶有
+
+ink\constants.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 常量定義負責定義使用
+
+ink\dom.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 模擬層負責模擬元素結
+
+ink\events\click-event.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 點擊事件負責處理點擊
+
+ink\events\dispatcher.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 事件分發器負責將事件
+
+ink\events\emitter.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 事件發射器負責提供事
+
+ink\events\event-handlers.ts
+  Chinese chars: 46
+  First 10 Chinese chars: 事件處理器類型映射負
+
+ink\events\event.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 事件基類負責提供基礎
+
+ink\events\focus-event.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 焦點事件負責處理焦點
+
+ink\events\input-event.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 輸入事件負責定義鍵盤
+
+ink\events\keyboard-event.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 鍵盤事件負責處理鍵盤
+
+ink\events\terminal-event.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 終端事件基類負責提供
+
+ink\events\terminal-focus-event.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 終端機焦點事件負責處
+
+ink\focus.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 焦點管理負責管理元件
+
+ink\frame.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 幀管理負責表示一個渲
+
+ink\get-max-width.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 最大寬度計算負責計算
+
+ink\hit-test.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 點擊測試負責計算點擊
+
+ink\hooks\use-animation-frame.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 動畫幀鉤子負責處理動
+
+ink\hooks\use-app.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 應用程式鉤子負責存取
+
+ink\hooks\use-declared-cursor.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 宣告遊標鉤子負責管理
+
+ink\hooks\use-input.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 輸入處理鉤子負責處理
+
+ink\hooks\use-interval.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 間隔鉤子負責處理計時
+
+ink\hooks\use-search-highlight.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 搜尋反白鉤子負責管理
+
+ink\hooks\use-selection.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 選擇狀態鉤子負責管理
+
+ink\hooks\use-stdin.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 標準輸入鉤子負責存取
+
+ink\hooks\use-tab-status.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 狀態鉤子負責設置和清
+
+ink\hooks\use-terminal-focus.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 終端機焦點鉤子負責管
+
+ink\hooks\use-terminal-title.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 終端機標題鉤子負責管
+
+ink\hooks\use-terminal-viewport.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 終端視口鉤子負責檢測
+
+ink\ink.tsx
+  Chinese chars: 26
+  First 10 Chinese chars: 主入口負責實現主要的
+
+ink\instances.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 實例管理負責追蹤所有
+
+ink\layout\engine.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 佈局引擎工廠負責創建
+
+ink\layout\geometry.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 幾何類型定義負責定義
+
+ink\layout\node.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 佈局節點適配器負責抽
+
+ink\layout\yoga.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 佈局引擎綁定負責與布
+
+ink\line-width-cache.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 行寬快取負責快取字串
+
+ink\log-update.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 日誌更新負責處理日誌
+
+ink\measure-element.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 元素測量負責測量元素
+
+ink\measure-text.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 文字測量負責測量文字
+
+ink\node-cache.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 節點快取負責快取節點
+
+ink\optimizer.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 最佳化器負責最佳化渲
+
+ink\output.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 輸出處理負責處理輸出
+
+ink\parse-keypress.ts
+  Chinese chars: 0
+
+ink\reconciler.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 協調器負責實現協調器
+
+ink\render-border.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 邊框渲染負責計算和渲
+
+ink\render-node-to-output.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 渲染節點到輸出負責將
+
+ink\render-to-screen.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 渲染到屏幕負責將元素
+
+ink\renderer.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 渲染器負責執行幀渲染
+
+ink\root.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 根渲染器負責創建根容
+
+ink\screen.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 螢幕渲染負責終端機螢
+
+ink\searchHighlight.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 搜尋反白負責處理搜尋
+
+ink\selection.ts
+  Chinese chars: 0
+
+ink\squash-text-nodes.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 文字節點合併負責合併
+
+ink\stringWidth.ts
+  Chinese chars: 56
+  First 10 Chinese chars: 字串寬度計算負責計算
+
+ink\styles.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 樣式系統負責定義和管
+
+ink\supports-hyperlinks.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 超連結支援偵測負責偵
+
+ink\tabstops.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 位置管理負責處理字元
+
+ink\terminal-focus-state.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 終端焦點信號負責追蹤
+
+ink\terminal-querier.ts
+  Chinese chars: 0
+
+ink\terminal.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 終端功能負責提供終端
+
+ink\termio.ts
+  Chinese chars: 0
+
+ink\termio\ansi.ts
+  Chinese chars: 0
+
+ink\termio\csi.ts
+  Chinese chars: 0
+
+ink\termio\dec.ts
+  Chinese chars: 0
+
+ink\termio\esc.ts
+  Chinese chars: 0
+
+ink\termio\osc.ts
+  Chinese chars: 0
+
+ink\termio\parser.ts
+  Chinese chars: 0
+
+ink\termio\sgr.ts
+  Chinese chars: 0
+
+ink\termio\tokenize.ts
+  Chinese chars: 0
+
+ink\termio\types.ts
+  Chinese chars: 0
+
+ink\useTerminalNotification.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 終端通知負責提供終端
+
+ink\warn.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 警告工具負責發出非致
+
+ink\widest-line.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 最寬行計算負責找出字
+
+ink\wrap-text.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 文字包裝負責將文字包
+
+ink\wrapAnsi.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 包裝負責在保留轉義序
+
+interactiveHelpers.tsx
+  Chinese chars: 31
+  First 10 Chinese chars: 互動式幫手提供互動式
+
+keybindings\KeybindingContext.tsx
+  Chinese chars: 32
+  First 10 Chinese chars: 快捷鍵上下文負責提供
+
+keybindings\KeybindingProviderSetup.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 快捷鍵設定負責整合至
+
+keybindings\defaultBindings.ts
+  Chinese chars: 34
+  First 10 Chinese chars: 預設快捷鍵綁定負責定
+
+keybindings\loadUserBindings.ts
+  Chinese chars: 0
+
+keybindings\match.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 按鍵匹配模組負責匹配
+
+keybindings\parser.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 按鍵解析器負責解析快
+
+keybindings\reservedShortcuts.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 保留快捷鍵負責定義被
+
+keybindings\resolver.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 快捷鍵解析器負責將鍵
+
+keybindings\schema.ts
+  Chinese chars: 0
+
+keybindings\shortcutFormat.ts
+  Chinese chars: 50
+  First 10 Chinese chars: 取得快捷鍵顯示文字負
+
+keybindings\template.ts
+  Chinese chars: 0
+
+keybindings\useKeybinding.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 快捷鍵處理鉤子負責在
+
+keybindings\useShortcutDisplay.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 快捷鍵顯示文字鉤子負
+
+keybindings\validate.ts
+  Chinese chars: 40
+  First 10 Chinese chars: 快捷鍵驗證負責驗證使
+
+main.tsx
+  Chinese chars: 45
+  First 10 Chinese chars: 主要應用程式入口啟動
+
+memdir\findRelevantMemories.ts
+  Chinese chars: 47
+  First 10 Chinese chars: 尋找相關記憶負責透過
+
+memdir\memdir.ts
+  Chinese chars: 48
+  First 10 Chinese chars: 記憶目錄核心功能負責
+
+memdir\memoryAge.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 記憶年齡工具負責計算
+
+memdir\memoryScan.ts
+  Chinese chars: 0
+
+memdir\memoryTypes.ts
+  Chinese chars: 0
+
+memdir\paths.ts
+  Chinese chars: 43
+  First 10 Chinese chars: 記憶目錄路徑工具負責
+
+memdir\teamMemPaths.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 團隊記憶路徑負責團隊
+
+memdir\teamMemPrompts.ts
+  Chinese chars: 51
+  First 10 Chinese chars: 團隊記憶提示建構器負
+
+migrations\migrateAutoUpdatesToSettings.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 自動更新遷移模組負責
+
+migrations\migrateBypassPermissionsAcceptedToSettings.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 繞過許可權遷移模組負
+
+migrations\migrateEnableAllProjectMcpServersToSettings.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 遷移伺服器設定至設定
+
+migrations\migrateFennecToOpus.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 至遷移模組負責將已移
+
+migrations\migrateLegacyOpusToCurrent.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 遷移舊版至目前版本負
+
+migrations\migrateOpusToOpus1m.ts
+  Chinese chars: 47
+  First 10 Chinese chars: 遷移至負責將在設定中
+
+migrations\migrateReplBridgeEnabledToRemoteControlAtStartup.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 橋接器遷移模組負責將
+
+migrations\migrateSonnet1mToSonnet45.ts
+  Chinese chars: 46
+  First 10 Chinese chars: 遷移至負責將已儲存的
+
+migrations\migrateSonnet45ToSonnet46.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 遷移至負責將第一方使
+
+migrations\resetAutoModeOptInForDefaultOffer.ts
+  Chinese chars: 67
+  First 10 Chinese chars: 重設自動模式選擇加入
+
+migrations\resetProToOpusDefault.ts
+  Chinese chars: 53
+  First 10 Chinese chars: 重置訂閱者至預設值負
+
+moreright\useMoreRight.tsx
+  Chinese chars: 30
+  First 10 Chinese chars: 外部存根外部建構使用
+
+native-ts\color-diff\index.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 色彩差異模組負責移植
+
+native-ts\file-index\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 檔案索引模組負責移植
+
+native-ts\yoga-layout\enums.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 列舉類型負責定義使用
+
+native-ts\yoga-layout\index.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 模組負責移植的的引擎
+
+outputStyles\loadOutputStylesDir.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 輸出樣式目錄載入從目
+
+plugins\builtinPlugins.ts
+  Chinese chars: 0
+
+plugins\bundled\index.ts
+  Chinese chars: 0
+
+projectOnboardingState.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 專案入職狀態管理新專
+
+query.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 核心查詢引擎負責處理
+
+query\config.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 查詢配置負責定義查詢
+
+query\deps.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 查詢依賴注入負責定義
+
+query\stopHooks.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 停止攔截鉤子負責處理
+
+query\tokenBudget.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 代幣預算追蹤負責追蹤
+
+remote\RemoteSessionManager.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 遠端會話管理器負責協
+
+remote\SessionsWebSocket.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 會話負責管理遠端會話
+
+remote\remotePermissionBridge.ts
+  Chinese chars: 54
+  First 10 Chinese chars: 遠端權限橋接器為遠端
+
+remote\sdkMessageAdapter.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 訊息轉接器轉換訊息與
+
+replLauncher.tsx
+  Chinese chars: 38
+  First 10 Chinese chars: 啟動器包裝將螢幕包裝
+
+schemas\hooks.ts
+  Chinese chars: 0
+
+screens\Doctor.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 診斷螢幕系統診斷與設
+
+screens\REPL.tsx
+  Chinese chars: 38
+  First 10 Chinese chars: 螢幕主要的命令列互動
+
+screens\ResumeConversation.tsx
+  Chinese chars: 26
+  First 10 Chinese chars: 恢復對話螢幕恢復先前
+
+server\createDirectConnectSession.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 直接連接工作階段建立
+
+server\directConnectManager.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 直接連接管理器負責管
+
+server\types.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 伺服器類型定義負責定
+
+services\AgentSummary\agentSummary.ts
+  Chinese chars: 0
+
+services\MagicDocs\magicDocs.ts
+  Chinese chars: 0
+
+services\MagicDocs\prompts.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 魔文件提示範本負責提
+
+services\PromptSuggestion\promptSuggestion.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 提示建議模組負責提供
+
+services\PromptSuggestion\speculation.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 提示猜測模組負責提示
+
+services\SessionMemory\prompts.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 對話記憶提示模組負責
+
+services\SessionMemory\sessionMemory.ts
+  Chinese chars: 0
+
+services\SessionMemory\sessionMemoryUtils.ts
+  Chinese chars: 0
+
+services\analytics\config.ts
+  Chinese chars: 0
+
+services\analytics\datadog.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 分析模組負責分析整合
+
+services\analytics\firstPartyEventLogger.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 第一方事件日誌模組負
+
+services\analytics\firstPartyEventLoggingExporter.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 第一方事件日誌導出模
+
+services\analytics\growthbook.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 實驗框架模組負責功能
+
+services\analytics\index.ts
+  Chinese chars: 50
+  First 10 Chinese chars: 分析服務負責事件日誌
+
+services\analytics\metadata.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 分析事件中繼資料負責
+
+services\analytics\sink.ts
+  Chinese chars: 0
+
+services\analytics\sinkKillswitch.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 分析水槽終結開關模組
+
+services\api\adminRequests.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 管理請求模組負責處理
+
+services\api\bootstrap.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 啟動模組負責初始化和
+
+services\api\claude.ts
+  Chinese chars: 6
+  First 10 Chinese chars: 模組負責整合
+
+services\api\client.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 客戶端模組負責客戶端
+
+services\api\dumpPrompts.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 提示傾印模組負責傾印
+
+services\api\emptyUsage.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 空使用量模組負責提供
+
+services\api\errorUtils.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 錯誤工具模組負責錯誤
+
+services\api\errors.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 錯誤處理模組負責錯誤
+
+services\api\filesApi.ts
+  Chinese chars: 0
+
+services\api\firstTokenDate.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 首次日期模組負責追蹤
+
+services\api\grove.ts
+  Chinese chars: 6
+  First 10 Chinese chars: 模組負責整合
+
+services\api\logging.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 日誌模組負責日誌記錄
+
+services\api\metricsOptOut.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 指標退出模組負責處理
+
+services\api\overageCreditGrant.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 超額信用授予模組負責
+
+services\api\promptCacheBreakDetection.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 提示快取破壞檢測模組
+
+services\api\referral.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 推薦模組負責處理推薦
+
+services\api\sessionIngress.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 對話入口模組負責處理
+
+services\api\ultrareviewQuota.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 超級審查配額模組負責
+
+services\api\usage.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 使用量模組負責追蹤和
+
+services\api\withRetry.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 重試模組負責請求的重
+
+services\autoDream\autoDream.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 自動夢境模組負責背景
+
+services\autoDream\config.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 自動夢境設定模組負責
+
+services\autoDream\consolidationLock.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 自動夢境整合鎖模組負
+
+services\autoDream\consolidationPrompt.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 自動夢境整合提示模組
+
+services\awaySummary.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 離開摘要模組負責處理
+
+services\claudeAiLimits.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 限制模組負責管理的使
+
+services\claudeAiLimitsHook.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 限制鉤子模組負責鉤子
+
+services\compact\apiMicrocompact.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 微緊湊化模組負責層面
+
+services\compact\autoCompact.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 自動緊湊化模組負責自
+
+services\compact\compact.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 緊湊化模組負責上下文
+
+services\compact\compactWarningHook.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 緊湊化警告鉤子模組負
+
+services\compact\compactWarningState.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 緊湊化警告狀態模組負
+
+services\compact\grouping.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 訊息分組模組負責在回
+
+services\compact\microCompact.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 微緊湊化模組負責微緊
+
+services\compact\postCompactCleanup.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 緊湊化後清理模組負責
+
+services\compact\prompt.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 緊湊化提示模組負責緊
+
+services\compact\sessionMemoryCompact.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 對話記憶緊湊化模組負
+
+services\compact\timeBasedMCConfig.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 時間基準微緊湊化設定
+
+services\diagnosticTracking.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 診斷追蹤模組負責診斷
+
+services\extractMemories\extractMemories.ts
+  Chinese chars: 0
+
+services\extractMemories\prompts.ts
+  Chinese chars: 0
+
+services\internalLogging.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 內部日誌模組負責內部
+
+services\lsp\LSPClient.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 客戶端模組負責與伺服
+
+services\lsp\LSPDiagnosticRegistry.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 診斷註冊表負責管理診
+
+services\lsp\LSPServerInstance.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 伺服器執行個體模組負
+
+services\lsp\LSPServerManager.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 伺服器管理器模組負責
+
+services\lsp\config.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 設定模組負責伺服器設
+
+services\lsp\manager.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 管理器模組負責管理和
+
+services\lsp\passiveFeedback.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 被動回饋模組負責處理
+
+services\mcpServerApproval.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 伺服器審批模組負責伺
+
+services\mcp\InProcessTransport.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 程序內傳輸模組負責在
+
+services\mcp\MCPConnectionManager.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 連線管理員模組負責管
+
+services\mcp\SdkControlTransport.ts
+  Chinese chars: 0
+
+services\mcp\auth.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 認證模組負責認證流程
+
+services\mcp\channelAllowlist.ts
+  Chinese chars: 0
+
+services\mcp\channelNotification.ts
+  Chinese chars: 0
+
+services\mcp\channelPermissions.ts
+  Chinese chars: 0
+
+services\mcp\claudeai.ts
+  Chinese chars: 9
+  First 10 Chinese chars: 模組負責相關的功能
+
+services\mcp\client.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 客戶端模組負責客戶端
+
+services\mcp\config.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 設定模組負責設定管理
+
+services\mcp\elicitationHandler.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 誘發處理器模組負責處
+
+services\mcp\envExpansion.ts
+  Chinese chars: 0
+
+services\mcp\headersHelper.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 標頭幫手模組負責處理
+
+services\mcp\mcpStringUtils.ts
+  Chinese chars: 0
+
+services\mcp\normalization.ts
+  Chinese chars: 0
+
+services\mcp\oauthPort.ts
+  Chinese chars: 0
+
+services\mcp\officialRegistry.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 官方登錄模組負責管理
+
+services\mcp\types.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 類型定義模組負責相關
+
+services\mcp\useManageMCPConnections.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 連線管理鉤子模組負責
+
+services\mcp\utils.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 工具模組負責相關的工
+
+services\mcp\vscodeSdkMcp.ts
+  Chinese chars: 8
+  First 10 Chinese chars: 模組負責與的整合
+
+services\mcp\xaa.ts
+  Chinese chars: 0
+
+services\mcp\xaaIdpLogin.ts
+  Chinese chars: 0
+
+services\mockRateLimits.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 模擬速率限制模組負責
+
+services\notifier.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 通知器模組負責發送系
+
+services\oauth\auth-code-listener.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 授權碼監聽模組負責監
+
+services\oauth\client.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 客戶端模組負責處理認
+
+services\oauth\crypto.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 密碼學模組負責密碼學
+
+services\oauth\getOauthProfile.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 個人資料模組負責擷取
+
+services\oauth\index.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 服務模組負責認證流程
+
+services\plugins\PluginInstallationManager.ts
+  Chinese chars: 0
+
+services\plugins\pluginCliCommands.ts
+  Chinese chars: 0
+
+services\plugins\pluginOperations.ts
+  Chinese chars: 0
+
+services\policyLimits\index.ts
+  Chinese chars: 0
+
+services\policyLimits\types.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 政策限制類型負責定義
+
+services\preventSleep.ts
+  Chinese chars: 0
+
+services\rateLimitMessages.ts
+  Chinese chars: 0
+
+services\rateLimitMocking.ts
+  Chinese chars: 0
+
+services\remoteManagedSettings\index.ts
+  Chinese chars: 0
+
+services\remoteManagedSettings\securityCheck.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 遠端管理設定安全性檢
+
+services\remoteManagedSettings\syncCache.ts
+  Chinese chars: 0
+
+services\remoteManagedSettings\syncCacheState.ts
+  Chinese chars: 0
+
+services\remoteManagedSettings\types.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 遠端管理設定類型定義
+
+services\settingsSync\index.ts
+  Chinese chars: 0
+
+services\settingsSync\types.ts
+  Chinese chars: 0
+
+services\teamMemorySync\index.ts
+  Chinese chars: 0
+
+services\teamMemorySync\secretScanner.ts
+  Chinese chars: 0
+
+services\teamMemorySync\teamMemSecretGuard.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 秘密守護模組負責檢查
+
+services\teamMemorySync\types.ts
+  Chinese chars: 0
+
+services\teamMemorySync\watcher.ts
+  Chinese chars: 0
+
+services\tips\tipHistory.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 提示歷史模組負責追蹤
+
+services\tips\tipRegistry.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 提示註冊表模組負責管
+
+services\tips\tipScheduler.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 提示排程器模組負責管
+
+services\tokenEstimation.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 估計模組負責估計數量
+
+services\toolUseSummary\toolUseSummaryGenerator.ts
+  Chinese chars: 0
+
+services\tools\StreamingToolExecutor.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 流式工具執行器模組負
+
+services\tools\toolExecution.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 工具執行模組負責執行
+
+services\tools\toolHooks.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 工具鉤子模組負責工具
+
+services\tools\toolOrchestration.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 工具協調模組負責協調
+
+services\vcr.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 視訊會議錄製模組負責
+
+services\voice.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 語音服務模組負責語音
+
+services\voiceKeyterms.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 語音關鍵字模組負責語
+
+services\voiceStreamSTT.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 語音流轉文字模組負責
+
+setup.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 應用初始化負責處理啟
+
+skills\bundledSkills.ts
+  Chinese chars: 48
+  First 10 Chinese chars: 捆綁技能定義定義隨發
+
+skills\bundled\batch.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 批次技能註冊批次技能
+
+skills\bundled\claudeApi.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 技能提供參考資料包含
+
+skills\bundled\claudeApiContent.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 技能內容隨技能捆綁的
+
+skills\bundled\claudeInChrome.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 中的技能提供瀏覽器自
+
+skills\bundled\debug.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 偵錯技能提供偵錯日誌
+
+skills\bundled\index.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 捆綁技能註冊註冊所有
+
+skills\bundled\keybindings.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 鍵盤綁定技能提供鍵盤
+
+skills\bundled\loop.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 循環技能提供定時循環
+
+skills\bundled\loremIpsum.ts
+  Chinese chars: 40
+  First 10 Chinese chars: 技能生成所見即所得的
+
+skills\bundled\remember.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 記憶技能審查使用者的
+
+skills\bundled\scheduleRemoteAgents.ts
+  Chinese chars: 43
+  First 10 Chinese chars: 排程遠端代理技能提供
+
+skills\bundled\simplify.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 簡化技能程式碼審查與
+
+skills\bundled\skillify.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 技能化技能將對話中的
+
+skills\bundled\stuck.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 卡住診斷技能診斷凍結
+
+skills\bundled\updateConfig.ts
+  Chinese chars: 34
+  First 10 Chinese chars: 更新設定技能從設定產
+
+skills\bundled\verify.ts
+  Chinese chars: 43
+  First 10 Chinese chars: 驗證技能透過運行應用
+
+skills\bundled\verifyContent.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 驗證技能內容隨驗證技
+
+skills\loadSkillsDir.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 技能目錄載入從磁碟載
+
+skills\mcpSkillBuilders.ts
+  Chinese chars: 58
+  First 10 Chinese chars: 技能建構者技能發現所
+
+state\AppState.tsx
+  Chinese chars: 41
+  First 10 Chinese chars: 應用程式狀態元件提供
+
+state\AppStateStore.ts
+  Chinese chars: 49
+  First 10 Chinese chars: 應用程式狀態儲存儲存
+
+state\onChangeAppState.ts
+  Chinese chars: 54
+  First 10 Chinese chars: 應用程式狀態變更處理
+
+state\selectors.ts
+  Chinese chars: 54
+  First 10 Chinese chars: 狀態選擇器從衍生計算
+
+state\store.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 狀態儲存工廠建立簡單
+
+state\teammateViewHelpers.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 隊友視圖幫助程式輔助
+
+tasks.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 任務實現聚合所有任務
+
+tasks\DreamTask\DreamTask.ts
+  Chinese chars: 67
+  First 10 Chinese chars: 自動夢境任務自動夢境
+
+tasks\InProcessTeammateTask\InProcessTeammateTask.tsx
+  Chinese chars: 0
+
+tasks\InProcessTeammateTask\types.ts
+  Chinese chars: 60
+  First 10 Chinese chars: 程序內隊友任務類型定
+
+tasks\LocalAgentTask\LocalAgentTask.tsx
+  Chinese chars: 39
+  First 10 Chinese chars: 本地代理任務管理本地
+
+tasks\LocalMainSessionTask.ts
+  Chinese chars: 0
+
+tasks\LocalShellTask\LocalShellTask.tsx
+  Chinese chars: 32
+  First 10 Chinese chars: 本地任務管理本地命令
+
+tasks\LocalShellTask\guards.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 類型守衛狀態的純類型
+
+tasks\LocalShellTask\killShellTasks.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 任務終止幫手的純非終
+
+tasks\RemoteAgentTask\RemoteAgentTask.tsx
+  Chinese chars: 42
+  First 10 Chinese chars: 遠端代理任務管理遠端
+
+tasks\pillLabel.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 任務標籤生成產生背景
+
+tasks\stopTask.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 任務停止邏輯共享的任
+
+tasks\types.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 任務狀態類型聯合所有
+
+tools.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 工具實現聚合所有內建
+
+tools\AgentTool\AgentTool.tsx
+  Chinese chars: 49
+  First 10 Chinese chars: 代理工具負責啟動和管
+
+tools\AgentTool\UI.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 代理工具渲染模組負責
+
+tools\AgentTool\agentColorManager.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 代理顏色管理器負責管
+
+tools\AgentTool\agentDisplay.ts
+  Chinese chars: 0
+
+tools\AgentTool\agentMemory.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 代理記憶體管理負責管
+
+tools\AgentTool\agentMemorySnapshot.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 代理記憶體快照負責生
+
+tools\AgentTool\agentToolUtils.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 代理工具負責代理工具
+
+tools\AgentTool\built-in\claudeCodeGuideAgent.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 指南代理負責提供使用
+
+tools\AgentTool\built-in\exploreAgent.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 探索代理負責探索檔案
+
+tools\AgentTool\built-in\generalPurposeAgent.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 通用代理負責處理通用
+
+tools\AgentTool\built-in\planAgent.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 規劃代理負責任務規劃
+
+tools\AgentTool\built-in\statuslineSetup.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 狀態列設定代理負責設
+
+tools\AgentTool\built-in\verificationAgent.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 驗證代理負責驗證任務
+
+tools\AgentTool\builtInAgents.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 內建代理註冊負責註冊
+
+tools\AgentTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 代理工具常量模組負責
+
+tools\AgentTool\forkSubagent.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 分叉子代理負責分叉子
+
+tools\AgentTool\loadAgentsDir.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 代理目錄載入負責載入
+
+tools\AgentTool\prompt.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 代理工具提示詞模組負
+
+tools\AgentTool\resumeAgent.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 恢復代理負責恢復已暫
+
+tools\AgentTool\runAgent.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 執行代理負責執行代理
+
+tools\AskUserQuestionTool\AskUserQuestionTool.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 詢問用戶工具模組負責
+
+tools\AskUserQuestionTool\prompt.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 詢問用戶工具提示詞模
+
+tools\BashTool\BashTool.tsx
+  Chinese chars: 50
+  First 10 Chinese chars: 命令列工具負責執行命
+
+tools\BashTool\BashToolResultMessage.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 工具結果訊息模組負責
+
+tools\BashTool\UI.tsx
+  Chinese chars: 17
+  First 10 Chinese chars: 工具渲染模組負責渲染
+
+tools\BashTool\bashCommandHelpers.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 命令輔助函式模組負責
+
+tools\BashTool\bashPermissions.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 權限管理模組負責處理
+
+tools\BashTool\bashSecurity.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 安全檢查模組負責檢測
+
+tools\BashTool\commandSemantics.ts
+  Chinese chars: 0
+
+tools\BashTool\commentLabel.ts
+  Chinese chars: 0
+
+tools\BashTool\destructiveCommandWarning.ts
+  Chinese chars: 55
+  First 10 Chinese chars: 破壞性命令警告模組負
+
+tools\BashTool\modeValidation.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 模式驗證模組負責根據
+
+tools\BashTool\pathValidation.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 路徑驗證模組負責驗證
+
+tools\BashTool\prompt.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工具提示詞模組負責提
+
+tools\BashTool\readOnlyValidation.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 只讀驗證模組負責驗證
+
+tools\BashTool\sedEditParser.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 編輯解析模組負責解析
+
+tools\BashTool\sedValidation.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 命令驗證模組負責驗證
+
+tools\BashTool\shouldUseSandbox.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 沙盒判斷模組負責判斷
+
+tools\BashTool\toolName.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 工具名稱模組負責定義
+
+tools\BashTool\utils.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 工具共用函式模組負責
+
+tools\BriefTool\BriefTool.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 簡報工具模組負責向用
+
+tools\BriefTool\UI.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 摘要工具渲染模組負責
+
+tools\BriefTool\attachments.ts
+  Chinese chars: 0
+
+tools\BriefTool\prompt.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 簡報工具提示詞模組負
+
+tools\BriefTool\upload.ts
+  Chinese chars: 0
+
+tools\ConfigTool\ConfigTool.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 設定工具模組負責獲取
+
+tools\ConfigTool\UI.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 配置工具渲染模組負責
+
+tools\ConfigTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 設定工具常量模組負責
+
+tools\ConfigTool\prompt.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 設定工具提示詞模組負
+
+tools\ConfigTool\supportedSettings.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 設定工具支援設定模組
+
+tools\EnterPlanModeTool\EnterPlanModeTool.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 進入計劃模式工具模組
+
+tools\EnterPlanModeTool\UI.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 進入計劃模式工具渲染
+
+tools\EnterPlanModeTool\constants.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 進入計劃模式工具常量
+
+tools\EnterPlanModeTool\prompt.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 進入計劃模式工具提示
+
+tools\EnterWorktreeTool\EnterWorktreeTool.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 進入工作樹工具模組負
+
+tools\EnterWorktreeTool\UI.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 進入工作樹工具渲染模
+
+tools\EnterWorktreeTool\constants.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 進入工作樹工具常量模
+
+tools\EnterWorktreeTool\prompt.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 進入工作樹工具提示詞
+
+tools\ExitPlanModeTool\ExitPlanModeV2Tool.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 退出計劃模式工具模組
+
+tools\ExitPlanModeTool\UI.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 退出計劃模式工具渲染
+
+tools\ExitPlanModeTool\constants.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 退出計劃模式工具常量
+
+tools\ExitPlanModeTool\prompt.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 退出計劃模式工具提示
+
+tools\ExitWorktreeTool\ExitWorktreeTool.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 退出工作樹工具模組負
+
+tools\ExitWorktreeTool\UI.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 退出工作樹工具渲染模
+
+tools\ExitWorktreeTool\constants.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 退出工作樹工具常量負
+
+tools\ExitWorktreeTool\prompt.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 退出工作樹工具提示詞
+
+tools\FileEditTool\FileEditTool.ts
+  Chinese chars: 54
+  First 10 Chinese chars: 檔案編輯工具負責執行
+
+tools\FileEditTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 檔案編輯工具渲染模組
+
+tools\FileEditTool\constants.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 檔案編輯工具常量模組
+
+tools\FileEditTool\prompt.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 檔案編輯工具提示詞模
+
+tools\FileEditTool\types.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 檔案編輯工具類型負責
+
+tools\FileEditTool\utils.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 檔案編輯工具共用函式
+
+tools\FileReadTool\FileReadTool.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 檔案讀取工具模組負責
+
+tools\FileReadTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 檔案讀取工具渲染模組
+
+tools\FileReadTool\imageProcessor.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 檔案讀取圖片處理模組
+
+tools\FileReadTool\limits.ts
+  Chinese chars: 0
+
+tools\FileReadTool\prompt.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 檔案讀取工具提示詞模
+
+tools\FileWriteTool\FileWriteTool.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 檔案寫入工具模組負責
+
+tools\FileWriteTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 檔案寫入工具渲染模組
+
+tools\FileWriteTool\prompt.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 檔案寫入工具提示詞模
+
+tools\GlobTool\GlobTool.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 檔案模式匹配工具模組
+
+tools\GlobTool\UI.tsx
+  Chinese chars: 29
+  First 10 Chinese chars: 檔案模式匹配工具渲染
+
+tools\GlobTool\prompt.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 檔案模式匹配工具提示
+
+tools\GrepTool\GrepTool.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 文字搜尋工具模組負責
+
+tools\GrepTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 文字搜尋工具渲染模組
+
+tools\GrepTool\prompt.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 文字搜尋工具提示詞模
+
+tools\LSPTool\LSPTool.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 語言服務協議工具模組
+
+tools\LSPTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 語言服務協議工具渲染
+
+tools\LSPTool\formatters.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 格式化工具模組負責格
+
+tools\LSPTool\prompt.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 語言服務協議工具提示
+
+tools\LSPTool\schemas.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 工具輸入結構模組負責
+
+tools\LSPTool\symbolContext.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 符號上下文模組負責提
+
+tools\ListMcpResourcesTool\ListMcpResourcesTool.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 資源列表工具模組負責
+
+tools\ListMcpResourcesTool\UI.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 資源列表工具渲染模組
+
+tools\ListMcpResourcesTool\prompt.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 資源列表提示詞模組負
+
+tools\MCPTool\MCPTool.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 工具模組負責與服務器
+
+tools\MCPTool\UI.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 工具渲染模組負責渲染
+
+tools\MCPTool\prompt.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 工具提示詞模組負責提
+
+tools\McpAuthTool\McpAuthTool.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 認證工具模組負責處理
+
+tools\NotebookEditTool\NotebookEditTool.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 筆記本編輯工具模組負
+
+tools\NotebookEditTool\UI.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 筆記本編輯工具渲染模
+
+tools\NotebookEditTool\constants.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 筆記本編輯工具常量模
+
+tools\NotebookEditTool\prompt.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 筆記本編輯工具提示詞
+
+tools\PowerShellTool\PowerShellTool.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 工具模組負責執行命令
+
+tools\PowerShellTool\UI.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 工具渲染模組負責渲染
+
+tools\PowerShellTool\commonParameters.ts
+  Chinese chars: 85
+  First 10 Chinese chars: 常用參數模組定義所有
+
+tools\PowerShellTool\destructiveCommandWarning.ts
+  Chinese chars: 55
+  First 10 Chinese chars: 破壞性命令警告模組負
+
+tools\PowerShellTool\gitSafety.ts
+  Chinese chars: 77
+  First 10 Chinese chars: 安全模組負責檢測被武
+
+tools\PowerShellTool\modeValidation.ts
+  Chinese chars: 52
+  First 10 Chinese chars: 模式驗證模組負責根據
+
+tools\PowerShellTool\pathValidation.ts
+  Chinese chars: 61
+  First 10 Chinese chars: 路徑驗證模組負責對命
+
+tools\PowerShellTool\powershellPermissions.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 權限檢查模組負責特定
+
+tools\PowerShellTool\powershellSecurity.ts
+  Chinese chars: 72
+  First 10 Chinese chars: 安全分析模組負責對命
+
+tools\PowerShellTool\prompt.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工具提示詞模組負責提
+
+tools\PowerShellTool\readOnlyValidation.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 只讀命令驗證模組負責
+
+tools\PowerShellTool\toolName.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 工具名稱模組負責定義
+
+tools\REPLTool\constants.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 工具常量模組負責定義
+
+tools\REPLTool\primitiveTools.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 工具原語模組負責提供
+
+tools\ReadMcpResourceTool\ReadMcpResourceTool.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 資源讀取工具模組負責
+
+tools\ReadMcpResourceTool\UI.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 資源讀取工具渲染模組
+
+tools\ReadMcpResourceTool\prompt.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 資源讀取提示詞模組負
+
+tools\RemoteTriggerTool\RemoteTriggerTool.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 遠程觸發工具模組負責
+
+tools\RemoteTriggerTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 遠端觸發工具渲染模組
+
+tools\RemoteTriggerTool\prompt.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 遠程觸發提示詞模組負
+
+tools\ScheduleCronTool\CronCreateTool.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 定時任務創建工具模組
+
+tools\ScheduleCronTool\CronDeleteTool.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 定時任務刪除工具模組
+
+tools\ScheduleCronTool\CronListTool.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 定時任務列表工具模組
+
+tools\ScheduleCronTool\UI.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 定時任務工具渲染模組
+
+tools\ScheduleCronTool\prompt.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 定時任務工具提示詞模
+
+tools\SendMessageTool\SendMessageTool.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 發送訊息工具模組負責
+
+tools\SendMessageTool\UI.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 發送訊息工具渲染模組
+
+tools\SendMessageTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 發送訊息常量模組負責
+
+tools\SendMessageTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 發送訊息提示詞模組負
+
+tools\SkillTool\SkillTool.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 技能工具模組負責處理
+
+tools\SkillTool\UI.tsx
+  Chinese chars: 23
+  First 10 Chinese chars: 技能工具渲染模組負責
+
+tools\SkillTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 技能工具常量模組負責
+
+tools\SkillTool\prompt.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 技能工具提示詞模組負
+
+tools\SleepTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 睡眠工具提示詞模組負
+
+tools\SyntheticOutputTool\SyntheticOutputTool.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 合成輸出工具模組負責
+
+tools\TaskCreateTool\TaskCreateTool.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 任務創建工具模組負責
+
+tools\TaskCreateTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 任務創建常量模組負責
+
+tools\TaskCreateTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 任務創建提示詞模組負
+
+tools\TaskGetTool\TaskGetTool.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 任務獲取工具模組負責
+
+tools\TaskGetTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 任務獲取常量模組負責
+
+tools\TaskGetTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 任務獲取提示詞模組負
+
+tools\TaskListTool\TaskListTool.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 任務列表工具模組負責
+
+tools\TaskListTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 任務列表常量模組負責
+
+tools\TaskListTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 任務列表提示詞模組負
+
+tools\TaskOutputTool\TaskOutputTool.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 任務輸出工具渲染模組
+
+tools\TaskOutputTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 任務輸出常量模組負責
+
+tools\TaskStopTool\TaskStopTool.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 任務停止工具模組負責
+
+tools\TaskStopTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 任務停止工具渲染模組
+
+tools\TaskStopTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 任務停止提示詞模組負
+
+tools\TaskUpdateTool\TaskUpdateTool.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 任務更新工具模組負責
+
+tools\TaskUpdateTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 任務更新常量模組負責
+
+tools\TaskUpdateTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 任務更新提示詞模組負
+
+tools\TeamCreateTool\TeamCreateTool.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 團隊創建工具模組負責
+
+tools\TeamCreateTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 團隊創建工具渲染模組
+
+tools\TeamCreateTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 團隊創建常量模組負責
+
+tools\TeamCreateTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 團隊創建提示詞模組負
+
+tools\TeamDeleteTool\TeamDeleteTool.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 團隊刪除工具模組負責
+
+tools\TeamDeleteTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 團隊刪除工具渲染模組
+
+tools\TeamDeleteTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 團隊刪除常量模組負責
+
+tools\TeamDeleteTool\prompt.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 團隊刪除工具提示詞模
+
+tools\TodoWriteTool\TodoWriteTool.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 待辦事項寫入工具模組
+
+tools\TodoWriteTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 待辦事項常量模組負責
+
+tools\TodoWriteTool\prompt.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 待辦事項寫入提示詞模
+
+tools\ToolSearchTool\ToolSearchTool.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 工具搜尋模組負責搜尋
+
+tools\ToolSearchTool\constants.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工具搜尋常量模組負責
+
+tools\ToolSearchTool\prompt.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 工具搜尋提示詞模組負
+
+tools\WebFetchTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 網頁獲取工具渲染模組
+
+tools\WebFetchTool\WebFetchTool.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 網頁獲取工具模組負責
+
+tools\WebFetchTool\preapproved.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 網頁獲取工具預批准網
+
+tools\WebFetchTool\prompt.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 網頁獲取工具提示詞模
+
+tools\WebFetchTool\utils.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 網頁獲取工具共用函式
+
+tools\WebSearchTool\UI.tsx
+  Chinese chars: 25
+  First 10 Chinese chars: 網頁搜尋工具渲染模組
+
+tools\WebSearchTool\WebSearchTool.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 網頁搜尋工具模組負責
+
+tools\WebSearchTool\prompt.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 網頁搜尋工具提示詞模
+
+tools\shared\gitOperationTracking.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 操作追蹤模組負責追蹤
+
+tools\shared\spawnMultiAgent.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 多代理生成模組負責產
+
+tools\testing\TestingPermissionTool.tsx
+  Chinese chars: 33
+  First 10 Chinese chars: 測試權限工具模組負責
+
+tools\utils.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工具共用函式模組負責
+
+types\command.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 命令類型定義定義命令
+
+types\generated\events_mono\claude_code\v1\claude_code_internal_event.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 內部事件類型由產生的
+
+types\generated\events_mono\common\v1\auth.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 認證類型定義由產生的
+
+types\generated\events_mono\growthbook\v1\growthbook_experiment_event.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 實驗事件類型由產生的
+
+types\generated\google\protobuf\timestamp.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 時間戳類型由產生的標
+
+types\hooks.ts
+  Chinese chars: 34
+  First 10 Chinese chars: 鉤子類型定義定義鉤子
+
+types\ids.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 品牌化類型定義與的品
+
+types\logs.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 日誌類型定義定義訊息
+
+types\permissions.ts
+  Chinese chars: 0
+
+types\plugin.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 插件類型定義定義插件
+
+types\textInputTypes.ts
+  Chinese chars: 58
+  First 10 Chinese chars: 文字輸入類型定義定義
+
+upstreamproxy\relay.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 上游代理轉發負責處理
+
+upstreamproxy\upstreamproxy.ts
+  Chinese chars: 0
+
+utils\CircularBuffer.ts
+  Chinese chars: 44
+  First 10 Chinese chars: 循環緩衝區負責實現固
+
+utils\Cursor.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 游標管理模組處理終端
+
+utils\QueryGuard.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 查詢守衛負責查詢生命
+
+utils\Shell.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 模組負責執行外部命令
+
+utils\ShellCommand.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 模組負責封裝命令執行
+
+utils\abortController.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 工具模組負責建立具有
+
+utils\activityManager.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 模組負責追蹤使用者與
+
+utils\advisor.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 工具區塊類型定義尚未
+
+utils\agentContext.ts
+  Chinese chars: 34
+  First 10 Chinese chars: 代理上下文負責使用追
+
+utils\agentId.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 代理系統負責提供格式
+
+utils\agentSwarmsEnabled.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 代理團隊功能開關模組
+
+utils\agenticSessionSearch.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 代理對話搜尋模組跨會
+
+utils\analyzeContext.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 上下文分析模組分析並
+
+utils\ansiToPng.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 轉負責將轉義的終端文
+
+utils\ansiToSvg.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 轉負責將轉義的終端文
+
+utils\api.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 通訊層模組處理與的所
+
+utils\apiPreconnect.ts
+  Chinese chars: 39
+  First 10 Chinese chars: 預連接負責在啟動時預
+
+utils\appleTerminalBackup.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 備份模組處理環境的備
+
+utils\argumentSubstitution.ts
+  Chinese chars: 34
+  First 10 Chinese chars: 參數替換負責在技能命
+
+utils\array.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 陣列工具函式模組提供
+
+utils\asciicast.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 錄製模組處理終端會話
+
+utils\attachments.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 附件處理模組處理工具
+
+utils\attribution.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 歸因追蹤模組追蹤對話
+
+utils\auth.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 認證管理模組處理金鑰
+
+utils\authFileDescriptor.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 認證檔案描述符模組處
+
+utils\authPortable.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 可攜式認證工具模組提
+
+utils\autoModeDenials.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 自動模式拒絕追蹤負責
+
+utils\autoRunIssue.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 自動執行問題模組顯示
+
+utils\autoUpdater.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 自動更新模組處理的自
+
+utils\aws.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 認證類型定義模組提供
+
+utils\awsAuthStatusManager.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 雲端提供商認證狀態管
+
+utils\backgroundHousekeeping.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 背景維護模組初始化背
+
+utils\background\remote\preconditions.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 模組負責檢查遠端工作
+
+utils\background\remote\remoteSession.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 模組負責管理遠端工作
+
+utils\bash\ParsedCommand.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 解析命令模組解析和處
+
+utils\bash\ShellSnapshot.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 快照模組擷取和管理工
+
+utils\bash\ast.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 抽象語法樹負責基於的
+
+utils\bash\bashParser.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 解析器負責純的解析器
+
+utils\bash\bashPipeCommand.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 模組負責重新排列帶有
+
+utils\bash\commands.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 命令處理模組處理命令
+
+utils\bash\heredoc.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 處理負責的提取和恢復
+
+utils\bash\parser.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 解析器包裝模組包裝解
+
+utils\bash\prefix.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 前綴處理模組處理命令
+
+utils\bash\registry.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 命令註冊表模組管理已
+
+utils\bash\shellCompletion.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 補全模組提供命令的自
+
+utils\bash\shellPrefix.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 前綴解析模組解析命令
+
+utils\bash\shellQuote.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 引號處理負責函式庫的
+
+utils\bash\shellQuoting.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 引號處理模組處理命令
+
+utils\bash\specs\alias.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 命令規格模組定義命令
+
+utils\bash\specs\index.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 命令規格索引模組負責
+
+utils\bash\specs\nohup.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 命令規格模組定義命令
+
+utils\bash\specs\pyright.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 命令規格模組定義命令
+
+utils\bash\specs\sleep.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 命令規格模組定義命令
+
+utils\bash\specs\srun.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 命令規格模組定義命令
+
+utils\bash\specs\time.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 命令規格模組定義命令
+
+utils\bash\specs\timeout.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 命令規格模組定義命令
+
+utils\bash\treeSitterAnalysis.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 分析負責命令驗證的分
+
+utils\betas.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 功能開關模組管理實驗
+
+utils\billing.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 計費存取模組檢查使用
+
+utils\binaryCheck.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 二進位檔案檢查模組檢
+
+utils\browser.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 瀏覽器驗證模組驗證和
+
+utils\bufferedWriter.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 緩衝寫入器模組提供帶
+
+utils\bundledMode.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 打包模式檢測負責檢測
+
+utils\caCerts.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 憑證載入模組載入連線
+
+utils\caCertsConfig.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 憑證配置負責從讀取並
+
+utils\cachePaths.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 快取路徑模組管理快取
+
+utils\classifierApprovals.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 分類器批准追蹤負責追
+
+utils\classifierApprovalsHook.ts
+  Chinese chars: 0
+
+utils\claudeCodeHints.ts
+  Chinese chars: 0
+
+utils\claudeDesktop.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 設定模組讀取和管理設
+
+utils\claudeInChrome\chromeNativeHost.ts
+  Chinese chars: 0
+
+utils\claudeInChrome\common.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 通用模組通用工具函式
+
+utils\claudeInChrome\mcpServer.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 伺服器模組建立伺服器
+
+utils\claudeInChrome\prompt.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 提示詞模組定義瀏覽器
+
+utils\claudeInChrome\setup.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 設定模組處理擴充功能
+
+utils\claudeInChrome\setupPortable.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 可攜式設定模組處理擴
+
+utils\claudeInChrome\toolRendering.tsx
+  Chinese chars: 19
+  First 10 Chinese chars: 工具渲染模組處理擴充
+
+utils\claudemd.ts
+  Chinese chars: 0
+
+utils\cleanup.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 清理模組執行舊檔案和
+
+utils\cleanupRegistry.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 清理函數註冊表負責在
+
+utils\cliArgs.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 命令列引數解析負責在
+
+utils\cliHighlight.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 語法高亮模組提供命令
+
+utils\codeIndexing.ts
+  Chinese chars: 39
+  First 10 Chinese chars: 程式碼索引檢測負責檢
+
+utils\collapseBackgroundBashNotifications.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 背景通知折疊模組折疊
+
+utils\collapseHookSummaries.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 摘要折疊模組折疊連續
+
+utils\collapseReadSearch.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 讀取搜尋折疊模組折疊
+
+utils\collapseTeammateShutdowns.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 隊友關機折疊模組折疊
+
+utils\combinedAbortSignal.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 合併中止信號模組合併
+
+utils\commandLifecycle.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 命令生命週期模組追蹤
+
+utils\commitAttribution.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 提交歸屬模組將程式碼
+
+utils\completionCache.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 補全快取模組管理提示
+
+utils\computerUse\appNames.ts
+  Chinese chars: 42
+  First 10 Chinese chars: 應用程式名稱負責過濾
+
+utils\computerUse\cleanup.ts
+  Chinese chars: 8
+  First 10 Chinese chars: 清理模組清理資源
+
+utils\computerUse\common.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 通用模組通用工具函式
+
+utils\computerUse\computerUseLock.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 鎖定模組管理的檔案鎖
+
+utils\computerUse\drainRunLoop.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 事件循環模組處理事件
+
+utils\computerUse\escHotkey.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 熱鍵模組處理熱鍵事件
+
+utils\computerUse\executor.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 執行器負責的實作包裝
+
+utils\computerUse\gates.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 閘門模組控制功能的開
+
+utils\computerUse\hostAdapter.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 主機介面卡模組介面主
+
+utils\computerUse\inputLoader.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 輸入載入模組負責載入
+
+utils\computerUse\mcpServer.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 伺服器模組建立和管理
+
+utils\computerUse\setup.ts
+  Chinese chars: 9
+  First 10 Chinese chars: 設定模組設定伺服器
+
+utils\computerUse\swiftLoader.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 載入器負責延遲載入並
+
+utils\computerUse\toolRendering.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 工具渲染模組處理電腦
+
+utils\computerUse\wrapper.tsx
+  Chinese chars: 27
+  First 10 Chinese chars: 包裝器負責覆寫作为和
+
+utils\concurrentSessions.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 並發會話管理模組處理
+
+utils\config.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 設定管理模組管理全域
+
+utils\configConstants.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 設定常數模組定義設定
+
+utils\contentArray.ts
+  Chinese chars: 45
+  First 10 Chinese chars: 內容陣列操作負責將區
+
+utils\context.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 上下文管理模組管理對
+
+utils\contextAnalysis.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 上下文分析模組分析訊
+
+utils\contextSuggestions.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 上下文建議模組提供上
+
+utils\controlMessageCompat.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 控制訊息相容性負責將
+
+utils\conversationRecovery.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 對話恢復模組處理會話
+
+utils\cron.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 表達式解析模組解析和
+
+utils\cronJitterConfig.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 模組負責從獲取並快取
+
+utils\cronScheduler.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 模組負責排程任務的執
+
+utils\cronTasks.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 模組負責管理排程任務
+
+utils\cronTasksLock.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 模組負責排程器鎖定機
+
+utils\crossProjectResume.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 跨專案恢復模組處理跨
+
+utils\crypto.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 密碼學包裝模組包裝密
+
+utils\cwd.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 工作目錄管理模組使用
+
+utils\debug.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 調試日誌模組處理偵錯
+
+utils\debugFilter.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 偵錯過濾器模組解析和
+
+utils\deepLink\banner.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 橫幅負責構建起源警告
+
+utils\deepLink\parseDeepLink.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 解析器負責解析所有參
+
+utils\deepLink\protocolHandler.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 通訊協定處理器負責處
+
+utils\deepLink\registerProtocol.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 通訊協定註冊負責向註
+
+utils\deepLink\terminalLauncher.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 終端機啟動器負責偵測
+
+utils\deepLink\terminalPreference.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 終端機偏好設定負責當
+
+utils\desktopDeepLink.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 桌面深度連結模組處理
+
+utils\detectRepository.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 倉庫偵測模組偵測和解
+
+utils\diagLogs.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 診斷日誌模組寫入診斷
+
+utils\diff.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 差異計算模組計算和顯
+
+utils\directMemberMessage.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 直接成員訊息解析模組
+
+utils\displayTags.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 顯示標籤處理負責匹配
+
+utils\doctorContextWarnings.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 診斷上下文警告模組檢
+
+utils\doctorDiagnostic.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 診斷檢查模組執行環境
+
+utils\dxt\helpers.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 模組負責驗證與解析檔
+
+utils\dxt\zip.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 模組負責安全地解壓縮
+
+utils\earlyInput.ts
+  Chinese chars: 52
+  First 10 Chinese chars: 早期輸入捕获負責在完
+
+utils\editor.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 編輯器工具模組啟動外
+
+utils\effort.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 努力等級模組管理任務
+
+utils\embeddedTools.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 嵌入式工具模組檢查是
+
+utils\env.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 環境變數模組管理平台
+
+utils\envDynamic.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 動態環境偵測模組執行
+
+utils\envUtils.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 環境工具函式模組提供
+
+utils\envValidation.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 環境變數驗證模組驗證
+
+utils\errorLogSink.ts
+  Chinese chars: 45
+  First 10 Chinese chars: 錯誤日誌接收器負責錯
+
+utils\errors.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 錯誤類別定義模組定義
+
+utils\exampleCommands.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 範例命令模組管理範例
+
+utils\execFileNoThrow.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 非同步檔案執行模組包
+
+utils\execFileNoThrowPortable.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 可攜式同步執行模組提
+
+utils\execSyncWrapper.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 同步執行包裝模組已廢
+
+utils\exportRenderer.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 匯出渲染器模組處理對
+
+utils\extraUsage.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 額外使用量計費模組判
+
+utils\fastMode.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 快速模式模組管理快速
+
+utils\file.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 檔案工具模組提供檔案
+
+utils\fileHistory.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 檔案歷史模組追蹤和管
+
+utils\fileOperationAnalytics.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 檔案操作分析模組提供
+
+utils\filePersistence\filePersistence.ts
+  Chinese chars: 40
+  First 10 Chinese chars: 檔案持久化負責檔案持
+
+utils\filePersistence\outputsScanner.ts
+  Chinese chars: 42
+  First 10 Chinese chars: 輸出目錄掃描器負責檔
+
+utils\fileRead.ts
+  Chinese chars: 46
+  First 10 Chinese chars: 同步檔案讀取負責同步
+
+utils\fileReadCache.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 檔案讀取快取模組快取
+
+utils\fileStateCache.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 檔案狀態快取模組快取
+
+utils\findExecutable.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 執行檔搜尋負責透過搜
+
+utils\fingerprint.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 指紋生成模組為訊息和
+
+utils\forkedAgent.ts
+  Chinese chars: 58
+  First 10 Chinese chars: 分支代理幫助程式負責
+
+utils\format.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 格式化工具模組提供人
+
+utils\formatBriefTimestamp.ts
+  Chinese chars: 44
+  First 10 Chinese chars: 簡要時間戳格式化負責
+
+utils\fpsTracker.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 模組負責追蹤畫面更新
+
+utils\frontmatterParser.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 前置資料解析器負責解
+
+utils\fsOperations.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 檔案系統操作模組提供
+
+utils\fullscreen.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 全螢幕模式模組管理終
+
+utils\generatedFiles.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 生成檔案偵測模組識別
+
+utils\generators.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 產生器工具模組提供非
+
+utils\genericProcessUtils.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 通用程序工具模組提供
+
+utils\getWorktreePaths.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工作樹路徑模組取得目
+
+utils\getWorktreePathsPortable.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 可攜式工作樹路徑模組
+
+utils\ghPrStatus.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 狀態模組查詢和管理審
+
+utils\git.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 操作模組提供倉庫的各
+
+utils\gitDiff.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 差異計算模組計算和處
+
+utils\gitSettings.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 模組負責根據使用者設
+
+utils\git\gitConfigParser.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 設定解析器負責輕量級
+
+utils\git\gitFilesystem.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 檔案系統負責基於檔案
+
+utils\git\gitignore.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 管理模組管理檔案和排
+
+utils\githubRepoPathMapping.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 模組負責在全域設定中
+
+utils\github\ghAuthStatus.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 模組負責偵測的安裝狀
+
+utils\glob.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 模組負責模式比對與檔
+
+utils\gracefulShutdown.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 模組負責優雅關機處理
+
+utils\groupToolUses.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 模組負責將工具使用訊
+
+utils\handlePromptSubmit.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 模組負責處理使用者提
+
+utils\hash.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 雜湊函數負責字串雜湊
+
+utils\headlessProfiler.ts
+  Chinese chars: 51
+  First 10 Chinese chars: 無頭模式效能分析負責
+
+utils\heapDumpService.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 堆積傾印服務負責捕獲
+
+utils\heatmap.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 熱度圖模組負責產生風
+
+utils\highlightMatch.tsx
+  Chinese chars: 53
+  First 10 Chinese chars: 強調匹配模組反向高亮
+
+utils\hooks.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 鉤子系統負責使用者定
+
+utils\hooks\AsyncHookRegistry.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 非同步鉤子註冊表模組
+
+utils\hooks\apiQueryHookHelper.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 查詢鉤子幫助工具模組
+
+utils\hooks\execAgentHook.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 代理鉤子執行模組執行
+
+utils\hooks\execHttpHook.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 鉤子執行模組執行相關
+
+utils\hooks\execPromptHook.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 提示詞鉤子執行模組執
+
+utils\hooks\fileChangedWatcher.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 檔案變更監控模組監控
+
+utils\hooks\hookEvents.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 事件系統負責廣播執行
+
+utils\hooks\hookHelpers.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 鉤子幫助工具模組提供
+
+utils\hooks\hooksConfigManager.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 鉤子設定管理器模組管
+
+utils\hooks\hooksConfigSnapshot.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 鉤子設定快照模組擷取
+
+utils\hooks\hooksSettings.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 鉤子設定模組管理鉤子
+
+utils\hooks\postSamplingHooks.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 取樣後鉤子模組處理取
+
+utils\hooks\registerFrontmatterHooks.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 前置資料鉤子註冊模組
+
+utils\hooks\registerSkillHooks.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 技能鉤子註冊模組註冊
+
+utils\hooks\sessionHooks.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 會話鉤子模組管理會話
+
+utils\hooks\skillImprovement.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 技能改進模組收集和改
+
+utils\hooks\ssrfGuard.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 防護模組提供伺服器端
+
+utils\horizontalScroll.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 模組負責計算可見項目
+
+utils\http.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 工具常數和輔助函數負
+
+utils\hyperlink.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 模組負責建立超連結於
+
+utils\iTermBackup.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 模組負責管理設定檔的
+
+utils\ide.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 模組負責整合伺服器管
+
+utils\idePathConversion.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 路徑轉換工具負責環境
+
+utils\idleTimeout.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 模組負責建立模式的閒
+
+utils\imagePaste.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 模組負責處理剪貼簿圖
+
+utils\imageResizer.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 模組負責圖片尺寸調整
+
+utils\imageStore.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 模組負責管理工作區圖
+
+utils\imageValidation.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 模組負責驗證圖片大小
+
+utils\immediateCommand.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 模組負責判斷推理設定
+
+utils\inProcessTeammateHelpers.ts
+  Chinese chars: 0
+
+utils\ink.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 元件模組提供文字元件
+
+utils\intl.ts
+  Chinese chars: 42
+  First 10 Chinese chars: 國際化工具負責緩存的
+
+utils\jetbrains.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 模組負責偵測安裝路徑
+
+utils\json.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 模組負責檔案的讀取快
+
+utils\jsonRead.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 處理負責從提取的功能
+
+utils\keyboardShortcuts.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 模組負責處理快捷鍵字
+
+utils\lazySchema.ts
+  Chinese chars: 52
+  First 10 Chinese chars: 延遲結構工廠負責返回
+
+utils\listSessionsImpl.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 列舉實作負責為提供的
+
+utils\localInstaller.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 本地安裝工具負責處理
+
+utils\lockfile.ts
+  Chinese chars: 43
+  First 10 Chinese chars: 延遲鎖檔存取負責的延
+
+utils\log.ts
+  Chinese chars: 69
+  First 10 Chinese chars: 日誌工具負責錯誤日誌
+
+utils\logoV2Utils.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 工具負責的顯示與格式
+
+utils\mailbox.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 信箱負責消息佇列管理
+
+utils\managedEnv.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 托管環境負責管理的環
+
+utils\managedEnvConstants.ts
+  Chinese chars: 47
+  First 10 Chinese chars: 托管環境變數負責控制
+
+utils\markdown.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 工具負責文字的渲染與
+
+utils\markdownConfigLoader.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 設定載入器負責載入與
+
+utils\mcpInstructionsDelta.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 指令差異計算模組負責
+
+utils\mcpOutputStorage.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 輸出儲存模組將大型工
+
+utils\mcpValidation.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 驗證工具模組負責驗證
+
+utils\mcpWebSocketTransport.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 傳輸層負責的傳輸實現
+
+utils\mcp\dateTimeParser.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 日期時間解析模組解析
+
+utils\mcp\elicitationValidation.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 啟發驗證模組驗證啟發
+
+utils\memoize.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 記憶化工具模組提供快
+
+utils\memoryFileDetection.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 記憶體檔案偵測負責偵
+
+utils\memory\types.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 記憶體類型定義模組定
+
+utils\memory\versions.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 專案版本檢查模組檢查
+
+utils\messagePredicates.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 訊息謂詞負責訊息類型
+
+utils\messageQueueManager.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 訊息佇列管理器負責管
+
+utils\messages.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 訊息處理模組處理對話
+
+utils\messages\mappers.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 訊息映射器負責訊息與
+
+utils\messages\systemInit.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 系統初始化負責系統初
+
+utils\modelCost.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 模型成本負責模型費用
+
+utils\model\agent.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 代理模型模組處理代理
+
+utils\model\aliases.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 模型別名模組定義模型
+
+utils\model\antModels.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 模型定義模組定義模型
+
+utils\model\bedrock.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 模型整合模組處理模型
+
+utils\model\check1mAccess.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 上下文存取檢查模組檢
+
+utils\model\configs.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 模型設定模組定義各提
+
+utils\model\contextWindowUpgradeCheck.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 上下文視窗升級檢查模
+
+utils\model\deprecation.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 模型棄用工具負責已棄
+
+utils\model\model.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 模型管理負責模型選擇
+
+utils\model\modelAllowlist.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 模型允許清單模組管理
+
+utils\model\modelCapabilities.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 模型能力模組查詢和管
+
+utils\model\modelOptions.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 模型選項模組處理模型
+
+utils\model\modelStrings.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 模型字串模組管理模型
+
+utils\model\modelSupportOverrides.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 模型支援覆寫模組定義
+
+utils\model\providers.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 提供者模組判斷目前使
+
+utils\model\validateModel.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 模型驗證模組驗證模型
+
+utils\modifiers.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 修飾鍵負責修飾鍵偵測
+
+utils\mtls.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 双向負責配置雙向傳輸
+
+utils\nativeInstaller\download.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 原生安裝程式下載負責
+
+utils\nativeInstaller\index.ts
+  Chinese chars: 41
+  First 10 Chinese chars: 原生安裝程式公共負責
+
+utils\nativeInstaller\installer.ts
+  Chinese chars: 49
+  First 10 Chinese chars: 原生安裝程式實作負責
+
+utils\nativeInstaller\packageManagers.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 套件管理員偵測負責偵
+
+utils\nativeInstaller\pidLock.ts
+  Chinese chars: 57
+  First 10 Chinese chars: 版本鎖定負責提供基於
+
+utils\notebook.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 筆記本負責格式處理與
+
+utils\objectGroupBy.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 物件分組負責根據鍵選
+
+utils\pasteStore.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 剪貼簿儲存負責剪貼簿
+
+utils\path.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 路徑工具模組提供路徑
+
+utils\pdf.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 處理負責檔案的讀取解
+
+utils\pdfUtils.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 工具負責相關的通用工
+
+utils\peerAddress.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 對等位址解析負責對等
+
+utils\permissions\PermissionMode.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 許可權模式定義模組定
+
+utils\permissions\PermissionPromptToolResultSchema.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 許可權提示工具結果結
+
+utils\permissions\PermissionResult.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 許可權結果模組定義許
+
+utils\permissions\PermissionRule.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 許可權規則模組定義許
+
+utils\permissions\PermissionUpdate.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 許可權更新模組處理許
+
+utils\permissions\PermissionUpdateSchema.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 許可權更新結構定義模
+
+utils\permissions\autoModeState.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 自動模式狀態模組管理
+
+utils\permissions\bashClassifier.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 分類器模組命令的語義
+
+utils\permissions\bypassPermissionsKillswitch.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 繞過許可權開關模組控
+
+utils\permissions\classifierDecision.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 分類器決策模組處理分
+
+utils\permissions\classifierShared.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 分類器共用基礎設施負
+
+utils\permissions\dangerousPatterns.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 危險模式列表負責定義
+
+utils\permissions\denialTracking.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 拒絕追蹤負責追蹤權限
+
+utils\permissions\filesystem.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 檔案系統許可權模組處
+
+utils\permissions\getNextPermissionMode.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 下一許可權模式模組計
+
+utils\permissions\pathValidation.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 路徑驗證模組驗證檔案
+
+utils\permissions\permissionExplainer.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 許可權說明模組產生許
+
+utils\permissions\permissionRuleParser.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 許可權規則解析器模組
+
+utils\permissions\permissionSetup.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 許可權設定模組處理許
+
+utils\permissions\permissions.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 許可權管理模組核心許
+
+utils\permissions\permissionsLoader.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 許可權載入器模組載入
+
+utils\permissions\shadowedRuleDetection.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 陰影規則偵測模組偵測
+
+utils\permissions\shellRuleMatching.ts
+  Chinese chars: 54
+  First 10 Chinese chars: 規則匹配負責提供工具
+
+utils\permissions\yoloClassifier.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 分類器模組模式的安全
+
+utils\planModeV2.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 計畫模式負責計畫模式
+
+utils\plans.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 計畫管理負責計畫檔案
+
+utils\platform.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 平台偵測模組偵測作業
+
+utils\plugins\addDirPluginSettings.ts
+  Chinese chars: 46
+  First 10 Chinese chars: 新增目錄插件設定負責
+
+utils\plugins\cacheUtils.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 插件快取工具模組管理
+
+utils\plugins\dependencyResolver.ts
+  Chinese chars: 43
+  First 10 Chinese chars: 插件依賴解析器負責解
+
+utils\plugins\fetchTelemetry.ts
+  Chinese chars: 0
+
+utils\plugins\gitAvailability.ts
+  Chinese chars: 0
+
+utils\plugins\headlessPluginInstall.ts
+  Chinese chars: 0
+
+utils\plugins\hintRecommendation.ts
+  Chinese chars: 0
+
+utils\plugins\installCounts.ts
+  Chinese chars: 0
+
+utils\plugins\installedPluginsManager.ts
+  Chinese chars: 0
+
+utils\plugins\loadPluginAgents.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 插件代理載入模組載入
+
+utils\plugins\loadPluginCommands.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 插件命令載入模組載入
+
+utils\plugins\loadPluginHooks.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 插件載入模組載入插件
+
+utils\plugins\loadPluginOutputStyles.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 插件輸出樣式載入模組
+
+utils\plugins\lspPluginIntegration.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 插件整合模組處理插件
+
+utils\plugins\lspRecommendation.ts
+  Chinese chars: 0
+
+utils\plugins\managedPlugins.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 受管插件模組管理受管
+
+utils\plugins\marketplaceHelpers.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 市集輔助模組提供市集
+
+utils\plugins\marketplaceManager.ts
+  Chinese chars: 0
+
+utils\plugins\mcpPluginIntegration.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 插件整合模組處理插件
+
+utils\plugins\mcpbHandler.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 處理器模組處理清單檔
+
+utils\plugins\officialMarketplace.ts
+  Chinese chars: 0
+
+utils\plugins\officialMarketplaceGcs.ts
+  Chinese chars: 0
+
+utils\plugins\officialMarketplaceStartupCheck.ts
+  Chinese chars: 0
+
+utils\plugins\orphanedPluginFilter.ts
+  Chinese chars: 0
+
+utils\plugins\parseMarketplaceInput.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 市集輸入解析模組解析
+
+utils\plugins\performStartupChecks.tsx
+  Chinese chars: 22
+  First 10 Chinese chars: 插件啟動檢查模組負責
+
+utils\plugins\pluginAutoupdate.ts
+  Chinese chars: 0
+
+utils\plugins\pluginBlocklist.ts
+  Chinese chars: 0
+
+utils\plugins\pluginDirectories.ts
+  Chinese chars: 0
+
+utils\plugins\pluginFlagging.ts
+  Chinese chars: 0
+
+utils\plugins\pluginIdentifier.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 插件識別碼模組處理插
+
+utils\plugins\pluginInstallationHelpers.ts
+  Chinese chars: 0
+
+utils\plugins\pluginLoader.ts
+  Chinese chars: 0
+
+utils\plugins\pluginOptionsStorage.ts
+  Chinese chars: 0
+
+utils\plugins\pluginPolicy.ts
+  Chinese chars: 0
+
+utils\plugins\pluginStartupCheck.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 插件啟動檢查模組檢查
+
+utils\plugins\pluginVersioning.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責插件版本計算與管
+
+utils\plugins\reconciler.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 負責資料的調和與同步
+
+utils\plugins\refresh.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 負責插件狀態的第三層
+
+utils\plugins\schemas.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 插件驗證模組定義插件
+
+utils\plugins\validatePlugin.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 插件驗證模組驗證插件
+
+utils\plugins\walkPluginMarkdown.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 插件遍歷模組遍歷插件
+
+utils\plugins\zipCache.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 負責插件快取的管理與
+
+utils\plugins\zipCacheAdapters.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 負責快取轉接器的實作
+
+utils\powershell\dangerousCmdlets.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責危險指令常數的定
+
+utils\powershell\parser.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 解析器負責命令的解析
+
+utils\powershell\staticPrefix.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責命令前綴的靜態擷
+
+utils\preflightChecks.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 預檢查模組執行網路和
+
+utils\privacyLevel.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 隱私層級負責隱私層級
+
+utils\process.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 處理錯誤模組處理管道
+
+utils\processUserInput\processBashCommand.tsx
+  Chinese chars: 16
+  First 10 Chinese chars: 命令處理模組處理命令
+
+utils\processUserInput\processSlashCommand.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 斜線命令處理模組處理
+
+utils\processUserInput\processTextPrompt.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 文字提示處理模組處理
+
+utils\processUserInput\processUserInput.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 使用者輸入處理模組處
+
+utils\profilerBase.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 效能分析基礎負責效能
+
+utils\promptCategory.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 提示分類負責提示類別
+
+utils\promptEditor.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 提示編輯器負責外部編
+
+utils\promptShellExecution.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 執行負責命令的執行與
+
+utils\proxy.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 代理設定模組管理代理
+
+utils\queryContext.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 查詢上下文快取負責查
+
+utils\queryHelpers.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 查詢輔助負責查詢處理
+
+utils\queryProfiler.ts
+  Chinese chars: 44
+  First 10 Chinese chars: 查詢效能分析負責查詢
+
+utils\queueProcessor.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 佇列處理器負責佇列命
+
+utils\readEditContext.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 讀取編輯上下文負責檔
+
+utils\releaseNotes.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 版本更新說明負責版本
+
+utils\renderOptions.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 渲染選項負責渲染選項
+
+utils\ripgrep.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 工具負責封裝命令的執
+
+utils\sandbox\sandbox-adapter.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 負責沙箱執行期與的整
+
+utils\sandbox\sandbox-ui-utils.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責沙箱違規的工具函
+
+utils\sanitization.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 安全化負責字元的安全
+
+utils\screenshotClipboard.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 截圖剪貼簿負責文字轉
+
+utils\sdkEventQueue.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 事件佇列模組管理工作
+
+utils\secureStorage\fallbackStorage.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責安全儲存的備援機
+
+utils\secureStorage\index.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 安全儲存模組提供跨平
+
+utils\secureStorage\keychainPrefetch.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 負責鑰匙圈預先讀取以
+
+utils\secureStorage\macOsKeychainHelpers.ts
+  Chinese chars: 9
+  First 10 Chinese chars: 負責鑰匙圈輔助函式
+
+utils\secureStorage\macOsKeychainStorage.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 儲存模組使用作為安全
+
+utils\secureStorage\plainTextStorage.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 明文儲存模組在不支援
+
+utils\semanticBoolean.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 語意布林負責將字串轉
+
+utils\semanticNumber.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 語意數字負責將數字字
+
+utils\semver.ts
+  Chinese chars: 38
+  First 10 Chinese chars: 語意化版本比較負責語
+
+utils\sequential.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 順序執行負責將非同步
+
+utils\sessionActivity.ts
+  Chinese chars: 43
+  First 10 Chinese chars: 工作階段活動追蹤負責
+
+utils\sessionEnvVars.ts
+  Chinese chars: 42
+  First 10 Chinese chars: 工作階段環境變數負責
+
+utils\sessionEnvironment.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 會話環境負責會話環境
+
+utils\sessionFileAccessHooks.ts
+  Chinese chars: 47
+  First 10 Chinese chars: 工作階段檔案存取鉤子
+
+utils\sessionIngressAuth.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 會話入口認證負責會話
+
+utils\sessionRestore.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 會話恢復負責會話恢復
+
+utils\sessionStart.ts
+  Chinese chars: 68
+  First 10 Chinese chars: 負責處理工作階段啟動
+
+utils\sessionState.ts
+  Chinese chars: 64
+  First 10 Chinese chars: 負責管理工作階段狀態
+
+utils\sessionStorage.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 會話儲存模組管理會話
+
+utils\sessionStoragePortable.ts
+  Chinese chars: 44
+  First 10 Chinese chars: 可攜式工作階段儲存負
+
+utils\sessionTitle.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 工作階段標題生成負責
+
+utils\sessionUrl.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 會話模組管理會話的驗
+
+utils\set.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 高效能集合運算負責高
+
+utils\settings\allErrors.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 負責合併設定驗證錯誤
+
+utils\settings\applySettingsChange.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 設定變更應用模組應用
+
+utils\settings\changeDetector.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 變更偵測模組監控設定
+
+utils\settings\constants.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 設定常數模組定義設定
+
+utils\settings\internalWrites.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 負責追蹤內部設定檔寫
+
+utils\settings\managedPath.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 受管路徑模組處理受管
+
+utils\settings\mdm\constants.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 負責設定模組的共用常
+
+utils\settings\mdm\rawRead.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 負責子程序讀取的模組
+
+utils\settings\mdm\settings.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 負責設定檔的讀取與快
+
+utils\settings\permissionValidation.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 權限驗證模組驗證權限
+
+utils\settings\pluginOnlyPolicy.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 插件專用策略模組處理
+
+utils\settings\schemaOutput.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 輸出模組將設定輸出為
+
+utils\settings\settings.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 設定管理模組管理設定
+
+utils\settings\settingsCache.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 設定快取模組快取設定
+
+utils\settings\toolValidationConfig.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責工具驗證的設定配
+
+utils\settings\types.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 設定類型定義模組定義
+
+utils\settings\validateEditTool.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 編輯工具驗證模組驗證
+
+utils\settings\validation.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 設定驗證模組驗證設定
+
+utils\settings\validationTips.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 驗證提示模組提供設定
+
+utils\shellConfig.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 負責殼層設定檔案的管
+
+utils\shell\bashProvider.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 提供者模組提供環境的
+
+utils\shell\outputLimits.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 輸出限制模組定義輸出
+
+utils\shell\powershellDetection.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 偵測模組偵測系統中的
+
+utils\shell\powershellProvider.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 提供者模組提供環境的
+
+utils\shell\prefix.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 負責使用擷取命令前綴
+
+utils\shell\readOnlyCommandValidation.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 負責殼層工具的唯讀命
+
+utils\shell\resolveDefaultShell.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 負責解析輸入盒命令的
+
+utils\shell\shellProvider.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 提供者定義模組定義類
+
+utils\shell\shellToolUtils.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 工具輔助模組提供工具
+
+utils\shell\specPrefix.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責驅動的命令前綴擷
+
+utils\sideQuery.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 側查詢模組處理後台查
+
+utils\sideQuestion.ts
+  Chinese chars: 39
+  First 10 Chinese chars: 側邊問題功能負責側邊
+
+utils\signal.ts
+  Chinese chars: 40
+  First 10 Chinese chars: 純事件信號負責純事件
+
+utils\sinks.ts
+  Chinese chars: 49
+  First 10 Chinese chars: 日誌接收器初始化負責
+
+utils\skills\skillChangeDetector.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 技能變更偵測模組監控
+
+utils\slashCommandParsing.ts
+  Chinese chars: 34
+  First 10 Chinese chars: 斜線命令解析負責斜線
+
+utils\sleep.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 中止響應睡眠負責中止
+
+utils\sliceAnsi.ts
+  Chinese chars: 30
+  First 10 Chinese chars: 負責逸出序列的切片與
+
+utils\slowOperations.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 慢速操作模組包裝代價
+
+utils\standaloneAgent.ts
+  Chinese chars: 50
+  First 10 Chinese chars: 獨立代理程式工具負責
+
+utils\startupProfiler.ts
+  Chinese chars: 36
+  First 10 Chinese chars: 啟動效能分析負責啟動
+
+utils\staticRender.tsx
+  Chinese chars: 18
+  First 10 Chinese chars: 靜態渲染模組提供非互
+
+utils\stats.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 負責收集寫入與快取工
+
+utils\statsCache.ts
+  Chinese chars: 25
+  First 10 Chinese chars: 負責快取資料以減少磁
+
+utils\status.tsx
+  Chinese chars: 14
+  First 10 Chinese chars: 狀態顯示模組處理狀態
+
+utils\statusNoticeDefinitions.tsx
+  Chinese chars: 21
+  First 10 Chinese chars: 狀態通知定義模組定義
+
+utils\statusNoticeHelpers.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 負責計算描述的累積估
+
+utils\stream.ts
+  Chinese chars: 37
+  First 10 Chinese chars: 負責非同步串流資料的
+
+utils\streamJsonStdoutGuard.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 標準輸出守衛負責標準
+
+utils\streamlinedTransform.ts
+  Chinese chars: 47
+  First 10 Chinese chars: 流暢輸出轉換負責流暢
+
+utils\stringUtils.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 字串工具負責一般字串
+
+utils\subprocessEnv.ts
+  Chinese chars: 42
+  First 10 Chinese chars: 子程序環境负责子程序
+
+utils\suggestions\commandSuggestions.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 命令建議模組提供基於
+
+utils\suggestions\directoryCompletion.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 目錄自動完成模組提供
+
+utils\suggestions\shellHistoryCompletion.ts
+  Chinese chars: 40
+  First 10 Chinese chars: 負責殼層歷史自動完成
+
+utils\suggestions\skillUsageTracking.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 技能使用追蹤模組追蹤
+
+utils\suggestions\slackChannelSuggestions.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 頻道建議模組提供頻道
+
+utils\swarm\It2SetupPrompt.tsx
+  Chinese chars: 15
+  First 10 Chinese chars: 設定提示模組處理設定
+
+utils\swarm\backends\ITermBackend.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 後端模組實現基於的後
+
+utils\swarm\backends\InProcessBackend.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 程序內後端模組實現程
+
+utils\swarm\backends\PaneBackendExecutor.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 面板後端執行器模組執
+
+utils\swarm\backends\TmuxBackend.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 後端模組實現基於的後
+
+utils\swarm\backends\detection.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 後端偵測模組偵測系統
+
+utils\swarm\backends\it2Setup.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 設定模組處理的整合設
+
+utils\swarm\backends\registry.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 後端登錄模組管理後端
+
+utils\swarm\backends\teammateModeSnapshot.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 負責捕捉啟動時的隊友
+
+utils\swarm\backends\types.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 後端類型定義模組定義
+
+utils\swarm\constants.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 常數模組定義相關的常
+
+utils\swarm\inProcessRunner.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 負責程序內隊友執行期
+
+utils\swarm\leaderPermissionBridge.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 負責領導者許可橋接的
+
+utils\swarm\permissionSync.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 負責代理程式群中許可
+
+utils\swarm\reconnection.ts
+  Chinese chars: 9
+  First 10 Chinese chars: 負責重新連接的處理
+
+utils\swarm\spawnInProcess.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 負責程序內隊友的生成
+
+utils\swarm\spawnUtils.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 負責跨後端生成隊友的
+
+utils\swarm\teamHelpers.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 團隊輔助模組提供團隊
+
+utils\swarm\teammateInit.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責中隊友實例的初始
+
+utils\swarm\teammateLayoutManager.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 隊友佈局管理模組管理
+
+utils\swarm\teammateModel.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 隊友模型模組配置隊友
+
+utils\swarm\teammatePromptAddendum.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 負責隊友專用的系統提
+
+utils\systemDirectories.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 負責系統目錄路徑的解
+
+utils\systemPrompt.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 負責系統提示的建構與
+
+utils\systemPromptType.ts
+  Chinese chars: 47
+  First 10 Chinese chars: 系統提示類型負責系統
+
+utils\systemTheme.ts
+  Chinese chars: 43
+  First 10 Chinese chars: 系統主題檢測負責終端
+
+utils\taggedId.ts
+  Chinese chars: 9
+  First 10 Chinese chars: 負責標記編碼的實作
+
+utils\task\TaskOutput.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 任務輸出管理模組管理
+
+utils\task\diskOutput.ts
+  Chinese chars: 19
+  First 10 Chinese chars: 磁碟輸出模組管理任務
+
+utils\task\framework.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 任務框架模組定義任務
+
+utils\task\outputFormatting.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 任務輸出格式化模組驗
+
+utils\task\sdkProgress.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責發出任務進度的事
+
+utils\tasks.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 負責任務的持久化與查
+
+utils\teamDiscovery.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 負責團隊發現與隊友狀
+
+utils\teamMemoryOps.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 負責團隊共享記憶體檔
+
+utils\teammate.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 負責代理程式群協調的
+
+utils\teammateContext.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 負責程序內隊友的執行
+
+utils\teammateMailbox.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 負責代理程式群的檔案
+
+utils\telemetryAttributes.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 負責追蹤屬性的配置與
+
+utils\telemetry\betaSessionTracing.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 負責工作階段追蹤功能
+
+utils\telemetry\bigqueryExporter.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 指標匯出模組將指標資
+
+utils\telemetry\events.ts
+  Chinese chars: 16
+  First 10 Chinese chars: 事件模組發送結構化事
+
+utils\telemetry\instrumentation.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 遙測初始化模組初始化
+
+utils\telemetry\logger.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 診斷日誌記錄器模組提
+
+utils\telemetry\perfettoTracing.ts
+  Chinese chars: 8
+  First 10 Chinese chars: 負責追蹤功能僅限
+
+utils\telemetry\pluginTelemetry.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 負責插件生命週期事件
+
+utils\telemetry\sessionTracing.ts
+  Chinese chars: 49
+  First 10 Chinese chars: 負責使用的工作階段追
+
+utils\telemetry\skillLoadedEvent.ts
+  Chinese chars: 21
+  First 10 Chinese chars: 技能載入事件追蹤模組
+
+utils\teleport.tsx
+  Chinese chars: 20
+  First 10 Chinese chars: 遠端跳轉模組處理會話
+
+utils\teleport\api.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 遠端會話模組負責與遠
+
+utils\teleport\environmentSelection.ts
+  Chinese chars: 24
+  First 10 Chinese chars: 環境選擇模組負責取得
+
+utils\teleport\environments.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 環境模組負責從取得環
+
+utils\teleport\gitBundle.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 套件模組負責套件建立
+
+utils\tempfile.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 負責產生暫存檔案路徑
+
+utils\terminal.ts
+  Chinese chars: 35
+  First 10 Chinese chars: 負責終端機文字渲染與
+
+utils\terminalPanel.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 負責內建終端機面板的
+
+utils\textHighlighting.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 負責文字高亮的解析與
+
+utils\theme.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 主題模組管理主題色彩
+
+utils\thinking.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 思考模式模組管理和模
+
+utils\timeouts.ts
+  Chinese chars: 32
+  First 10 Chinese chars: 負責定義逾時相關常數
+
+utils\tmuxSocket.ts
+  Chinese chars: 10
+  First 10 Chinese chars: 負責通訊端的隔離管理
+
+utils\todo\types.ts
+  Chinese chars: 20
+  First 10 Chinese chars: 待辦事項類型定義模組
+
+utils\tokenBudget.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 負責語言模型配額的解
+
+utils\tokens.ts
+  Chinese chars: 23
+  First 10 Chinese chars: 負責使用量的追蹤與計
+
+utils\toolErrors.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 負責工具執行錯誤的格
+
+utils\toolPool.ts
+  Chinese chars: 34
+  First 10 Chinese chars: 負責工具池的管理與協
+
+utils\toolResultStorage.ts
+  Chinese chars: 14
+  First 10 Chinese chars: 負責大型工具結果的磁
+
+utils\toolSchemaCache.ts
+  Chinese chars: 29
+  First 10 Chinese chars: 負責工具綱要的階段性
+
+utils\toolSearch.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 負責動態發現延遲工具
+
+utils\transcriptSearch.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 負責對話記錄的搜尋與
+
+utils\treeify.ts
+  Chinese chars: 28
+  First 10 Chinese chars: 負責將資料結構視覺化
+
+utils\truncate.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 截斷工具模組寬度感知
+
+utils\ultraplan\ccrSession.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 會話輪詢模組處理的會
+
+utils\ultraplan\keyword.ts
+  Chinese chars: 18
+  First 10 Chinese chars: 關鍵字搜尋模組在文字
+
+utils\unaryLogging.ts
+  Chinese chars: 31
+  First 10 Chinese chars: 負責單次操作完成事件
+
+utils\undercover.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責地下模式的安全工
+
+utils\user.ts
+  Chinese chars: 33
+  First 10 Chinese chars: 負責使用者資訊的取得
+
+utils\userAgent.ts
+  Chinese chars: 9
+  First 10 Chinese chars: 負責字串的輔助函式
+
+utils\userPromptKeywords.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 負責使用者提示關鍵字
+
+utils\uuid.ts
+  Chinese chars: 13
+  First 10 Chinese chars: 工具模組提供生成和驗
+
+utils\warningHandler.ts
+  Chinese chars: 26
+  First 10 Chinese chars: 負責警告訊息的節流管
+
+utils\which.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 執行檔搜尋模組跨平台
+
+utils\windowsPaths.ts
+  Chinese chars: 15
+  First 10 Chinese chars: 路徑處理模組處理路徑
+
+utils\withResolvers.ts
+  Chinese chars: 6
+  First 10 Chinese chars: 負責的填充碼
+
+utils\words.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責計劃的隨機文字生
+
+utils\workloadContext.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責透過的工作負載標
+
+utils\worktree.ts
+  Chinese chars: 27
+  First 10 Chinese chars: 負責的建立與管理處理
+
+utils\worktreeModeEnabled.ts
+  Chinese chars: 12
+  First 10 Chinese chars: 負責工作樹模式的啟用
+
+utils\xdg.ts
+  Chinese chars: 11
+  First 10 Chinese chars: 負責基本目錄規格的實
+
+utils\xml.ts
+  Chinese chars: 9
+  First 10 Chinese chars: 負責字元的安全逸出
+
+utils\yaml.ts
+  Chinese chars: 8
+  First 10 Chinese chars: 負責解析的包裝器
+
+utils\zodToJsonSchema.ts
+  Chinese chars: 8
+  First 10 Chinese chars: 負責將結構轉換為
+
+vim\motions.ts
+  Chinese chars: 22
+  First 10 Chinese chars: 移動指令負責將移動指
+
+vim\operators.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 操作符函數負責執行操
+
+vim\textObjects.ts
+  Chinese chars: 17
+  First 10 Chinese chars: 文字對象查找負責查找
+
+vim\transitions.ts
+  Chinese chars: 45
+  First 10 Chinese chars: 狀態轉移表負責處理狀
+
+vim\types.ts
+  Chinese chars: 46
+  First 10 Chinese chars: 狀態機類型定義負責定
+

@@ -15,12 +15,16 @@ verify, and self-correct in a continuous loop.
 
 import asyncio
 import json
+import logging
 import uuid
 import time
+from datetime import datetime
 from typing import Dict, List, Optional, Any, AsyncGenerator
 from fastapi import WebSocket, WebSocketDisconnect
 from dataclasses import dataclass, field
 from enum import Enum
+
+logger = logging.getLogger(__name__)
 
 from .protocol import (
     ClientMessage,
@@ -240,6 +244,54 @@ def create_session(
     return session
 
 
+def _persist_session(session: ChatSession) -> None:
+    """Save a chat session to disk so it survives server restarts."""
+    from pathlib import Path as _Path
+
+    sessions_dir = _Path.home() / ".claude" / "sessions"
+    sessions_dir.mkdir(parents=True, exist_ok=True)
+    path = sessions_dir / f"{session.id}.json"
+
+    messages = session.messages
+    # Generate a short title from the first user message
+    title = session.title or ""
+    if not title:
+        for m in messages:
+            if m.get("role") == "user":
+                content = m.get("content", "")
+                if isinstance(content, list):
+                    for b in content:
+                        if isinstance(b, dict) and b.get("type") == "text":
+                            content = b.get("text", "")
+                            break
+                    else:
+                        content = ""
+                if isinstance(content, str) and content:
+                    title = content[:50] + ("..." if len(content) > 50 else "")
+                    break
+        if not title:
+            title = "New Chat"
+
+    data = {
+        "id": session.id,
+        "title": title,
+        "mode": session.mode,
+        "folder": session.folder,
+        "model": session.model,
+        "provider": session.provider,
+        "messages": messages,
+        "createdAt": datetime.utcfromtimestamp(session.created_at / 1000).isoformat()
+        if isinstance(session.created_at, (int, float))
+        else str(session.created_at),
+        "updatedAt": datetime.utcnow().isoformat(),
+    }
+
+    import json as _json
+
+    with open(path, "w", encoding="utf-8") as f:
+        _json.dump(data, f, ensure_ascii=False, indent=2, default=str)
+
+
 # ─── WebSocket Handler ────────────────────────────────────────
 
 
@@ -345,7 +397,10 @@ async def handle_user_message(
     session.messages.append({"role": "user", "content": content_blocks})
     session.iteration_count = 0
     await agentic_loop(websocket, session)
-    
+
+    # Auto-save session to disk after each exchange
+    _persist_session(session)
+
     return session
 
 
@@ -353,57 +408,116 @@ async def agentic_loop(websocket: WebSocket, session: ChatSession) -> None:
     """Main agentic loop implementation."""
     abort_event = asyncio.Event()
     session.abort_controller = abort_event
-    
+
+    # Track repeated tool calls to prevent infinite retries
+    MAX_SAME_TOOL_RETRIES = 3
+    MAX_SAME_TYPE_CALLS = 4  # max times the same tool NAME can be called total
+    tool_call_counts: Dict[str, int] = {}  # "tool_name:key_arg" -> count
+    tool_type_counts: Dict[str, int] = {}  # "tool_name" -> total count
+
     try:
         while session.iteration_count < MAX_AGENT_ITERATIONS:
             if abort_event.is_set():
                 break
-            
+
             session.iteration_count += 1
             result = await stream_and_collect(websocket, session, abort_event)
-            
+
             if abort_event.is_set():
                 break
-            
+
             if result["assistant_blocks"]:
                 session.messages.append({
                     "role": "assistant",
                     "content": result["assistant_blocks"],
                 })
-            
+
             if not result["tool_calls"] or result["stop_reason"] != "tool_use":
                 await send_message(websocket, ServerStreamEnd(
                     type="stream_end",
                     stopReason="end_turn",
                 ))
                 break
-            
+
+            # Check for repeated tool calls (same args OR same tool type too many times)
+            has_exceeded = False
+            exceeded_tool = ""
+            for tc in result["tool_calls"]:
+                name = tc.get("name", "")
+                inp = tc.get("input", {}) or tc.get("arguments", {})
+                key_arg = str(inp.get("query") or inp.get("command") or inp.get("url") or inp.get("path") or "")
+                sig = f"{name}:{key_arg}"
+                tool_call_counts[sig] = tool_call_counts.get(sig, 0) + 1
+                tool_type_counts[name] = tool_type_counts.get(name, 0) + 1
+                if tool_call_counts[sig] > MAX_SAME_TOOL_RETRIES:
+                    has_exceeded = True
+                    exceeded_tool = name
+                if tool_type_counts[name] > MAX_SAME_TYPE_CALLS:
+                    has_exceeded = True
+                    exceeded_tool = name
+
+            if has_exceeded:
+                # Inject an error message so AI knows to stop retrying
+                err_block: ContentBlock = {
+                    "type": "tool_result",
+                    "tool_use_id": result["tool_calls"][-1].get("id", ""),
+                    "content": f"⚠️ Tool '{exceeded_tool}' has been called too many times. "
+                               f"STOP calling this tool. Use the information you already have to answer the user's question. "
+                               f"If you cannot answer, tell the user what went wrong.",
+                    "is_error": True,
+                }
+                session.messages.append({"role": "user", "content": [err_block]})
+                continue
+
             await send_message(websocket, ServerStreamDelta(
                 type="stream_delta",
                 contentType="text",
                 text="",
             ))
-            
+
             tool_results = await execute_tool_calls_mock(
                 tool_calls=result["tool_calls"],
                 session=session,
                 websocket=websocket,
                 abort_event=abort_event,
             )
-            
+
             if abort_event.is_set():
                 break
-            
-            tool_result_blocks: List[ContentBlock] = [
-                {
+
+            # Match Claude Code's limits: 50K per result, 200K per message aggregate
+            MAX_SINGLE_RESULT_CHARS = 50_000
+            MAX_AGGREGATE_CHARS = 200_000
+            PREVIEW_SIZE = 2000
+
+            tool_result_blocks: List[ContentBlock] = []
+            aggregate_size = 0
+            for r in tool_results:
+                output = r["output"]
+                output_len = len(output)
+
+                # If single result exceeds 50K or would push aggregate past 200K,
+                # replace with a preview (like Claude Code's persist-to-disk strategy)
+                if output_len > MAX_SINGLE_RESULT_CHARS or (aggregate_size + output_len) > MAX_AGGREGATE_CHARS:
+                    preview = output[:PREVIEW_SIZE]
+                    last_nl = preview.rfind('\n', int(PREVIEW_SIZE * 0.5))
+                    if last_nl > 0:
+                        preview = preview[:last_nl]
+                    output = (
+                        f"<large-output>\n"
+                        f"Output too large ({output_len:,} chars). Preview (first ~2KB):\n"
+                        f"{preview}\n...\n"
+                        f"</large-output>"
+                    )
+
+                aggregate_size += len(output)
+                tool_result_blocks.append({
                     "type": "tool_result",
                     "tool_use_id": r["tool_call_id"],
-                    "content": r["output"],
+                    "content": output,
                     "is_error": r["isError"],
-                }
-                for r in tool_results
-            ]
-            
+                })
+
             session.messages.append({"role": "user", "content": tool_result_blocks})
         
         if session.iteration_count >= MAX_AGENT_ITERATIONS:
@@ -413,10 +527,16 @@ async def agentic_loop(websocket: WebSocket, session: ChatSession) -> None:
             ))
     
     except Exception as e:
+        logger.exception("Agentic loop error: %s", e)
         if not abort_event.is_set():
             await send_message(websocket, ServerError(
                 type="error",
                 message=str(e),
+            ))
+            # Always send stream_end so frontend exits streaming state
+            await send_message(websocket, ServerStreamEnd(
+                type="stream_end",
+                stopReason="error",
             ))
     finally:
         session.abort_controller = None
@@ -518,14 +638,24 @@ async def stream_and_collect(
             stop_reason = event.get("stopReason", "end_turn")
         
         elif event_type == StreamEventType.STREAM_ERROR:
+            logger.error("Stream error from AI: %s", event.get("error"))
             await send_message(websocket, ServerError(
                 type="error",
                 message=event["error"],
             ))
-    
+            # On error, finalize whatever text we have and stop
+            if current_text:
+                assistant_blocks.append({"type": "text", "text": current_text})
+                current_text = ""
+            if current_thinking:
+                assistant_blocks.append({"type": "thinking", "text": current_thinking})
+                current_thinking = ""
+            stop_reason = "error"
+            break
+
     return {
         "assistant_blocks": assistant_blocks,
-        "tool_calls": tool_calls,
+        "tool_calls": tool_calls if stop_reason != "error" else [],  # Don't execute tools on error
         "stop_reason": stop_reason,
     }
 
@@ -577,7 +707,13 @@ def _build_system_prompt(session: ChatSession) -> str:
 ## RESPONSE FORMAT
 - Act first, explain after. Lead with tool calls, then summarize results.
 - If a task requires multiple steps, execute them sequentially using tools.
-- Only respond with plain text when no tool action is needed (e.g., answering a general knowledge question)."""
+- Only respond with plain text when no tool action is needed (e.g., answering a general knowledge question).
+
+## TOOL USAGE LIMITS
+- After calling web_search and getting results, ANSWER IMMEDIATELY using those results. Do NOT search again unless the results are completely irrelevant.
+- Do NOT call the same tool more than 2-3 times. If results are unsatisfactory, answer with what you have and explain the limitation.
+- If a tool returns an error, try ONE alternative approach. If that also fails, inform the user.
+- NEVER fetch a URL just to "verify" search results — the search snippets are sufficient for answering."""
 
 
 async def stream_ai_response(
@@ -678,9 +814,15 @@ async def stream_ai_response(
                 }
     
     except Exception as e:
+        logger.exception("AI streaming error: %s", e)
         yield {
             "type": StreamEventType.STREAM_ERROR,
             "error": str(e),
+        }
+        # Ensure stream_end is always emitted so the loop knows to stop
+        yield {
+            "type": StreamEventType.STREAM_END,
+            "stopReason": "error",
         }
 
 
@@ -709,35 +851,42 @@ async def execute_tool_calls_real(
     for tool_call in tool_calls:
         if abort_event.is_set():
             break
-        
+
         tool_id = tool_call["id"]
         tool_name = tool_call["name"]
-        tool_args = tool_call["arguments"]
-        
+        tool_args = tool_call.get("arguments") or tool_call.get("input") or {}
+
         await send_message(websocket, ServerToolUseStart(
             type="tool_use_start",
             toolId=tool_id,
             toolName=tool_name,
             input=tool_args,
         ))
-        
-        result = await execute_tool(
-            ToolCallDataclass(id=tool_id, name=tool_name, arguments=tool_args),
-            ctx,
-        )
-        
+
+        try:
+            result = await execute_tool(
+                ToolCallDataclass(id=tool_id, name=tool_name, arguments=tool_args),
+                ctx,
+            )
+            output = result.output
+            is_error = result.is_error
+        except Exception as e:
+            logger.exception("Tool execution error (%s): %s", tool_name, e)
+            output = f"Tool execution failed: {str(e)}"
+            is_error = True
+
         await send_message(websocket, ServerToolResult(
             type="tool_result",
             toolId=tool_id,
             toolName=tool_name,
-            output=result.output[:5000],
-            isError=result.is_error,
+            output=output[:5000],
+            isError=is_error,
         ))
-        
+
         results.append({
             "tool_call_id": tool_id,
-            "output": result.output,
-            "isError": result.is_error,
+            "output": output,
+            "isError": is_error,
         })
     
     return results

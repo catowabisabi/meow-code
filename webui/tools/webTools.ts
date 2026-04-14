@@ -131,19 +131,28 @@ export const webSearchTool: ToolDef = {
 
       // Extract result links and snippets from DDG Lite HTML
       const results: Array<{ title: string; url: string; snippet: string }> = []
-      const linkRegex = /<a[^>]+class="result-link"[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi
-      const snippetRegex = /<td[^>]+class="result-snippet"[^>]*>([\s\S]*?)<\/td>/gi
 
-      // Simpler extraction: find all links in result blocks
-      const resultBlocks = html.split(/class="result-link"/i).slice(1)
+      // DuckDuckGo uses single quotes in HTML: class='result-link'
+      const resultBlocks = html.split(/class='result-link'/i).slice(1)
 
       for (const block of resultBlocks.slice(0, maxResults)) {
         const hrefMatch = block.match(/href="([^"]*)"/)
         const textMatch = block.match(/>([^<]+)</)
         if (hrefMatch && textMatch) {
+          // Resolve DDG redirect URL
+          let url = hrefMatch[1] || ''
+          if (url.startsWith('//')) {
+            url = 'https:' + url
+          }
+          if (url.includes('uddg=')) {
+            const match = url.match(/uddg=([^&]+)/)
+            if (match) {
+              url = decodeURIComponent(match[1])
+            }
+          }
           results.push({
             title: textMatch[1]?.trim() || '',
-            url: hrefMatch[1] || '',
+            url: url,
             snippet: '',
           })
         }

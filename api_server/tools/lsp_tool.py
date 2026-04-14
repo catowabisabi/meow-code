@@ -1,3 +1,8 @@
+"""LSP (Language Server Protocol) tool for code intelligence.
+
+Based on TypeScript LSPTool implementation.
+Provides symbol search, diagnostics, and code intelligence.
+"""
 from enum import Enum
 from typing import Any
 

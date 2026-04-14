@@ -1,3 +1,8 @@
+"""Cron scheduling tool for task automation.
+
+Based on TypeScript cronScheduler.ts and cronTasks.ts implementations.
+Provides distributed locking and scheduled task execution.
+"""
 import asyncio
 import json
 import re
