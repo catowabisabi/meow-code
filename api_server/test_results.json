@@ -1,0 +1,1790 @@
+{
+  "total": 198,
+  "passed": 187,
+  "failed": 11,
+  "pass_rate": "94.4%",
+  "results": [
+    {
+      "name": "List sessions",
+      "method": "GET",
+      "path": "/api/sessions",
+      "status": 200,
+      "success": true,
+      "duration_ms": 282.96,
+      "error": null
+    },
+    {
+      "name": "Create session",
+      "method": "POST",
+      "path": "/api/sessions",
+      "status": 200,
+      "success": true,
+      "duration_ms": 2.38,
+      "error": null
+    },
+    {
+      "name": "Get session",
+      "method": "GET",
+      "path": "/api/sessions/{id}",
+      "status": 404,
+      "success": true,
+      "duration_ms": 2.64,
+      "error": null
+    },
+    {
+      "name": "Update session",
+      "method": "PUT",
+      "path": "/api/sessions/{id}",
+      "status": 404,
+      "success": true,
+      "duration_ms": 1.87,
+      "error": null
+    },
+    {
+      "name": "Delete session",
+      "method": "DELETE",
+      "path": "/api/sessions/{id}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.08,
+      "error": null
+    },
+    {
+      "name": "Save session",
+      "method": "POST",
+      "path": "/api/sessions/{id}/save",
+      "status": 404,
+      "success": true,
+      "duration_ms": 1.68,
+      "error": null
+    },
+    {
+      "name": "List stored sessions",
+      "method": "GET",
+      "path": "/api/sessions/stored/list",
+      "status": 200,
+      "success": true,
+      "duration_ms": 2.5,
+      "error": null
+    },
+    {
+      "name": "List models",
+      "method": "GET",
+      "path": "/api/models",
+      "status": 200,
+      "success": true,
+      "duration_ms": 17.79,
+      "error": null
+    },
+    {
+      "name": "Add model",
+      "method": "POST",
+      "path": "/api/models",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.86,
+      "error": null
+    },
+    {
+      "name": "Update model",
+      "method": "PUT",
+      "path": "/api/models/{provider_id}",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.33,
+      "error": null
+    },
+    {
+      "name": "Delete model",
+      "method": "DELETE",
+      "path": "/api/models/{provider_id}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 2.42,
+      "error": null
+    },
+    {
+      "name": "Test model",
+      "method": "POST",
+      "path": "/api/models/{provider_id}/test",
+      "status": 404,
+      "success": true,
+      "duration_ms": 5.68,
+      "error": null
+    },
+    {
+      "name": "Set default model",
+      "method": "PUT",
+      "path": "/api/models/default",
+      "status": 404,
+      "success": true,
+      "duration_ms": 1.06,
+      "error": null
+    },
+    {
+      "name": "Set hotkeys",
+      "method": "PUT",
+      "path": "/api/models/hotkeys",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.71,
+      "error": null
+    },
+    {
+      "name": "List directories",
+      "method": "GET",
+      "path": "/api/files/directories",
+      "status": 200,
+      "success": true,
+      "duration_ms": 24.95,
+      "error": null
+    },
+    {
+      "name": "List files",
+      "method": "GET",
+      "path": "/api/files",
+      "status": 200,
+      "success": true,
+      "duration_ms": 2.73,
+      "error": null
+    },
+    {
+      "name": "Read file",
+      "method": "GET",
+      "path": "/api/files/read",
+      "status": 500,
+      "success": false,
+      "duration_ms": 9.44,
+      "error": "Internal Server Error"
+    },
+    {
+      "name": "Write file",
+      "method": "POST",
+      "path": "/api/files/write",
+      "status": 200,
+      "success": true,
+      "duration_ms": 274.15,
+      "error": null
+    },
+    {
+      "name": "Execute shell",
+      "method": "POST",
+      "path": "/api/shell",
+      "status": 200,
+      "success": true,
+      "duration_ms": 205.07,
+      "error": null
+    },
+    {
+      "name": "Get CWD",
+      "method": "GET",
+      "path": "/api/shell/cwd",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.99,
+      "error": null
+    },
+    {
+      "name": "List tools",
+      "method": "GET",
+      "path": "/api/tools",
+      "status": 200,
+      "success": true,
+      "duration_ms": 6.46,
+      "error": null
+    },
+    {
+      "name": "List memories",
+      "method": "GET",
+      "path": "/api/memory",
+      "status": 200,
+      "success": true,
+      "duration_ms": 6.56,
+      "error": null
+    },
+    {
+      "name": "Search memories",
+      "method": "GET",
+      "path": "/api/memory/search",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.2,
+      "error": null
+    },
+    {
+      "name": "Get memory index",
+      "method": "GET",
+      "path": "/api/memory/index",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.94,
+      "error": null
+    },
+    {
+      "name": "Get memory",
+      "method": "GET",
+      "path": "/api/memory/{id}",
+      "status": 404,
+      "success": true,
+      "duration_ms": 0.97,
+      "error": null
+    },
+    {
+      "name": "Create memory",
+      "method": "POST",
+      "path": "/api/memory",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.05,
+      "error": null
+    },
+    {
+      "name": "Delete memory",
+      "method": "DELETE",
+      "path": "/api/memory/{id}",
+      "status": 404,
+      "success": true,
+      "duration_ms": 1.46,
+      "error": null
+    },
+    {
+      "name": "List skills",
+      "method": "GET",
+      "path": "/api/skills",
+      "status": 200,
+      "success": true,
+      "duration_ms": 6.43,
+      "error": null
+    },
+    {
+      "name": "Get skill",
+      "method": "GET",
+      "path": "/api/skills/{name}",
+      "status": 404,
+      "success": true,
+      "duration_ms": 2.22,
+      "error": null
+    },
+    {
+      "name": "Execute skill",
+      "method": "POST",
+      "path": "/api/skills/execute",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.09,
+      "error": null
+    },
+    {
+      "name": "Load skills",
+      "method": "POST",
+      "path": "/api/skills/load",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.95,
+      "error": null
+    },
+    {
+      "name": "Register skill",
+      "method": "POST",
+      "path": "/api/skills/register",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.04,
+      "error": null
+    },
+    {
+      "name": "List databases",
+      "method": "GET",
+      "path": "/api/databases",
+      "status": 200,
+      "success": true,
+      "duration_ms": 7.01,
+      "error": null
+    },
+    {
+      "name": "List tables",
+      "method": "GET",
+      "path": "/api/databases/{name}/tables",
+      "status": 404,
+      "success": true,
+      "duration_ms": 1.17,
+      "error": null
+    },
+    {
+      "name": "Execute query",
+      "method": "POST",
+      "path": "/api/databases/{name}/query",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.04,
+      "error": null
+    },
+    {
+      "name": "Create database",
+      "method": "POST",
+      "path": "/api/databases",
+      "status": 200,
+      "success": true,
+      "duration_ms": 2.32,
+      "error": null
+    },
+    {
+      "name": "Delete database",
+      "method": "DELETE",
+      "path": "/api/databases/{name}",
+      "status": 404,
+      "success": true,
+      "duration_ms": 0.91,
+      "error": null
+    },
+    {
+      "name": "Search Notion",
+      "method": "GET",
+      "path": "/api/notion/search",
+      "status": 500,
+      "success": false,
+      "duration_ms": 6.57,
+      "error": "{\"detail\":\"Notion API key not configured\"}"
+    },
+    {
+      "name": "Get page",
+      "method": "GET",
+      "path": "/api/notion/pages/{id}",
+      "status": 500,
+      "success": false,
+      "duration_ms": 0.98,
+      "error": "{\"detail\":\"Notion API key not configured\"}"
+    },
+    {
+      "name": "Create page",
+      "method": "POST",
+      "path": "/api/notion/pages",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.92,
+      "error": null
+    },
+    {
+      "name": "Get database",
+      "method": "GET",
+      "path": "/api/notion/databases/{id}",
+      "status": 500,
+      "success": false,
+      "duration_ms": 0.82,
+      "error": "{\"detail\":\"Notion API key not configured\"}"
+    },
+    {
+      "name": "Query database",
+      "method": "POST",
+      "path": "/api/notion/databases/{id}/query",
+      "status": 500,
+      "success": false,
+      "duration_ms": 0.97,
+      "error": "{\"detail\":\"Notion API key not configured\"}"
+    },
+    {
+      "name": "Get settings",
+      "method": "GET",
+      "path": "/api/settings",
+      "status": 200,
+      "success": true,
+      "duration_ms": 5.88,
+      "error": null
+    },
+    {
+      "name": "Update settings",
+      "method": "PUT",
+      "path": "/api/settings",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.72,
+      "error": null
+    },
+    {
+      "name": "Start summary",
+      "method": "POST",
+      "path": "/api/agents/{agent_id}/summary/start",
+      "status": 500,
+      "success": false,
+      "duration_ms": 7.14,
+      "error": "Internal Server Error"
+    },
+    {
+      "name": "Stop summary",
+      "method": "DELETE",
+      "path": "/api/agents/{agent_id}/summary/stop",
+      "status": 500,
+      "success": false,
+      "duration_ms": 277.2,
+      "error": "Internal Server Error"
+    },
+    {
+      "name": "Get summary",
+      "method": "GET",
+      "path": "/api/agents/{agent_id}/summary",
+      "status": 500,
+      "success": false,
+      "duration_ms": 269.63,
+      "error": "Internal Server Error"
+    },
+    {
+      "name": "Add message",
+      "method": "POST",
+      "path": "/api/agents/{agent_id}/messages",
+      "status": 500,
+      "success": false,
+      "duration_ms": 264.77,
+      "error": "Internal Server Error"
+    },
+    {
+      "name": "Clear messages",
+      "method": "DELETE",
+      "path": "/api/agents/{agent_id}/messages",
+      "status": 500,
+      "success": false,
+      "duration_ms": 267.3,
+      "error": "Internal Server Error"
+    },
+    {
+      "name": "List permissions",
+      "method": "GET",
+      "path": "/api/permissions",
+      "status": 200,
+      "success": true,
+      "duration_ms": 275.25,
+      "error": null
+    },
+    {
+      "name": "Create permission",
+      "method": "POST",
+      "path": "/api/permissions",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.26,
+      "error": null
+    },
+    {
+      "name": "Delete permission",
+      "method": "DELETE",
+      "path": "/api/permissions/{rule_id}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.03,
+      "error": null
+    },
+    {
+      "name": "Get pending",
+      "method": "GET",
+      "path": "/api/permissions/pending",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.14,
+      "error": null
+    },
+    {
+      "name": "Approve permission",
+      "method": "POST",
+      "path": "/api/permissions/approve",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.03,
+      "error": null
+    },
+    {
+      "name": "Deny permission",
+      "method": "POST",
+      "path": "/api/permissions/deny",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.39,
+      "error": null
+    },
+    {
+      "name": "Retry permission",
+      "method": "GET",
+      "path": "/api/permissions/retry",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.0,
+      "error": null
+    },
+    {
+      "name": "List hooks",
+      "method": "GET",
+      "path": "/api/hooks",
+      "status": 200,
+      "success": true,
+      "duration_ms": 6.59,
+      "error": null
+    },
+    {
+      "name": "Create hook",
+      "method": "POST",
+      "path": "/api/hooks",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.22,
+      "error": null
+    },
+    {
+      "name": "Delete hook",
+      "method": "DELETE",
+      "path": "/api/hooks/{hook_id}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.02,
+      "error": null
+    },
+    {
+      "name": "Get privacy settings",
+      "method": "GET",
+      "path": "/api/privacy-settings",
+      "status": 200,
+      "success": true,
+      "duration_ms": 5.91,
+      "error": null
+    },
+    {
+      "name": "Update privacy settings",
+      "method": "PUT",
+      "path": "/api/privacy-settings",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.65,
+      "error": null
+    },
+    {
+      "name": "Get bridge status",
+      "method": "GET",
+      "path": "/api/bridge/status",
+      "status": 200,
+      "success": true,
+      "duration_ms": 5.79,
+      "error": null
+    },
+    {
+      "name": "Connect bridge",
+      "method": "POST",
+      "path": "/api/bridge/connect",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.16,
+      "error": null
+    },
+    {
+      "name": "Disconnect bridge",
+      "method": "DELETE",
+      "path": "/api/bridge/disconnect",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.09,
+      "error": null
+    },
+    {
+      "name": "Get tags",
+      "method": "GET",
+      "path": "/api/tags/{session_id}/tag",
+      "status": 404,
+      "success": true,
+      "duration_ms": 1.23,
+      "error": null
+    },
+    {
+      "name": "Add tag",
+      "method": "POST",
+      "path": "/api/tags/{session_id}/tag",
+      "status": 405,
+      "success": true,
+      "duration_ms": 0.88,
+      "error": null
+    },
+    {
+      "name": "Remove tag",
+      "method": "DELETE",
+      "path": "/api/tags/{session_id}/tag",
+      "status": 405,
+      "success": true,
+      "duration_ms": 0.85,
+      "error": null
+    },
+    {
+      "name": "Export session",
+      "method": "POST",
+      "path": "/api/export/{session_id}/export",
+      "status": 405,
+      "success": true,
+      "duration_ms": 0.88,
+      "error": null
+    },
+    {
+      "name": "Get bootstrap",
+      "method": "GET",
+      "path": "/api/bootstrap/bootstrap",
+      "status": 200,
+      "success": true,
+      "duration_ms": 5.79,
+      "error": null
+    },
+    {
+      "name": "Refresh bootstrap",
+      "method": "POST",
+      "path": "/api/bootstrap/refresh",
+      "status": 405,
+      "success": true,
+      "duration_ms": 0.88,
+      "error": null
+    },
+    {
+      "name": "Request limit increase",
+      "method": "POST",
+      "path": "/api/admin-requests/limit_increase",
+      "status": 400,
+      "success": true,
+      "duration_ms": 6.38,
+      "error": null
+    },
+    {
+      "name": "Request seat upgrade",
+      "method": "POST",
+      "path": "/api/admin-requests/seat_upgrade",
+      "status": 400,
+      "success": true,
+      "duration_ms": 1.27,
+      "error": null
+    },
+    {
+      "name": "Get my limit requests",
+      "method": "GET",
+      "path": "/api/admin-requests/limit_increase/me",
+      "status": 400,
+      "success": true,
+      "duration_ms": 1.06,
+      "error": null
+    },
+    {
+      "name": "Get my seat requests",
+      "method": "GET",
+      "path": "/api/admin-requests/seat_upgrade/me",
+      "status": 400,
+      "success": true,
+      "duration_ms": 0.94,
+      "error": null
+    },
+    {
+      "name": "Check limit eligibility",
+      "method": "GET",
+      "path": "/api/admin-requests/eligibility/limit_increase",
+      "status": 400,
+      "success": true,
+      "duration_ms": 0.9,
+      "error": null
+    },
+    {
+      "name": "Check seat eligibility",
+      "method": "GET",
+      "path": "/api/admin-requests/eligibility/seat_upgrade",
+      "status": 400,
+      "success": true,
+      "duration_ms": 0.94,
+      "error": null
+    },
+    {
+      "name": "Git status",
+      "method": "GET",
+      "path": "/api/commands/git/status",
+      "status": 200,
+      "success": true,
+      "duration_ms": 62.63,
+      "error": null
+    },
+    {
+      "name": "Git diff",
+      "method": "GET",
+      "path": "/api/commands/git/diff",
+      "status": 500,
+      "success": false,
+      "duration_ms": 50.86,
+      "error": "Internal Server Error"
+    },
+    {
+      "name": "Git log",
+      "method": "GET",
+      "path": "/api/commands/git/log",
+      "status": 200,
+      "success": true,
+      "duration_ms": 280.46,
+      "error": null
+    },
+    {
+      "name": "Git commit",
+      "method": "POST",
+      "path": "/api/commands/git/commit",
+      "status": 200,
+      "success": true,
+      "duration_ms": 792.9,
+      "error": null
+    },
+    {
+      "name": "Git branch",
+      "method": "GET",
+      "path": "/api/commands/git/branch",
+      "status": 200,
+      "success": true,
+      "duration_ms": 24.4,
+      "error": null
+    },
+    {
+      "name": "Create branch",
+      "method": "POST",
+      "path": "/api/commands/git/branch",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.07,
+      "error": null
+    },
+    {
+      "name": "Git stash",
+      "method": "GET",
+      "path": "/api/commands/git/stash",
+      "status": 200,
+      "success": true,
+      "duration_ms": 22.63,
+      "error": null
+    },
+    {
+      "name": "Commit command",
+      "method": "POST",
+      "path": "/api/commands/commit",
+      "status": 200,
+      "success": true,
+      "duration_ms": 27.93,
+      "error": null
+    },
+    {
+      "name": "Commit push PR",
+      "method": "POST",
+      "path": "/api/commands/commit-push-pr",
+      "status": 200,
+      "success": true,
+      "duration_ms": 27.81,
+      "error": null
+    },
+    {
+      "name": "Review PR",
+      "method": "GET",
+      "path": "/api/commands/review/pr",
+      "status": 400,
+      "success": true,
+      "duration_ms": 38.1,
+      "error": null
+    },
+    {
+      "name": "PR comments",
+      "method": "GET",
+      "path": "/api/commands/review/pr-comments",
+      "status": 400,
+      "success": true,
+      "duration_ms": 1.19,
+      "error": null
+    },
+    {
+      "name": "Review",
+      "method": "POST",
+      "path": "/api/commands/review",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.08,
+      "error": null
+    },
+    {
+      "name": "Ultra review",
+      "method": "POST",
+      "path": "/api/commands/ultrareview",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.02,
+      "error": null
+    },
+    {
+      "name": "Security review",
+      "method": "POST",
+      "path": "/api/commands/security-review",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.05,
+      "error": null
+    },
+    {
+      "name": "Session info",
+      "method": "GET",
+      "path": "/api/commands/session/info",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.87,
+      "error": null
+    },
+    {
+      "name": "Share session",
+      "method": "POST",
+      "path": "/api/commands/session/share",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.8,
+      "error": null
+    },
+    {
+      "name": "MCP servers",
+      "method": "GET",
+      "path": "/api/commands/mcp/servers",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.87,
+      "error": null
+    },
+    {
+      "name": "MCP connections",
+      "method": "GET",
+      "path": "/api/commands/mcp/connections",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.79,
+      "error": null
+    },
+    {
+      "name": "Add MCP server",
+      "method": "POST",
+      "path": "/api/commands/mcp/servers",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.92,
+      "error": null
+    },
+    {
+      "name": "Connect MCP",
+      "method": "POST",
+      "path": "/api/commands/mcp/connect/{server_name}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.84,
+      "error": null
+    },
+    {
+      "name": "Disconnect MCP",
+      "method": "POST",
+      "path": "/api/commands/mcp/disconnect/{server_name}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.93,
+      "error": null
+    },
+    {
+      "name": "MCP tools",
+      "method": "GET",
+      "path": "/api/commands/mcp/tools/{server_name}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.94,
+      "error": null
+    },
+    {
+      "name": "MCP call",
+      "method": "POST",
+      "path": "/api/commands/mcp/call",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.92,
+      "error": null
+    },
+    {
+      "name": "MCP resources",
+      "method": "GET",
+      "path": "/api/commands/mcp/resources/{server_name}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.9,
+      "error": null
+    },
+    {
+      "name": "MCP read resource",
+      "method": "POST",
+      "path": "/api/commands/mcp/resource/read",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.11,
+      "error": null
+    },
+    {
+      "name": "Get tasks",
+      "method": "GET",
+      "path": "/api/commands/tasks",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.92,
+      "error": null
+    },
+    {
+      "name": "Create task",
+      "method": "POST",
+      "path": "/api/commands/tasks",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.88,
+      "error": null
+    },
+    {
+      "name": "Plan",
+      "method": "POST",
+      "path": "/api/commands/plan",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.84,
+      "error": null
+    },
+    {
+      "name": "Issue",
+      "method": "POST",
+      "path": "/api/commands/issue",
+      "status": 200,
+      "success": true,
+      "duration_ms": 33.33,
+      "error": null
+    },
+    {
+      "name": "Get model",
+      "method": "GET",
+      "path": "/api/commands/model",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.05,
+      "error": null
+    },
+    {
+      "name": "Set model",
+      "method": "POST",
+      "path": "/api/commands/model",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.05,
+      "error": null
+    },
+    {
+      "name": "List models",
+      "method": "GET",
+      "path": "/api/commands/model/list",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.93,
+      "error": null
+    },
+    {
+      "name": "Select model",
+      "method": "POST",
+      "path": "/api/commands/model/select",
+      "status": 400,
+      "success": true,
+      "duration_ms": 1.3,
+      "error": null
+    },
+    {
+      "name": "Get config",
+      "method": "GET",
+      "path": "/api/commands/config",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.71,
+      "error": null
+    },
+    {
+      "name": "Update config",
+      "method": "POST",
+      "path": "/api/commands/config",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.87,
+      "error": null
+    },
+    {
+      "name": "Get context",
+      "method": "GET",
+      "path": "/api/commands/context",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.79,
+      "error": null
+    },
+    {
+      "name": "Get detailed context",
+      "method": "GET",
+      "path": "/api/commands/context/detailed",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.86,
+      "error": null
+    },
+    {
+      "name": "Context visualization",
+      "method": "GET",
+      "path": "/api/commands/ctx_viz",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.65,
+      "error": null
+    },
+    {
+      "name": "Status",
+      "method": "GET",
+      "path": "/api/commands/status",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.76,
+      "error": null
+    },
+    {
+      "name": "Full status",
+      "method": "GET",
+      "path": "/api/commands/status/full",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.89,
+      "error": null
+    },
+    {
+      "name": "Cost",
+      "method": "GET",
+      "path": "/api/commands/cost",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.63,
+      "error": null
+    },
+    {
+      "name": "Usage",
+      "method": "GET",
+      "path": "/api/commands/usage",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.71,
+      "error": null
+    },
+    {
+      "name": "Stats",
+      "method": "GET",
+      "path": "/api/commands/stats",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.73,
+      "error": null
+    },
+    {
+      "name": "Insights",
+      "method": "GET",
+      "path": "/api/commands/insights",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.69,
+      "error": null
+    },
+    {
+      "name": "Files",
+      "method": "GET",
+      "path": "/api/commands/files",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.64,
+      "error": null
+    },
+    {
+      "name": "Effort",
+      "method": "POST",
+      "path": "/api/commands/effort",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.85,
+      "error": null
+    },
+    {
+      "name": "Fast mode",
+      "method": "POST",
+      "path": "/api/commands/fast",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.84,
+      "error": null
+    },
+    {
+      "name": "Version",
+      "method": "GET",
+      "path": "/api/commands/version",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.66,
+      "error": null
+    },
+    {
+      "name": "Help",
+      "method": "GET",
+      "path": "/api/commands/help",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.66,
+      "error": null
+    },
+    {
+      "name": "Doctor",
+      "method": "GET",
+      "path": "/api/commands/doctor",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.72,
+      "error": null
+    },
+    {
+      "name": "Init",
+      "method": "POST",
+      "path": "/api/commands/init",
+      "status": 200,
+      "success": true,
+      "duration_ms": 2.27,
+      "error": null
+    },
+    {
+      "name": "Init verifiers",
+      "method": "POST",
+      "path": "/api/commands/init-verifiers",
+      "status": 200,
+      "success": true,
+      "duration_ms": 19.16,
+      "error": null
+    },
+    {
+      "name": "Execute",
+      "method": "POST",
+      "path": "/api/commands/execute",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.17,
+      "error": null
+    },
+    {
+      "name": "List agents",
+      "method": "GET",
+      "path": "/api/commands/agents",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.72,
+      "error": null
+    },
+    {
+      "name": "Get agent",
+      "method": "GET",
+      "path": "/api/commands/agents/{id}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.88,
+      "error": null
+    },
+    {
+      "name": "Configure agent",
+      "method": "POST",
+      "path": "/api/commands/agents/configure",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.08,
+      "error": null
+    },
+    {
+      "name": "Agents list",
+      "method": "GET",
+      "path": "/api/commands/agents/list",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.69,
+      "error": null
+    },
+    {
+      "name": "Feature flags",
+      "method": "GET",
+      "path": "/api/commands/feature-flags",
+      "status": 404,
+      "success": true,
+      "duration_ms": 0.62,
+      "error": null
+    },
+    {
+      "name": "Get flag",
+      "method": "GET",
+      "path": "/api/commands/feature-flag/{name}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.93,
+      "error": null
+    },
+    {
+      "name": "List workflows",
+      "method": "GET",
+      "path": "/api/commands/workflows",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.67,
+      "error": null
+    },
+    {
+      "name": "Execute workflow",
+      "method": "POST",
+      "path": "/api/commands/workflows/execute/{name}",
+      "status": 404,
+      "success": true,
+      "duration_ms": 1.04,
+      "error": null
+    },
+    {
+      "name": "List forks",
+      "method": "GET",
+      "path": "/api/commands/fork",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.75,
+      "error": null
+    },
+    {
+      "name": "Create fork",
+      "method": "POST",
+      "path": "/api/commands/fork",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.99,
+      "error": null
+    },
+    {
+      "name": "Get fork",
+      "method": "GET",
+      "path": "/api/commands/fork/{id}",
+      "status": 403,
+      "success": true,
+      "duration_ms": 0.93,
+      "error": null
+    },
+    {
+      "name": "Delete fork",
+      "method": "DELETE",
+      "path": "/api/commands/fork/{id}",
+      "status": 403,
+      "success": true,
+      "duration_ms": 0.9,
+      "error": null
+    },
+    {
+      "name": "Buddy",
+      "method": "GET",
+      "path": "/api/commands/buddy",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.66,
+      "error": null
+    },
+    {
+      "name": "Buddy chat",
+      "method": "POST",
+      "path": "/api/commands/buddy",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.08,
+      "error": null
+    },
+    {
+      "name": "List plugins",
+      "method": "GET",
+      "path": "/api/commands/plugin/list",
+      "status": 200,
+      "success": true,
+      "duration_ms": 53.51,
+      "error": null
+    },
+    {
+      "name": "Manage plugin",
+      "method": "POST",
+      "path": "/api/commands/plugin/manage",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.28,
+      "error": null
+    },
+    {
+      "name": "Export",
+      "method": "POST",
+      "path": "/api/commands/export",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.05,
+      "error": null
+    },
+    {
+      "name": "Export conversation",
+      "method": "POST",
+      "path": "/api/commands/export/conversation",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.98,
+      "error": null
+    },
+    {
+      "name": "Get theme",
+      "method": "GET",
+      "path": "/api/commands/theme",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.73,
+      "error": null
+    },
+    {
+      "name": "Set theme",
+      "method": "POST",
+      "path": "/api/commands/theme",
+      "status": 200,
+      "success": true,
+      "duration_ms": 10.97,
+      "error": null
+    },
+    {
+      "name": "Stickers",
+      "method": "GET",
+      "path": "/api/commands/stickers",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.9,
+      "error": null
+    },
+    {
+      "name": "Set color",
+      "method": "POST",
+      "path": "/api/commands/color",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.22,
+      "error": null
+    },
+    {
+      "name": "Thinkback play",
+      "method": "POST",
+      "path": "/api/commands/thinkbackPlay",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.95,
+      "error": null
+    },
+    {
+      "name": "Ultra plan",
+      "method": "GET",
+      "path": "/api/commands/ultraplan",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.66,
+      "error": null
+    },
+    {
+      "name": "Create ultra plan",
+      "method": "POST",
+      "path": "/api/commands/ultraplan",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.92,
+      "error": null
+    },
+    {
+      "name": "Poll ultra plan",
+      "method": "GET",
+      "path": "/api/commands/ultraplan/poll",
+      "status": 403,
+      "success": true,
+      "duration_ms": 0.93,
+      "error": null
+    },
+    {
+      "name": "List PR subscriptions",
+      "method": "GET",
+      "path": "/api/commands/subscribe-pr",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.71,
+      "error": null
+    },
+    {
+      "name": "Subscribe PR",
+      "method": "POST",
+      "path": "/api/commands/subscribe-pr",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.06,
+      "error": null
+    },
+    {
+      "name": "Unsubscribe PR",
+      "method": "DELETE",
+      "path": "/api/commands/subscribe-pr/{id}",
+      "status": 403,
+      "success": true,
+      "duration_ms": 1.01,
+      "error": null
+    },
+    {
+      "name": "PR subscription events",
+      "method": "GET",
+      "path": "/api/commands/subscribe-pr/{id}/events",
+      "status": 403,
+      "success": true,
+      "duration_ms": 0.94,
+      "error": null
+    },
+    {
+      "name": "Web setup",
+      "method": "GET",
+      "path": "/api/commands/web-setup",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.7,
+      "error": null
+    },
+    {
+      "name": "Setup web",
+      "method": "POST",
+      "path": "/api/commands/web-setup",
+      "status": 403,
+      "success": true,
+      "duration_ms": 1.24,
+      "error": null
+    },
+    {
+      "name": "Web devices",
+      "method": "GET",
+      "path": "/api/commands/web-setup/devices",
+      "status": 403,
+      "success": true,
+      "duration_ms": 0.81,
+      "error": null
+    },
+    {
+      "name": "Web device",
+      "method": "GET",
+      "path": "/api/commands/web-setup/device/{id}",
+      "status": 403,
+      "success": true,
+      "duration_ms": 0.88,
+      "error": null
+    },
+    {
+      "name": "Backfill sessions",
+      "method": "POST",
+      "path": "/api/commands/backfillSessions",
+      "status": 200,
+      "success": true,
+      "duration_ms": 7.07,
+      "error": null
+    },
+    {
+      "name": "Break cache",
+      "method": "POST",
+      "path": "/api/commands/breakCache",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.4,
+      "error": null
+    },
+    {
+      "name": "Bug hunter",
+      "method": "POST",
+      "path": "/api/commands/bughunter",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.03,
+      "error": null
+    },
+    {
+      "name": "Good Claude",
+      "method": "POST",
+      "path": "/api/commands/goodClaude",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.87,
+      "error": null
+    },
+    {
+      "name": "Force snip",
+      "method": "POST",
+      "path": "/api/commands/forceSnip",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.93,
+      "error": null
+    },
+    {
+      "name": "Voice status",
+      "method": "GET",
+      "path": "/api/commands/voice/detailed-status",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.86,
+      "error": null
+    },
+    {
+      "name": "Enable voice",
+      "method": "POST",
+      "path": "/api/commands/voice/enable",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.78,
+      "error": null
+    },
+    {
+      "name": "Disable voice",
+      "method": "POST",
+      "path": "/api/commands/voice/disable",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.77,
+      "error": null
+    },
+    {
+      "name": "Voice recognize",
+      "method": "POST",
+      "path": "/api/commands/voice/recognize",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.22,
+      "error": null
+    },
+    {
+      "name": "Start recording",
+      "method": "POST",
+      "path": "/api/commands/voice/start-recording",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.85,
+      "error": null
+    },
+    {
+      "name": "Stop recording",
+      "method": "POST",
+      "path": "/api/commands/voice/stop-recording",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.78,
+      "error": null
+    },
+    {
+      "name": "Voice command",
+      "method": "POST",
+      "path": "/api/commands/voice",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.9,
+      "error": null
+    },
+    {
+      "name": "List peers",
+      "method": "GET",
+      "path": "/api/commands/peers",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.65,
+      "error": null
+    },
+    {
+      "name": "Connect peer",
+      "method": "POST",
+      "path": "/api/commands/peers/connect",
+      "status": 422,
+      "success": true,
+      "duration_ms": 0.86,
+      "error": null
+    },
+    {
+      "name": "Disconnect peer",
+      "method": "DELETE",
+      "path": "/api/commands/peers/disconnect/{id}",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.85,
+      "error": null
+    },
+    {
+      "name": "Broadcast",
+      "method": "POST",
+      "path": "/api/commands/peers/broadcast",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.85,
+      "error": null
+    },
+    {
+      "name": "Remote status",
+      "method": "GET",
+      "path": "/api/commands/remote-control-server/status",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.81,
+      "error": null
+    },
+    {
+      "name": "Start remote",
+      "method": "POST",
+      "path": "/api/commands/remote-control-server/start",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.88,
+      "error": null
+    },
+    {
+      "name": "Stop remote",
+      "method": "POST",
+      "path": "/api/commands/remote-control-server/stop",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.16,
+      "error": null
+    },
+    {
+      "name": "Configure remote",
+      "method": "POST",
+      "path": "/api/commands/remote-control-server",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.13,
+      "error": null
+    },
+    {
+      "name": "Get proactive",
+      "method": "GET",
+      "path": "/api/commands/proactive",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.67,
+      "error": null
+    },
+    {
+      "name": "Set proactive",
+      "method": "POST",
+      "path": "/api/commands/proactive",
+      "status": 403,
+      "success": true,
+      "duration_ms": 2.6,
+      "error": null
+    },
+    {
+      "name": "Resume",
+      "method": "POST",
+      "path": "/api/commands/resume",
+      "status": 404,
+      "success": true,
+      "duration_ms": 1.17,
+      "error": null
+    },
+    {
+      "name": "Rewind",
+      "method": "POST",
+      "path": "/api/commands/rewind",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.09,
+      "error": null
+    },
+    {
+      "name": "Teleport",
+      "method": "POST",
+      "path": "/api/commands/teleport",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.0,
+      "error": null
+    },
+    {
+      "name": "Teleport status",
+      "method": "GET",
+      "path": "/api/commands/teleport/status",
+      "status": 200,
+      "success": true,
+      "duration_ms": 2.02,
+      "error": null
+    },
+    {
+      "name": "Bridge kick",
+      "method": "POST",
+      "path": "/api/commands/bridgeKick",
+      "status": 200,
+      "success": true,
+      "duration_ms": 3.43,
+      "error": null
+    },
+    {
+      "name": "Ant trace",
+      "method": "POST",
+      "path": "/api/commands/antTrace",
+      "status": 200,
+      "success": true,
+      "duration_ms": 1.19,
+      "error": null
+    },
+    {
+      "name": "Perf issue",
+      "method": "POST",
+      "path": "/api/commands/perfIssue",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.38,
+      "error": null
+    },
+    {
+      "name": "Get env",
+      "method": "POST",
+      "path": "/api/commands/env",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.13,
+      "error": null
+    },
+    {
+      "name": "OAuth refresh",
+      "method": "POST",
+      "path": "/api/commands/oauthRefresh",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.94,
+      "error": null
+    },
+    {
+      "name": "Debug tool call",
+      "method": "POST",
+      "path": "/api/commands/debugToolCall",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.17,
+      "error": null
+    },
+    {
+      "name": "Agents platform",
+      "method": "POST",
+      "path": "/api/commands/agentsPlatform",
+      "status": 200,
+      "success": true,
+      "duration_ms": 0.93,
+      "error": null
+    },
+    {
+      "name": "Auto-fix PR",
+      "method": "POST",
+      "path": "/api/commands/autofixPr",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.07,
+      "error": null
+    },
+    {
+      "name": "Mock limits",
+      "method": "POST",
+      "path": "/api/commands/mockLimits",
+      "status": 422,
+      "success": true,
+      "duration_ms": 1.59,
+      "error": null
+    }
+  ]
+}

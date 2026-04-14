@@ -244,7 +244,13 @@ async def read_file(
         if stat.st_size > 5 * 1024 * 1024:
             raise HTTPException(status_code=400, detail="File too large (max 5MB)")
 
-        content = file_path.read_text(encoding="utf-8")
+        try:
+            content = file_path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            try:
+                content = file_path.read_text(encoding="utf-16")
+            except Exception:
+                content = file_path.read_text(encoding="latin-1")
         ext = file_path.suffix.lstrip(".").lower()
 
         return ReadFileResponse(

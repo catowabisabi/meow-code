@@ -20,6 +20,10 @@ class AgentSummaryConfig:
 
 
 class AgentSummaryService:
+    _tasks: Dict[str, asyncio.Task] = {}
+    _previous_summaries: Dict[str, str] = {}
+    _messages: Dict[str, List[Dict[str, Any]]] = {}
+
     def __init__(self, config: Optional[AgentSummaryConfig] = None):
         self._config = config or AgentSummaryConfig()
         self._summaries: Dict[str, AgentSummary] = {}
@@ -29,6 +33,26 @@ class AgentSummaryService:
     @property
     def config(self) -> AgentSummaryConfig:
         return self._config
+    
+    @classmethod
+    def get_messages(cls, agent_id: str) -> List[Dict[str, Any]]:
+        return cls._messages.get(agent_id, [])
+    
+    @classmethod
+    def add_message(cls, agent_id: str, message: Dict[str, Any]) -> None:
+        if agent_id not in cls._messages:
+            cls._messages[agent_id] = []
+        cls._messages[agent_id].append(message)
+    
+    @classmethod
+    def clear_messages(cls, agent_id: str) -> None:
+        cls._messages.pop(agent_id, None)
+    
+    @classmethod
+    def stop(cls, agent_id: str) -> None:
+        task = cls._tasks.pop(agent_id, None)
+        if task:
+            task.cancel()
     
     def get_summary(self, agent_id: str) -> Optional[AgentSummary]:
         return self._summaries.get(agent_id)
@@ -51,6 +75,7 @@ class AgentSummaryService:
             timestamp=datetime.utcnow().timestamp(),
             is_final=is_final,
         )
+        self._previous_summaries[agent_id] = summary
     
     async def _summarize_loop(
         self,

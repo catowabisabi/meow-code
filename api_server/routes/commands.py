@@ -648,7 +648,7 @@ async def git_diff(file_path: Optional[str] = None):
     
     returncode, stdout, stderr = _run_git_command(args)
     
-    if returncode != 0:
+    if returncode != 0 and returncode != 1:
         raise HTTPException(status_code=500, detail=f"Git error: {stderr}")
     
     return GitDiffResponse(
