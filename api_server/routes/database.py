@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Any, List, Optional
 
@@ -62,7 +63,7 @@ async def list_databases() -> dict:
                     name=f.stem,
                     size=stat.st_size,
                     sizeFormatted=f"{(stat.st_size / 1024):.1f} KB",
-                    modified=stat.st_mtime.isoformat(),
+                    modified=datetime.fromtimestamp(stat.st_mtime).isoformat(),
                 )
             )
         return {"databases": [db.model_dump() for db in databases]}
