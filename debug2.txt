@@ -1,4 +1,0 @@
-Length: 10259
-Has BOM: True
-First 500 chars:
-'\ufeff/**\\n * 成功步驟 (Success Step)\\n * 負責顯示安裝成功訊息\\n */\\n/**\n * ???? (Success Step)\n * ??????????\n */\nimport { c as _c } from "react/compiler-runtime";\nimport React from \'react\';\nimport { Box, Text } from \'../../ink.js\';\ntype SuccessStepProps = {\n  secretExists: boolean;\n  useExistingSecret: boolean;\n  secretName: string;\n  skipWorkflow?: boolean;\n};\nexport function SuccessStep(t0) {\n  const $ = _c(21);\n  const {\n    secretExists,\n    useExistingSecret,\n    secretName,\n    skipWorkflow: t1\n  } = t0;\n  '

@@ -108,6 +108,9 @@ export default function HistoryPage() {
 
   useEffect(() => {
     fetchSessions()
+    const handleSessionsUpdated = () => fetchSessions()
+    window.addEventListener('sessions-updated', handleSessionsUpdated)
+    return () => window.removeEventListener('sessions-updated', handleSessionsUpdated)
   }, [])
 
   const fetchSessions = async () => {

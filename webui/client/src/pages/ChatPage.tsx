@@ -137,6 +137,7 @@ export default function ChatPage() {
   const messageEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const wsRef = useRef<WebSocket | null>(null)
+  const pendingMessagesRef = useRef<string[]>([])
 
   // Load session history from URL param
   useEffect(() => {
@@ -312,6 +313,10 @@ export default function ChatPage() {
   // Sync wsRef for send
   useEffect(() => {
     wsRef.current = useChatStore.getState().getModeWs(MODE)
+    if (wsStatus === 'connected') {
+      pendingMessagesRef.current.forEach((msg) => sendWsMessage(msg))
+      pendingMessagesRef.current = []
+    }
   }, [wsStatus])
 
   const handleSend = () => {
@@ -321,16 +326,7 @@ export default function ChatPage() {
 
     const store = useChatStore.getState()
     const ws = wsRef.current
-    if (!ws || ws.readyState !== WebSocket.OPEN) {
-      console.warn('WebSocket not ready, attempting reconnect...')
-      store.reconnectModeWs(MODE)
-      return
-    }
 
-    const sessionId = store.getModeSession(MODE)
-    const { currentModel, currentProvider } = store
-
-    // Add user message to mode-specific state
     const userMsg: ChatMessage = {
       id: crypto.randomUUID(),
       role: 'user',
@@ -339,22 +335,39 @@ export default function ChatPage() {
     }
     store.addModeMessage(MODE, userMsg)
 
-    // Send to server
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      // Queue message for when ws connects
+      pendingMessagesRef.current.push(trimmed)
+      store.reconnectModeWs(MODE)
+      setInput('')
+      return
+    }
+
+    sendWsMessage(trimmed)
+    setInput('')
+    if (textareaRef.current) {
+      textareaRef.current.style.height = '44px'
+    }
+  }
+
+  const sendWsMessage = (content: string) => {
+    const store = useChatStore.getState()
+    const ws = wsRef.current
+    if (!ws || ws.readyState !== WebSocket.OPEN) return
+
+    const sessionId = store.getModeSession(MODE)
+    const { currentModel, currentProvider } = store
+
     ws.send(
       JSON.stringify({
         type: 'user_message',
-        content: trimmed,
+        content,
         sessionId,
         mode: MODE,
         model: currentModel,
         provider: currentProvider,
       })
     )
-
-    setInput('')
-    if (textareaRef.current) {
-      textareaRef.current.style.height = '44px'
-    }
   }
 
   const handleAbort = () => {

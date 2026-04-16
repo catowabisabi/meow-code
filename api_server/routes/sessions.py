@@ -171,7 +171,7 @@ async def list_sessions():
                 model=str(s.get("model", "")),
                 provider="",
                 messageCount=0,
-                created_at=str(s.get("updatedAt") or s.get("createdAt") or ""),
+                created_at=str(s.get("createdAt") or s.get("updatedAt") or ""),
                 mode=str(s.get("mode") or "chat"),
                 folder=s.get("folder"),
                 preview="",
@@ -210,7 +210,7 @@ async def list_stored_sessions(limit: Optional[int] = None):
                 model=s.get("model", ""),
                 provider="",
                 messageCount=len(s.get("messages", [])),
-                created_at=s.get("updatedAt") or s.get("createdAt", ""),
+                created_at=s.get("createdAt") or s.get("updatedAt", ""),
                 mode=s.get("mode", "chat"),
                 folder=s.get("folder"),
                 preview="",
@@ -227,24 +227,29 @@ async def get_session(session_id: str):
     if session:
         return SessionResponse(
             id=session["id"],
+            title=session.get("title"),
             model=session.get("model", ""),
             provider=session.get("provider", ""),
             messages=[Message(**m) if isinstance(m, dict) else m for m in session.get("messages", [])],
             createdAt=session.get("createdAt"),
+            mode=session.get("mode", "chat"),
+            folder=session.get("folder"),
         )
 
     stored = _load_session_file(session_id)
     if stored:
+        stored_messages = stored.get("messages", [])
         return SessionResponse(
             id=stored["id"],
             title=stored.get("title"),
             model=stored.get("model", ""),
             provider=stored.get("provider", ""),
-            messageCount=len(stored.get("messages", [])),
+            messageCount=len(stored_messages),
             createdAt=stored.get("createdAt"),
             mode=stored.get("mode", "chat"),
             folder=stored.get("folder"),
-            preview=_generate_preview(stored.get("messages", [])),
+            preview=_generate_preview(stored_messages),
+            messages=[Message(**m) if isinstance(m, dict) else m for m in stored_messages],
         )
 
     raise HTTPException(status_code=404, detail="Session not found")

@@ -20,11 +20,14 @@ config.local.*
 .claude/
 .playwright-mcp/
 .sisyphus/
+.opencode/
 _claude_code_leaked_source_code/
 ai_read_here_first/
 pending_jobs/
 sisyphus/
 skills/
+opencode_docs/
+ai_must_read.txt
 
 # ========== Screenshots ==========
 screenshot/
