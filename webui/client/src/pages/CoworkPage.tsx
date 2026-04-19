@@ -356,7 +356,14 @@ function FileReferenceCard({ filePath }: { filePath: string }) {
         <div style={styles.filePath}>{filePath}</div>
         <div style={styles.fileTypeLabel}>{typeLabel}</div>
       </div>
-      <button style={styles.openBtn} title="Open in Visual Studio Code">
+      <button
+          style={styles.openBtn}
+          title="Open in Visual Studio Code"
+          onClick={() => {
+            const url = `vscode://file/${filePath}`
+            window.open(url, '_blank')
+          }}
+        >
         <span style={{ color: '#4ade80' }}>&#9679;</span> Visual Studio Code
       </button>
     </div>
@@ -675,6 +682,7 @@ export default function CoworkPage() {
   const handleSend = () => {
     const trimmed = input.trim()
     if (!trimmed || isStreaming) return
+    if (!currentFolder) return  // Guard: prevent send without folder context
 
     const sock = localWsRef.current
     if (!sock || sock.readyState !== WebSocket.OPEN) return
@@ -882,7 +890,11 @@ export default function CoworkPage() {
           </div>
         )}
         <div style={styles.inputWrapper}>
-          <button style={styles.attachBtn} title="Attach files">&#65291;</button>
+          <button
+            style={styles.attachBtn}
+            title="Attach files (coming soon)"
+            onClick={() => console.warn('Attach feature not yet implemented')}
+          >&#65291;</button>
           <textarea
             ref={textareaRef}
             style={styles.textarea}
@@ -892,17 +904,25 @@ export default function CoworkPage() {
             onKeyDown={handleKeyDown}
             rows={1}
           />
-          <button style={styles.modelSelector}>
+          <button
+            style={styles.modelSelector}
+            title="Switch model (Ctrl+K)"
+            onClick={() => console.warn('Model picker: use Ctrl+K')}
+          >
             {currentModel || 'Model'} &#9662;
           </button>
-          <button style={styles.micBtn} title="Voice input">&#127908;</button>
+          <button
+            style={styles.micBtn}
+            title="Voice input (coming soon)"
+            onClick={() => console.warn('Voice input not yet implemented')}
+          >&#127908;</button>
           {isStreaming ? (
             <button style={styles.stopBtn} onClick={handleAbort}>Stop</button>
           ) : (
             <button
-              style={styles.sendBtn(input.trim().length > 0 && wsStatus === 'connected')}
+              style={styles.sendBtn(input.trim().length > 0 && wsStatus === 'connected' && !!currentFolder)}
               onClick={handleSend}
-              disabled={!input.trim() || wsStatus !== 'connected'}
+              disabled={!input.trim() || wsStatus !== 'connected' || !currentFolder}
             >
               Send
             </button>

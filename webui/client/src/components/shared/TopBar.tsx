@@ -227,20 +227,6 @@ export default function TopBar() {
       {/* ---- Right ---- */}
       <div style={styles.right}>
         <button
-          style={styles.previewBtn}
-          title="Toggle preview"
-          onMouseEnter={(e) => {
-            ;(e.currentTarget as HTMLButtonElement).style.color = '#e6e6e6'
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#3f3f46'
-          }}
-          onMouseLeave={(e) => {
-            ;(e.currentTarget as HTMLButtonElement).style.color = '#a1a1aa'
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#2a2a2e'
-          }}
-        >
-          Preview <span style={styles.previewCheck}>&#10003;</span>
-        </button>
-        <button
           style={{
             ...styles.panelToggle,
             ...(rightPanelOpen

@@ -132,6 +132,8 @@ interface ChatState {
   modeStreaming: Record<string, boolean>
   /** Per-mode WebSocket connection status */
   wsStatus: Record<string, 'connecting' | 'connected' | 'disconnected' | 'reconnecting'>
+  /** Session titles keyed by sessionId */
+  sessionTitles: Record<string, string>
 
   setSession: (id: string) => void
   setModel: (model: string, provider: string) => void
@@ -159,6 +161,7 @@ interface ChatState {
   appendModeThinkingDelta: (mode: string, text: string) => void
   updateLastModeAssistant: (mode: string, updates: Partial<ChatMessage> | ((msg: ChatMessage) => ChatMessage)) => void
   clearModeMessages: (mode: string) => void
+  setSessionTitle: (sessionId: string, title: string) => void
   /** Connect WebSocket for a mode and register its message handler */
   connectModeWs: (mode: string, handler: (msg: Record<string, unknown>) => void) => void
   /** Disconnect WebSocket for a mode (does NOT close — keeps connection alive) */
@@ -185,6 +188,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
   modeSessionId: { chat: null, cowork: null, code: null },
   modeStreaming: { chat: false, cowork: false, code: false },
   wsStatus: { chat: 'disconnected', cowork: 'disconnected', code: 'disconnected' },
+  sessionTitles: {},
 
   setSession: (id) => set({ sessionId: id }),
   setModelLocal: (model, provider) => {
@@ -386,6 +390,9 @@ export const useChatStore = create<ChatState>((set, get) => ({
       modeMessages: { ...s.modeMessages, [mode]: [] },
       modeSessionId: { ...s.modeSessionId, [mode]: null },
     })),
+
+  setSessionTitle: (sessionId, title) =>
+    set((s) => ({ sessionTitles: { ...s.sessionTitles, [sessionId]: title } })),
 
   connectModeWs: (mode, handler) => {
     connectWs(mode, handler)

@@ -864,6 +864,7 @@ export default function CodeModePage() {
   const handleSend = () => {
     const trimmed = input.trim()
     if (!trimmed || isStreaming) return
+    if (!currentFolder) return
 
     const sock = localWsRef.current
     if (!sock || sock.readyState !== WebSocket.OPEN) return
@@ -930,6 +931,8 @@ export default function CodeModePage() {
   }
 
   const executeTerminalCommand = async (cmd: string) => {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 30000)
     setTerminalLoading(true)
     setTerminalOutput((prev) => [...prev, { cmd, output: 'Executing...', isError: false }])
     try {
@@ -937,17 +940,21 @@ export default function CodeModePage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command: cmd, cwd: currentFolder || undefined }),
+        signal: controller.signal,
       })
+      clearTimeout(timeoutId)
       const data = await res.json()
       setTerminalOutput((prev) => {
         const updated = [...prev]
         updated[updated.length - 1] = { cmd, output: data.output || data.error || 'Done', isError: data.isError || !!data.error }
         return updated
       })
-    } catch {
+    } catch (err) {
+      clearTimeout(timeoutId)
+      const isTimeout = err instanceof Error && err.name === 'AbortError'
       setTerminalOutput((prev) => {
         const updated = [...prev]
-        updated[updated.length - 1] = { cmd, output: 'Command failed', isError: true }
+        updated[updated.length - 1] = { cmd, output: isTimeout ? 'Command timed out (30s)' : 'Command failed', isError: true }
         return updated
       })
     } finally {
@@ -1015,7 +1022,7 @@ export default function CodeModePage() {
           <span>&#9888;</span>
           <span>
             Bypass permissions mode: Claude can take actions without asking for confirmation.
-            <button style={styles.warningLink}>See safe use tips</button>
+            <button style={styles.warningLink} onClick={() => window.open('https://claude.ai/safe-use-tips', '_blank')}>See safe use tips</button>
           </span>
           <button style={styles.dismissBtn} onClick={() => setShowWarning(false)}>&times;</button>
         </div>
@@ -1081,7 +1088,7 @@ export default function CodeModePage() {
           </div>
         )}
         <div style={styles.inputRow}>
-          <button style={styles.attachBtn} title="Attach files">&#65291;</button>
+          <button style={styles.attachBtn} title="Attach files (coming soon)" onClick={() => console.warn('Attach feature not yet implemented')}>&#65291;</button>
           <textarea
             ref={textareaRef}
             style={styles.textarea}
@@ -1098,16 +1105,16 @@ export default function CodeModePage() {
           >
             &#9888; Bypass
           </button>
-          <button style={styles.modelSelector}>
+          <button style={styles.modelSelector} title="Switch model (Ctrl+K)" onClick={() => console.warn('Model picker: use Ctrl+K')}>
             {currentModel || 'Opus 4.6'} &#9662;
           </button>
           {isStreaming ? (
             <button style={styles.stopBtn} onClick={handleAbort}>Stop</button>
           ) : (
             <button
-              style={styles.sendBtn(input.trim().length > 0 && wsStatus === 'connected')}
+              style={styles.sendBtn(input.trim().length > 0 && wsStatus === 'connected' && !!currentFolder)}
               onClick={handleSend}
-              disabled={!input.trim() || wsStatus !== 'connected'}
+              disabled={!input.trim() || wsStatus !== 'connected' || !currentFolder}
               title="Send"
             >
               &#10148;
@@ -1117,13 +1124,6 @@ export default function CodeModePage() {
 
         {/* Below input controls */}
         <div style={styles.belowInput}>
-          <span style={styles.folderIndicator}>{currentFolder || 'No folder selected'}</span>
-          <button
-            style={{ ...styles.planToggle, borderColor: planEnabled ? colors.accentOrange : colors.cardBorder, color: planEnabled ? colors.accentOrange : 'var(--text-muted)' }}
-            onClick={() => setPlanEnabled(!planEnabled)}
-          >
-            Plan {planEnabled ? 'ON' : 'OFF'}
-          </button>
           <span style={styles.folderIndicator}>{currentFolder || 'No folder selected'}</span>
           <button
             style={{ ...styles.planToggle, borderColor: planEnabled ? colors.accentOrange : colors.cardBorder, color: planEnabled ? colors.accentOrange : 'var(--text-muted)' }}

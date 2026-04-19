@@ -290,10 +290,15 @@ export default function ChatPage() {
           break
         }
 
-        case 'title_updated':
-          // AI generated a new title — refresh sidebar
-          window.dispatchEvent(new CustomEvent('sessions-updated'))
+        case 'title_updated': {
+          const sessionId = (msg as any).sessionId as string
+          const newTitle = (msg as any).title as string
+          if (sessionId && newTitle) {
+            store.setSessionTitle(sessionId, newTitle)
+            window.dispatchEvent(new CustomEvent('sessions-updated'))
+          }
           break
+        }
 
         case 'model_switched':
           break

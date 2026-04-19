@@ -121,7 +121,7 @@ export default function App() {
           <main style={{ flex: 1, overflow: 'auto', minWidth: 0 }}>
             <Routes>
               <Route path="/" element={<Navigate to="/chat" replace />} />
-              <Route path="/chat" element={<ChatPage />} />
+              <Route path="/chat" element={<ChatPage key="chat-list" />} />
               <Route path="/chat/:sessionId" element={<ChatPage />} />
               <Route path="/cowork" element={<CoworkPage />} />
               <Route path="/cowork/:sessionId" element={<CoworkPage />} />

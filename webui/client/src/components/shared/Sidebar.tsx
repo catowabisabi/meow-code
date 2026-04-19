@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLayoutStore } from '../../stores/layoutStore.ts'
+import { useChatStore } from '../../stores/chatStore.ts'
 import SettingsPage from '../../pages/SettingsPage.tsx'
 
 // ---------- Types ----------
@@ -290,9 +291,13 @@ export default function Sidebar() {
         <button
           title={collapsed ? 'New chat' : undefined}
           onClick={() => {
+            const currentPath = location.pathname
             let targetPath = '/chat'
-            if (location.pathname.startsWith('/cowork')) targetPath = '/cowork'
-            else if (location.pathname.startsWith('/code')) targetPath = '/code'
+            let mode = 'chat'
+            if (currentPath.startsWith('/cowork')) { targetPath = '/cowork'; mode = 'cowork' }
+            else if (currentPath.startsWith('/code')) { targetPath = '/code'; mode = 'code' }
+            useChatStore.getState().clearModeMessages(mode)
+            useChatStore.getState().setModeSession(mode, null as unknown as string)
             navigate(targetPath)
           }}
           onMouseEnter={() => setHoveredItem('new-chat')}
@@ -531,7 +536,7 @@ export default function Sidebar() {
               {[
                 { label: '⚙️  Settings', action: () => setSettingsOpen(true) },
                 { label: '👥  Teams', action: () => navigate('/teams') },
-                { label: 'Log out', action: () => {} },
+                { label: 'Log out', action: () => { console.warn('Logout not implemented') } },
               ].map((item, i) => (
                 <UserMenuItem
                   key={i}

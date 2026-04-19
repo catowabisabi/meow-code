@@ -73,7 +73,7 @@ export default function TeamsPage() {
     <div style={styles.container}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
         <div style={styles.title}>Teams</div>
-        <button style={styles.createBtn}>+ Create Team</button>
+        <button style={styles.createBtn} onClick={() => console.warn('Create Team not yet implemented')}>+ Create Team</button>
       </div>
       <div style={styles.subtitle}>Manage multi-agent teams with coordinator/worker patterns.</div>
 

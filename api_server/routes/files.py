@@ -207,7 +207,12 @@ async def list_files(
     dir_path = path if path else os.getcwd()
 
     try:
-        entries = os.scandir(dir_path)
+        resolved = Path(dir_path).resolve()
+        allowed_roots = [Path.cwd().resolve(), Path(os.path.expanduser("~")).resolve()]
+        if not any(resolved == root or resolved.is_relative_to(root) for root in allowed_roots):
+            raise HTTPException(status_code=403, detail="Access denied")
+
+        entries = os.scandir(resolved)
         files: list[FileEntry] = []
 
         for entry in entries:
@@ -234,7 +239,11 @@ async def read_file(
     path: Annotated[str, Query(description="File path to read")],
 ) -> ReadFileResponse:
     """Read file contents with size limit (5MB)."""
-    file_path = Path(path)
+    file_path = Path(path).resolve()
+
+    allowed_roots = [Path.cwd().resolve(), Path(os.path.expanduser("~")).resolve()]
+    if not any(file_path == root or file_path.is_relative_to(root) for root in allowed_roots):
+        raise HTTPException(status_code=403, detail="Access denied")
 
     if not file_path.exists():
         raise HTTPException(status_code=400, detail="File not found")
@@ -271,8 +280,10 @@ async def write_file(request: WriteFileRequest) -> WriteFileResponse:
         raise HTTPException(status_code=400, detail="Missing path or content")
 
     try:
-        file_path = Path(request.path)
-        # Ensure parent directory exists
+        file_path = Path(request.path).resolve()
+        allowed_roots = [Path.cwd().resolve(), Path(os.path.expanduser("~")).resolve()]
+        if not any(file_path == root or file_path.is_relative_to(root) for root in allowed_roots):
+            raise HTTPException(status_code=403, detail="Access denied")
         file_path.parent.mkdir(parents=True, exist_ok=True)
         file_path.write_text(request.content, encoding="utf-8")
 

@@ -292,6 +292,100 @@ def _persist_session(session: ChatSession) -> None:
         _json.dump(data, f, ensure_ascii=False, indent=2, default=str)
 
 
+async def _safe_generate_title(websocket: WebSocket, session: ChatSession) -> None:
+    try:
+        await asyncio.wait_for(_generate_and_update_title(websocket, session), timeout=20.0)
+    except Exception:
+        pass
+
+
+async def _generate_and_update_title(websocket: WebSocket, session: ChatSession) -> None:
+    try:
+        user_count = len([m for m in session.messages if m.get("role") == "user"])
+        if user_count < 1:
+            return
+
+        existing = session.title or ""
+        generic_titles = {"new chat", "chat", "new", "conversation", "討論", "對話", "聊天", ""}
+        existing_lower = existing.lower().strip()
+        is_generic = existing_lower in generic_titles or len(existing_lower) <= 3
+
+        if not is_generic:
+            return
+
+        full_contents = []
+        for m in session.messages:
+            if m.get("role") in ("user", "assistant"):
+                content = m.get("content", "")
+                if isinstance(content, list):
+                    text = " ".join(
+                        b.get("text", "") for b in content
+                        if isinstance(b, dict) and b.get("type") in ("text", "thinking")
+                    )
+                else:
+                    text = str(content)
+                if text.strip():
+                    role = "User" if m.get("role") == "user" else "Assistant"
+                    full_contents.append(f"{role}: {text[:200]}")
+
+        conversation = "\n".join(full_contents[-8:])
+        is_chinese = any(ord(c) > 127 for c in conversation[:100])
+        lang = "Cantonese Chinese" if is_chinese else "English"
+
+        title_prompt = f"""Analyze this conversation and generate a short topic title (max 20 characters, {lang} only).
+
+Conversation:
+{conversation}
+
+Rules:
+- Title must be 5-20 characters
+- Summarize the main subject, NOT just repeat user's first words
+- Use the same language as the conversation
+- If conversation is in Chinese/Cantonese, use Chinese
+- Respond with ONLY JSON: {{"topic": "your short topic here"}}
+- Do NOT use quotes, markdown, or any text outside the JSON"""
+
+        router = _get_adapter_router()
+
+        response_text = ""
+        try:
+            async for event in router.route_chat(
+                provider=session.provider or "anthropic",
+                messages=[Message(role="user", content=[{"type": "text", "text": title_prompt}])],
+                model=session.model or "claude-sonnet-4-20250514",
+                system_prompt=None,
+                tools=[],
+                stream=True,
+            ):
+                if event.type == "stream_text_delta":
+                    response_text += event.text or ""
+                elif event.type in ("stream_end", "error"):
+                    break
+        except Exception:
+            return
+
+        import json as _json
+        for line in reversed(response_text.split("\n")):
+            line = line.strip()
+            if line.startswith("{") and "topic" in line:
+                try:
+                    parsed = _json.loads(line)
+                    new_topic = (parsed.get("topic") or "").strip()
+                    if new_topic and new_topic != existing:
+                        session.title = new_topic[:30]
+                        _persist_session(session)
+                        await send_message(websocket, {
+                            "type": "title_updated",
+                            "sessionId": session.id,
+                            "title": session.title,
+                        })
+                    return
+                except Exception:
+                    pass
+    except Exception:
+        pass
+
+
 # ─── WebSocket Handler ────────────────────────────────────────
 
 
@@ -398,8 +492,9 @@ async def handle_user_message(
     session.iteration_count = 0
     await agentic_loop(websocket, session)
 
-    # Auto-save session to disk after each exchange
     _persist_session(session)
+
+    asyncio.ensure_future(_safe_generate_title(websocket, session))
 
     return session
 
