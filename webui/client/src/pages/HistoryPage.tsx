@@ -96,7 +96,8 @@ interface SessionSummary {
   model: string
   provider: string
   messageCount: number
-  createdAt: number | string
+  createdAt: number | string | null
+  created_at?: number | string | null
   preview: string
 }
 
@@ -141,8 +142,10 @@ export default function HistoryPage() {
       s.model.toLowerCase().includes(search.toLowerCase())
   )
 
-  const formatDate = (ts: number | string) => {
+  const formatDate = (ts: number | string | null | undefined) => {
+    if (!ts) return '—'
     const parsed = typeof ts === 'string' ? (isNaN(Number(ts)) ? Date.parse(ts) : Number(ts)) : ts
+    if (!parsed || parsed <= 0) return '—'
     const d = new Date(parsed < 1e10 ? parsed * 1000 : parsed)
     const now = new Date()
     const diff = now.getTime() - d.getTime()
@@ -198,7 +201,7 @@ export default function HistoryPage() {
             >
               <div style={styles.sessionTop}>
                 <span style={styles.sessionModel}>{session.model}</span>
-                <span style={styles.sessionTime}>{formatDate(session.createdAt)}</span>
+                <span style={styles.sessionTime}>{formatDate(session.created_at ?? session.createdAt)}</span>
               </div>
               <div style={styles.sessionPreview}>
                 {session.preview || '(空對話)'}
