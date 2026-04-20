@@ -37,6 +37,17 @@ const SIDEBAR_COLLAPSED_WIDTH = 48
 // ---------- Action buttons ----------
 
 
+// ---------- Bottom nav items ----------
+
+const BOTTOM_NAV = [
+  { icon: '🕐', label: 'History', path: '/history' },
+  { icon: '🤖', label: 'Models', path: '/models' },
+  { icon: '🧠', label: 'Memory', path: '/memory' },
+  { icon: '⚡', label: 'Skills', path: '/skills' },
+  { icon: '🔌', label: 'MCP', path: '/mcp' },
+  { icon: '🪝', label: 'Hooks', path: '/hooks' },
+]
+
 // ---------- Agent Dashboard indicator ----------
 
 interface AgentInfo {
@@ -439,8 +450,52 @@ export default function Sidebar() {
       {/* Divider */}
       <div style={{ height: 1, background: C.border, margin: collapsed ? '0 4px' : '0 12px', flexShrink: 0 }} />
 
+      {/* ============ BOTTOM NAV placeholder spacer ============ */}
+
       {/* Agent Dashboard Indicator */}
-      {!collapsed && <div style={{ padding: '8px 12px' }}><AgentDashboardIndicator agents={agents} /></div>}
+      {!collapsed && agents.filter(a => a.status === 'running').length > 0 && (
+        <div style={{ padding: '4px 12px 0' }}><AgentDashboardIndicator agents={agents} /></div>
+      )}
+
+      {/* ============ BOTTOM NAV ============ */}
+      <div style={{ flexShrink: 0, padding: collapsed ? '4px' : '4px 8px' }}>
+        {BOTTOM_NAV.map((item) => {
+          const active = isPathActive(item.path)
+          return (
+            <button
+              key={item.path}
+              title={collapsed ? item.label : undefined}
+              onClick={() => navigate(item.path)}
+              onMouseEnter={() => setHoveredBottomNav(item.path)}
+              onMouseLeave={() => setHoveredBottomNav(null)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: collapsed ? '7px 0' : '6px 10px',
+                justifyContent: collapsed ? 'center' : 'flex-start',
+                borderRadius: '7px',
+                cursor: 'pointer',
+                fontSize: '13px',
+                color: active ? C.text : hoveredBottomNav === item.path ? C.textSecondary : C.textMuted,
+                background: active ? C.bgActive : hoveredBottomNav === item.path ? C.bgHover : 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left' as const,
+                transition: 'all 0.12s ease',
+                outline: 'none',
+                fontFamily: 'inherit',
+              }}
+            >
+              <span style={{ fontSize: '14px', lineHeight: 1, flexShrink: 0 }}>{item.icon}</span>
+              {!collapsed && <span style={{ fontWeight: active ? 500 : 400 }}>{item.label}</span>}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Divider */}
+      <div style={{ height: 1, background: C.border, margin: collapsed ? '4px' : '4px 12px', flexShrink: 0 }} />
 
       {/* ============ BOTTOM: User Panel ============ */}
       <div style={{ flexShrink: 0 }}>
