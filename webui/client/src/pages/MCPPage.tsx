@@ -25,16 +25,16 @@ const styles = {
   title: {
     fontSize: '22px',
     fontWeight: 700,
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     marginBottom: '8px',
   },
   subtitle: {
     fontSize: '13px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     marginBottom: '24px',
   },
   section: {
-    background: '#1b1b1f',
+    background: 'var(--bg-secondary)',
     border: '1px solid #2a2a2e',
     borderRadius: '12px',
     padding: '20px',
@@ -44,10 +44,10 @@ const styles = {
     fontSize: '16px',
     fontWeight: 600,
     marginBottom: '14px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
   },
   card: {
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a2e',
     borderRadius: '8px',
     padding: '14px',
@@ -61,25 +61,25 @@ const styles = {
   cardName: {
     fontSize: '14px',
     fontWeight: 600,
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
   },
   cardDesc: {
     fontSize: '12px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     marginTop: '4px',
   },
   cardCmd: {
     fontSize: '11px',
-    color: '#71717a',
+    color: 'var(--text-muted)',
     marginTop: '6px',
     fontFamily: 'monospace' as const,
   },
   toggle: (enabled: boolean) => ({
     padding: '4px 10px',
     borderRadius: '14px',
-    border: `1px solid ${enabled ? '#22c55e' : '#71717a'}`,
+    border: `1px solid ${enabled ? 'var(--accent-green)' : 'var(--text-muted)'}`,
     background: enabled ? 'rgba(34,197,94,0.12)' : 'rgba(113,113,122,0.1)',
-    color: enabled ? '#22c55e' : '#71717a',
+    color: enabled ? 'var(--accent-green)' : 'var(--text-muted)',
     fontSize: '11px',
     cursor: 'pointer',
     fontFamily: 'inherit',
@@ -88,8 +88,8 @@ const styles = {
     padding: '6px 14px',
     borderRadius: '6px',
     border: primary ? 'none' : '1px solid #2a2a2e',
-    background: primary ? '#f97316' : 'transparent',
-    color: primary ? '#fff' : '#a1a1aa',
+    background: primary ? 'var(--accent-primary)' : 'transparent',
+    color: primary ? '#fff' : 'var(--text-secondary)',
     fontSize: '12px',
     cursor: 'pointer',
     fontFamily: 'inherit',
@@ -99,7 +99,7 @@ const styles = {
     borderRadius: '4px',
     border: 'none',
     background: 'transparent',
-    color: '#f85149',
+    color: 'var(--accent-red)',
     fontSize: '12px',
     cursor: 'pointer',
     fontFamily: 'inherit',
@@ -108,7 +108,7 @@ const styles = {
     padding: '8px 16px',
     borderRadius: '8px',
     border: 'none',
-    background: '#f97316',
+    background: 'var(--accent-primary)',
     color: '#fff',
     fontSize: '13px',
     cursor: 'pointer',
@@ -120,7 +120,7 @@ const styles = {
     gap: '12px',
   },
   templateCard: {
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a2e',
     borderRadius: '8px',
     padding: '14px',
@@ -130,12 +130,12 @@ const styles = {
   templateName: {
     fontSize: '14px',
     fontWeight: 600,
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     marginBottom: '4px',
   },
   templateDesc: {
     fontSize: '12px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     lineHeight: 1.4,
   },
   modal: {
@@ -148,7 +148,7 @@ const styles = {
     zIndex: 1000,
   },
   modalContent: {
-    background: '#1b1b1f',
+    background: 'var(--bg-secondary)',
     border: '1px solid #2a2a2e',
     borderRadius: '12px',
     padding: '24px',
@@ -160,17 +160,17 @@ const styles = {
   },
   label: {
     fontSize: '13px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     marginBottom: '6px',
     display: 'block',
   },
   input: {
     width: '100%',
     padding: '8px 12px',
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a2e',
     borderRadius: '6px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     fontSize: '14px',
     outline: 'none',
     fontFamily: 'inherit',
@@ -179,13 +179,13 @@ const styles = {
   loading: {
     textAlign: 'center' as const,
     padding: '40px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
   },
   empty: {
     textAlign: 'center' as const,
     padding: '30px',
-    color: '#71717a',
+    color: 'var(--text-muted)',
     fontSize: '13px',
   },
 }
@@ -195,8 +195,8 @@ function Modal({ title, children, onClose }: { title: string; children: React.Re
     <div style={styles.modal} onClick={onClose}>
       <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#e6e6e6', margin: 0 }}>{title}</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#71717a', fontSize: '20px', cursor: 'pointer' }}>✕</button>
+          <h2 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{title}</h2>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '20px', cursor: 'pointer' }}>✕</button>
         </div>
         {children}
       </div>
@@ -410,8 +410,8 @@ export default function MCPPage() {
                     key={template.name}
                     style={styles.templateCard}
                     onClick={() => handleAddTemplate(template)}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = '#58a6ff' }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = '#2a2a2e' }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--accent-blue)' }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-default)' }}
                   >
                     <div style={styles.templateName}>{template.label}</div>
                     <div style={styles.templateDesc}>{template.description}</div>

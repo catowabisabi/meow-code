@@ -10,17 +10,17 @@ interface Skill {
 }
 
 const C = {
-  bg: '#0f0f10',
-  surface: '#1b1b1f',
-  border: '#2a2a2e',
-  text: '#e6e6e6',
-  textSecondary: '#a1a1aa',
-  textMuted: '#71717a',
-  bgHover: '#1b1b1f',
-  accent: '#f97316',
-  green: '#22c55e',
-  red: '#f85149',
-  blue: '#58a6ff',
+  bg: 'var(--bg-primary)',
+  surface: 'var(--bg-secondary)',
+  border: 'var(--border-default)',
+  text: 'var(--text-primary)',
+  textSecondary: 'var(--text-secondary)',
+  textMuted: 'var(--text-muted)',
+  bgHover: 'var(--bg-secondary)',
+  accent: 'var(--accent-primary)',
+  green: 'var(--accent-green)',
+  red: 'var(--accent-red)',
+  blue: 'var(--accent-blue)',
 }
 
 const styles = {
@@ -38,11 +38,11 @@ const styles = {
   title: {
     fontSize: '22px',
     fontWeight: 700,
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
   },
   subtitle: {
     fontSize: '13px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     marginBottom: '24px',
   },
   grid: {
@@ -52,7 +52,7 @@ const styles = {
     marginBottom: '24px',
   },
   card: (enabled: boolean) => ({
-    background: '#1b1b1f',
+    background: 'var(--bg-secondary)',
     border: '1px solid #2a2a2e',
     borderRadius: '10px',
     padding: '16px',
@@ -69,7 +69,7 @@ const styles = {
   cardName: {
     fontSize: '15px',
     fontWeight: 600,
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
@@ -78,12 +78,12 @@ const styles = {
     width: '8px',
     height: '8px',
     borderRadius: '50%',
-    background: enabled ? '#22c55e' : '#71717a',
+    background: enabled ? 'var(--accent-green)' : 'var(--text-muted)',
     flexShrink: 0,
   }),
   cardDesc: {
     fontSize: '13px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     lineHeight: 1.5,
     marginBottom: '10px',
   },
@@ -99,7 +99,7 @@ const styles = {
     fontSize: '11px',
     fontWeight: 500,
     background: 'rgba(88,166,255,0.1)',
-    color: '#58a6ff',
+    color: 'var(--accent-blue)',
     border: '1px solid rgba(88,166,255,0.2)',
   },
   defaultBadge: {
@@ -109,16 +109,16 @@ const styles = {
     fontSize: '10px',
     fontWeight: 600,
     background: 'rgba(249,115,22,0.12)',
-    color: '#f97316',
+    color: 'var(--accent-primary)',
     border: '1px solid rgba(249,115,22,0.25)',
   },
   expandedContent: {
     marginTop: '12px',
     padding: '12px',
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     borderRadius: '6px',
     fontSize: '13px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     lineHeight: 1.6,
     whiteSpace: 'pre-wrap' as const,
     border: '1px solid #2a2a2e',
@@ -126,7 +126,7 @@ const styles = {
     overflowY: 'auto' as const,
   },
   section: {
-    background: '#1b1b1f',
+    background: 'var(--bg-secondary)',
     border: '1px solid #2a2a2e',
     borderRadius: '12px',
     padding: '20px',
@@ -136,7 +136,7 @@ const styles = {
     fontSize: '16px',
     fontWeight: 600,
     marginBottom: '14px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
   },
   cardActions: {
     display: 'flex',
@@ -150,7 +150,7 @@ const styles = {
     borderRadius: '6px',
     border: '1px solid #2a2a2e',
     background: 'transparent',
-    color: color || '#a1a1aa',
+    color: color || 'var(--text-secondary)',
     fontSize: '12px',
     cursor: 'pointer',
     fontFamily: 'inherit',
@@ -158,7 +158,7 @@ const styles = {
   loading: {
     textAlign: 'center' as const,
     padding: '40px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
   },
   error: {
@@ -173,7 +173,7 @@ const styles = {
   empty: {
     textAlign: 'center' as const,
     padding: '40px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
   },
 }
@@ -194,7 +194,7 @@ function Modal({ title, children, onClose }: { title: string; children: React.Re
     >
       <div
         style={{
-          background: '#1b1b1f',
+          background: 'var(--bg-secondary)',
           border: '1px solid #2a2a2e',
           borderRadius: '12px',
           padding: '24px',
@@ -206,10 +206,10 @@ function Modal({ title, children, onClose }: { title: string; children: React.Re
         onClick={(e) => e.stopPropagation()}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#e6e6e6', margin: 0 }}>{title}</h2>
+          <h2 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{title}</h2>
           <button
             onClick={onClose}
-            style={{ background: 'none', border: 'none', color: '#71717a', fontSize: '20px', cursor: 'pointer', padding: '4px 8px' }}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '20px', cursor: 'pointer', padding: '4px 8px' }}
           >
             ✕
           </button>
@@ -240,10 +240,10 @@ function SkillForm({ skill, onSave, onCancel, saving }: { skill: Partial<Skill>;
   const fieldStyle = {
     width: '100%' as const,
     padding: '8px 12px',
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a2e',
     borderRadius: '6px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     fontSize: '14px',
     outline: 'none',
     fontFamily: 'inherit',
@@ -253,19 +253,19 @@ function SkillForm({ skill, onSave, onCancel, saving }: { skill: Partial<Skill>;
   return (
     <form onSubmit={handleSubmit}>
       <div style={{ marginBottom: '14px' }}>
-        <label style={{ fontSize: '13px', color: '#a1a1aa', marginBottom: '6px', display: 'block' }}>Name</label>
+        <label style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px', display: 'block' }}>Name</label>
         <input style={fieldStyle} value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. my-custom-skill" required />
       </div>
       <div style={{ marginBottom: '14px' }}>
-        <label style={{ fontSize: '13px', color: '#a1a1aa', marginBottom: '6px', display: 'block' }}>Description</label>
+        <label style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px', display: 'block' }}>Description</label>
         <input style={fieldStyle} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="What this skill does" />
       </div>
       <div style={{ marginBottom: '14px' }}>
-        <label style={{ fontSize: '13px', color: '#a1a1aa', marginBottom: '6px', display: 'block' }}>Triggers (comma-separated)</label>
+        <label style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px', display: 'block' }}>Triggers (comma-separated)</label>
         <input style={fieldStyle} value={triggers} onChange={(e) => setTriggers(e.target.value)} placeholder="/trigger, trigger phrase" />
       </div>
       <div style={{ marginBottom: '20px' }}>
-        <label style={{ fontSize: '13px', color: '#a1a1aa', marginBottom: '6px', display: 'block' }}>Prompt</label>
+        <label style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px', display: 'block' }}>Prompt</label>
         <textarea
           style={{ ...fieldStyle, minHeight: '200px', resize: 'vertical' }}
           value={prompt}
@@ -276,7 +276,7 @@ function SkillForm({ skill, onSave, onCancel, saving }: { skill: Partial<Skill>;
       </div>
       <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
         <button type="button" onClick={onCancel} style={{ ...styles.actionBtn(), padding: '8px 16px' }}>Cancel</button>
-        <button type="submit" disabled={saving} style={{ ...styles.actionBtn(), padding: '8px 16px', background: '#f97316', borderColor: '#f97316', color: '#fff' }}>
+        <button type="submit" disabled={saving} style={{ ...styles.actionBtn(), padding: '8px 16px', background: 'var(--accent-primary)', borderColor: 'var(--accent-primary)', color: '#fff' }}>
           {saving ? 'Saving...' : 'Save'}
         </button>
       </div>
@@ -402,7 +402,7 @@ export default function SkillsPage() {
         <div style={styles.title}>Skills Management</div>
         <button
           onClick={handleCreate}
-          style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#f97316', color: '#fff', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}
+          style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: 'var(--accent-primary)', color: '#fff', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}
         >
           + New Skill
         </button>
@@ -422,8 +422,8 @@ export default function SkillsPage() {
               key={skill.name}
               style={styles.card(skill.enabled)}
               onClick={() => setExpandedName(expandedName === skill.name ? null : skill.name)}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = '#58a6ff' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = '#2a2a2e' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--accent-blue)' }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-default)' }}
             >
               <div style={styles.cardHeader}>
                 <div style={styles.cardName}>
@@ -436,9 +436,9 @@ export default function SkillsPage() {
                   style={{
                     padding: '4px 10px',
                     borderRadius: '14px',
-                    border: `1px solid ${skill.enabled ? '#22c55e' : '#71717a'}`,
+                    border: `1px solid ${skill.enabled ? 'var(--accent-green)' : 'var(--text-muted)'}`,
                     background: skill.enabled ? 'rgba(34,197,94,0.12)' : 'rgba(113,113,122,0.1)',
-                    color: skill.enabled ? '#22c55e' : '#71717a',
+                    color: skill.enabled ? 'var(--accent-green)' : 'var(--text-muted)',
                     fontSize: '11px',
                     cursor: 'pointer',
                     fontFamily: 'inherit',
@@ -456,7 +456,7 @@ export default function SkillsPage() {
                     <span key={i} style={styles.tag}>{trigger}</span>
                   ))}
                   {skill.triggers.length > 4 && (
-                    <span style={{ ...styles.tag, background: 'rgba(113,113,122,0.1)', color: '#71717a', borderColor: 'rgba(113,113,122,0.2)' }}>
+                    <span style={{ ...styles.tag, background: 'rgba(113,113,122,0.1)', color: 'var(--text-muted)', borderColor: 'rgba(113,113,122,0.2)' }}>
                       +{skill.triggers.length - 4}
                     </span>
                   )}

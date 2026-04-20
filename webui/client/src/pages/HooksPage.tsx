@@ -10,37 +10,37 @@ interface Hook {
 
 const styles = {
   container: { padding: '24px 32px', maxWidth: '900px', margin: '0 auto' },
-  title: { fontSize: '22px', fontWeight: 700, color: '#e6e6e6', marginBottom: '8px' },
-  subtitle: { fontSize: '13px', color: '#a1a1aa', marginBottom: '24px' },
-  section: { background: '#1b1b1f', border: '1px solid #2a2a2e', borderRadius: '12px', padding: '20px', marginBottom: '16px' },
-  sectionTitle: { fontSize: '16px', fontWeight: 600, marginBottom: '14px', color: '#e6e6e6' },
-  hookCard: { background: '#0f0f10', border: '1px solid #2a2a2e', borderRadius: '8px', padding: '14px', marginBottom: '10px' },
+  title: { fontSize: '22px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' },
+  subtitle: { fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '24px' },
+  section: { background: 'var(--bg-secondary)', border: '1px solid #2a2a2e', borderRadius: '12px', padding: '20px', marginBottom: '16px' },
+  sectionTitle: { fontSize: '16px', fontWeight: 600, marginBottom: '14px', color: 'var(--text-primary)' },
+  hookCard: { background: 'var(--bg-primary)', border: '1px solid #2a2a2e', borderRadius: '8px', padding: '14px', marginBottom: '10px' },
   hookTop: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' },
-  hookName: { fontSize: '14px', fontWeight: 600, color: '#e6e6e6' },
-  hookDesc: { fontSize: '12px', color: '#71717a', marginTop: '4px' },
-  hookScript: { marginTop: '10px', padding: '10px', background: '#151517', borderRadius: '6px', fontSize: '12px', fontFamily: 'monospace', color: '#9ca3af', whiteSpace: 'pre-wrap' as const, maxHeight: '100px', overflowY: 'auto' as const },
+  hookName: { fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' },
+  hookDesc: { fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' },
+  hookScript: { marginTop: '10px', padding: '10px', background: 'var(--bg-tertiary)', borderRadius: '6px', fontSize: '12px', fontFamily: 'monospace', color: '#9ca3af', whiteSpace: 'pre-wrap' as const, maxHeight: '100px', overflowY: 'auto' as const },
   typeBadge: (type: string) => ({
     padding: '2px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 500,
     background: type.includes('pre') ? 'rgba(59,130,246,0.1)' : 'rgba(34,197,94,0.1)',
-    color: type.includes('pre') ? '#3b82f6' : '#22c55e',
+    color: type.includes('pre') ? 'var(--accent-blue)' : 'var(--accent-green)',
     border: `1px solid ${type.includes('pre') ? 'rgba(59,130,246,0.3)' : 'rgba(34,197,94,0.3)'}`,
   }),
   toggle: (enabled: boolean) => ({
-    padding: '4px 10px', borderRadius: '14px', border: `1px solid ${enabled ? '#22c55e' : '#71717a'}`,
+    padding: '4px 10px', borderRadius: '14px', border: `1px solid ${enabled ? 'var(--accent-green)' : 'var(--text-muted)'}`,
     background: enabled ? 'rgba(34,197,94,0.12)' : 'rgba(113,113,122,0.1)',
-    color: enabled ? '#22c55e' : '#71717a', fontSize: '11px', cursor: 'pointer', fontFamily: 'inherit',
+    color: enabled ? 'var(--accent-green)' : 'var(--text-muted)', fontSize: '11px', cursor: 'pointer', fontFamily: 'inherit',
   }),
-  addBtn: { padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#f97316', color: '#fff', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' },
-  editBtn: { padding: '4px 10px', borderRadius: '6px', border: '1px solid #2a2a2e', background: 'transparent', color: '#a1a1aa', fontSize: '12px', cursor: 'pointer' },
-  deleteBtn: { padding: '4px 10px', borderRadius: '6px', border: 'none', background: 'transparent', color: '#f85149', fontSize: '12px', cursor: 'pointer' },
-  empty: { textAlign: 'center' as const, padding: '30px', color: '#71717a', fontSize: '13px' },
-  infoBox: { background: '#0f0f10', border: '1px solid #2a2a2e', borderRadius: '8px', padding: '14px', fontSize: '13px', color: '#a1a1aa', lineHeight: 1.6 },
+  addBtn: { padding: '8px 16px', borderRadius: '8px', border: 'none', background: 'var(--accent-primary)', color: '#fff', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' },
+  editBtn: { padding: '4px 10px', borderRadius: '6px', border: '1px solid #2a2a2e', background: 'transparent', color: 'var(--text-secondary)', fontSize: '12px', cursor: 'pointer' },
+  deleteBtn: { padding: '4px 10px', borderRadius: '6px', border: 'none', background: 'transparent', color: 'var(--accent-red)', fontSize: '12px', cursor: 'pointer' },
+  empty: { textAlign: 'center' as const, padding: '30px', color: 'var(--text-muted)', fontSize: '13px' },
+  infoBox: { background: 'var(--bg-primary)', border: '1px solid #2a2a2e', borderRadius: '8px', padding: '14px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6 },
   modal: { position: 'fixed' as const, inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 },
-  modalContent: { background: '#1b1b1f', border: '1px solid #2a2a2e', borderRadius: '12px', padding: '24px', width: '500px', maxWidth: '90vw' },
+  modalContent: { background: 'var(--bg-secondary)', border: '1px solid #2a2a2e', borderRadius: '12px', padding: '24px', width: '500px', maxWidth: '90vw' },
   field: { marginBottom: '14px' },
-  label: { fontSize: '13px', color: '#a1a1aa', marginBottom: '6px', display: 'block' },
-  input: { width: '100%', padding: '8px 12px', background: '#0f0f10', border: '1px solid #2a2a2e', borderRadius: '6px', color: '#e6e6e6', fontSize: '14px', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' as const },
-  select: { width: '100%', padding: '8px 12px', background: '#0f0f10', border: '1px solid #2a2a2e', borderRadius: '6px', color: '#e6e6e6', fontSize: '14px', outline: 'none' },
+  label: { fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px', display: 'block' },
+  input: { width: '100%', padding: '8px 12px', background: 'var(--bg-primary)', border: '1px solid #2a2a2e', borderRadius: '6px', color: 'var(--text-primary)', fontSize: '14px', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' as const },
+  select: { width: '100%', padding: '8px 12px', background: 'var(--bg-primary)', border: '1px solid #2a2a2e', borderRadius: '6px', color: 'var(--text-primary)', fontSize: '14px', outline: 'none' },
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -55,8 +55,8 @@ function Modal({ title, children, onClose }: { title: string; children: React.Re
     <div style={styles.modal} onClick={onClose}>
       <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#e6e6e6', margin: 0 }}>{title}</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#71717a', fontSize: '20px', cursor: 'pointer' }}>✕</button>
+          <h2 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{title}</h2>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '20px', cursor: 'pointer' }}>✕</button>
         </div>
         {children}
       </div>
@@ -144,19 +144,19 @@ export default function HooksPage() {
             <div style={styles.sectionTitle}>Hook Types</div>
             <div style={styles.infoBox}>
               <div style={{ marginBottom: '12px' }}>
-                <div style={{ fontWeight: 600, color: '#e6e6e6', marginBottom: '4px' }}>Pre-Command</div>
+                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Pre-Command</div>
                 <div>Runs before a command is executed. Can modify or reject the command.</div>
               </div>
               <div style={{ marginBottom: '12px' }}>
-                <div style={{ fontWeight: 600, color: '#e6e6e6', marginBottom: '4px' }}>Post-Command</div>
+                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Post-Command</div>
                 <div>Runs after a command completes. Useful for notifications or cleanup.</div>
               </div>
               <div style={{ marginBottom: '12px' }}>
-                <div style={{ fontWeight: 600, color: '#e6e6e6', marginBottom: '4px' }}>Pre-Task</div>
+                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Pre-Task</div>
                 <div>Runs before a task starts. Can validate task parameters.</div>
               </div>
               <div>
-                <div style={{ fontWeight: 600, color: '#e6e6e6', marginBottom: '4px' }}>Post-Task</div>
+                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Post-Task</div>
                 <div>Runs after a task completes. Useful for testing or deployment.</div>
               </div>
             </div>
@@ -188,7 +188,7 @@ export default function HooksPage() {
             <textarea style={{ ...styles.input, minHeight: '150px', fontFamily: 'monospace', resize: 'vertical' }} value={newHook.script} onChange={(e) => setNewHook({ ...newHook, script: e.target.value })} placeholder="#!/bin/bash&#10;echo 'Running hook...'" />
           </div>
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-            <button onClick={() => { setModalOpen(false); setEditingHook(undefined) }} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid #2a2a2e', background: 'transparent', color: '#a1a1aa', fontSize: '13px', cursor: 'pointer' }}>Cancel</button>
+            <button onClick={() => { setModalOpen(false); setEditingHook(undefined) }} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid #2a2a2e', background: 'transparent', color: 'var(--text-secondary)', fontSize: '13px', cursor: 'pointer' }}>Cancel</button>
             <button onClick={handleSave} style={styles.addBtn}>Save</button>
           </div>
         </Modal>

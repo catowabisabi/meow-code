@@ -12,10 +12,10 @@ interface Memory {
 }
 
 const TYPE_COLORS: Record<MemoryType, string> = {
-  user: '#3b82f6',
+  user: 'var(--accent-blue)',
   feedback: '#f59e0b',
-  project: '#22c55e',
-  reference: '#a855f7',
+  project: 'var(--accent-green)',
+  reference: 'var(--accent-purple)',
 }
 
 const TYPE_LABELS: Record<MemoryType, string> = {
@@ -43,11 +43,11 @@ const styles = {
     fontSize: '22px',
     fontWeight: 700,
     marginBottom: '8px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
   },
   subtitle: {
     fontSize: '13px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     marginBottom: '20px',
   },
   statsRow: {
@@ -57,7 +57,7 @@ const styles = {
     flexWrap: 'wrap' as const,
   },
   statCard: (color: string) => ({
-    background: '#1b1b1f',
+    background: 'var(--bg-secondary)',
     border: '1px solid #2a2a2e',
     borderRadius: '10px',
     padding: '14px 18px',
@@ -68,11 +68,11 @@ const styles = {
   statValue: {
     fontSize: '24px',
     fontWeight: 700,
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
   },
   statLabel: {
     fontSize: '12px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     marginTop: '2px',
   },
   toolbar: {
@@ -86,10 +86,10 @@ const styles = {
     flex: 1,
     minWidth: '200px',
     padding: '10px 12px',
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a2e',
     borderRadius: '6px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     fontSize: '14px',
     outline: 'none',
     boxSizing: 'border-box' as const,
@@ -98,8 +98,8 @@ const styles = {
     padding: '7px 14px',
     borderRadius: '6px',
     border: active ? '1px solid #58a6ff' : '1px solid #2a2a2e',
-    background: active ? 'rgba(88,166,255,0.1)' : '#1b1b1f',
-    color: active ? '#58a6ff' : '#a1a1aa',
+    background: active ? 'rgba(88,166,255,0.1)' : 'var(--bg-secondary)',
+    color: active ? 'var(--accent-blue)' : 'var(--text-secondary)',
     fontSize: '13px',
     cursor: 'pointer',
     fontWeight: active ? 600 : 400,
@@ -108,14 +108,14 @@ const styles = {
     padding: '8px 18px',
     borderRadius: '6px',
     border: variant === 'primary' ? 'none' : '1px solid #2a2a2e',
-    background: variant === 'primary' ? '#58a6ff' : variant === 'danger' ? 'transparent' : '#1b1b1f',
-    color: variant === 'primary' ? '#fff' : variant === 'danger' ? '#f87171' : '#a1a1aa',
+    background: variant === 'primary' ? 'var(--accent-blue)' : variant === 'danger' ? 'transparent' : 'var(--bg-secondary)',
+    color: variant === 'primary' ? '#fff' : variant === 'danger' ? '#f87171' : 'var(--text-secondary)',
     fontSize: '13px',
     cursor: 'pointer',
     fontWeight: 500,
   }),
   card: {
-    background: '#1b1b1f',
+    background: 'var(--bg-secondary)',
     border: '1px solid #2a2a2e',
     borderRadius: '10px',
     padding: '16px',
@@ -143,32 +143,32 @@ const styles = {
   cardName: {
     fontSize: '15px',
     fontWeight: 600,
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
   },
   cardDesc: {
     fontSize: '13px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     marginTop: '6px',
     lineHeight: 1.5,
   },
   cardDate: {
     fontSize: '12px',
-    color: '#71717a',
+    color: 'var(--text-muted)',
     marginTop: '6px',
   },
   cardContent: {
     marginTop: '12px',
     padding: '12px',
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     borderRadius: '6px',
     fontSize: '13px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     lineHeight: 1.6,
     whiteSpace: 'pre-wrap' as const,
     border: '1px solid #2a2a2e',
   },
   modal: {
-    background: '#1b1b1f',
+    background: 'var(--bg-secondary)',
     border: '1px solid #2a2a2e',
     borderRadius: '12px',
     padding: '20px',
@@ -177,7 +177,7 @@ const styles = {
   modalTitle: {
     fontSize: '16px',
     fontWeight: 600,
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     marginBottom: '16px',
   },
   field: {
@@ -185,7 +185,7 @@ const styles = {
   },
   label: {
     fontSize: '13px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     marginBottom: '6px',
     fontWeight: 500,
     display: 'block',
@@ -193,10 +193,10 @@ const styles = {
   input: {
     width: '100%',
     padding: '10px 12px',
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a2e',
     borderRadius: '6px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     fontSize: '14px',
     outline: 'none',
     boxSizing: 'border-box' as const,
@@ -204,10 +204,10 @@ const styles = {
   textarea: {
     width: '100%',
     padding: '10px 12px',
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a2e',
     borderRadius: '6px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     fontSize: '14px',
     outline: 'none',
     minHeight: '100px',
@@ -218,10 +218,10 @@ const styles = {
   select: {
     width: '100%',
     padding: '10px 12px',
-    background: '#0f0f10',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a2e',
     borderRadius: '6px',
-    color: '#e6e6e6',
+    color: 'var(--text-primary)',
     fontSize: '14px',
     outline: 'none',
     cursor: 'pointer',
@@ -230,7 +230,7 @@ const styles = {
   loading: {
     textAlign: 'center' as const,
     padding: '40px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
   },
   error: {
@@ -245,7 +245,7 @@ const styles = {
   empty: {
     textAlign: 'center' as const,
     padding: '40px',
-    color: '#a1a1aa',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
   },
 }
@@ -349,7 +349,7 @@ export default function MemoryPage() {
 
       {/* Stats */}
       <div style={styles.statsRow}>
-        <div style={styles.statCard('#58a6ff')}>
+        <div style={styles.statCard('var(--accent-blue)')}>
           <div style={styles.statValue}>{totalCount}</div>
           <div style={styles.statLabel}>Total</div>
         </div>
@@ -453,8 +453,8 @@ export default function MemoryPage() {
               key={mem.id}
               style={styles.card}
               onClick={() => setExpandedId(expandedId === mem.id ? null : mem.id)}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = '#58a6ff' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = '#2a2a2e' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--accent-blue)' }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-default)' }}
             >
               <div style={styles.cardHeader}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
