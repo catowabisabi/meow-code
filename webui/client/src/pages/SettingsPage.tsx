@@ -19,7 +19,7 @@ const S = {
     cursor: 'pointer', textAlign: 'left' as const, width: '100%',
     outline: 'none', fontFamily: 'inherit', transition: 'all 0.12s',
   }),
-  body: { flex: 1, padding: '24px 32px', overflowY: 'auto' as const, maxHeight: '70vh' },
+  body: { flex: 1, padding: '24px 32px', overflowY: 'auto' as const },
   section: {
     background: 'var(--bg-secondary)', border: '1px solid var(--border-default)',
     borderRadius: '12px', padding: '20px', marginBottom: '16px',
@@ -43,7 +43,7 @@ const S = {
   btn: (variant: 'primary' | 'secondary' | 'danger') => ({
     padding: '8px 16px', borderRadius: '6px',
     border: variant === 'primary' ? 'none' : '1px solid var(--border-default)',
-    background: variant === 'primary' ? 'var(--accent-blue)' : variant === 'danger' ? 'transparent' : 'var(--bg-tertiary)',
+    background: variant === 'primary' ? 'var(--accent-primary)' : variant === 'danger' ? 'transparent' : 'var(--bg-tertiary)',
     color: variant === 'primary' ? '#fff' : variant === 'danger' ? 'var(--accent-red)' : 'var(--text-secondary)',
     fontSize: '13px', cursor: 'pointer', fontWeight: 500,
   }),
@@ -230,13 +230,14 @@ export default function SettingsPage() {
             <div style={{
               display: 'flex', alignItems: 'center', gap: '12px', padding: '12px',
               borderRadius: '8px', background: 'var(--bg-tertiary)',
+              border: '1px solid var(--border-default)',
             }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#151517', border: '2px solid #f97316' }} />
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--bg-primary)', border: '2px solid var(--accent-primary)' }} />
               <div>
                 <div style={{ fontSize: '14px', fontWeight: 500 }}>深色模式</div>
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>目前僅支持深色模式</div>
               </div>
-              <div style={{ marginLeft: 'auto', padding: '4px 10px', borderRadius: '6px', background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.3)', fontSize: '12px', color: '#f97316' }}>
+              <div style={{ marginLeft: 'auto', padding: '4px 10px', borderRadius: '6px', background: 'rgba(204,120,92,0.12)', border: '1px solid rgba(204,120,92,0.3)', fontSize: '12px', color: 'var(--accent-primary)' }}>
                 已啟用
               </div>
             </div>
