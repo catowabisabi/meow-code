@@ -5,123 +5,279 @@ import MessageBubble from '../components/chat/MessageBubble.tsx'
 import PermissionDialog from '../components/chat/PermissionDialog.tsx'
 
 const MODE = 'chat'
-// Subtle chat mode indicator (UI only)
-const ChatModeIndicator: React.FC = () => (
-  <div style={{ position: 'absolute', top: 8, right: 12, zIndex: 2 }}>
-    <span style={{ padding: '4px 10px', borderRadius: '999px', background: 'rgba(0,0,0,0.25)', color: '#d9d9d9', fontSize: 12, border: '1px solid rgba(255,255,255,0.25)' }}>
-      Chat mode
-    </span>
-  </div>
-);
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    height: '100%',
-  },
-  messageArea: {
-    flex: 1,
-    overflow: 'auto',
-    padding: '16px 0',
-  },
-  emptyState: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
-    color: 'var(--text-muted)',
-    gap: '16px',
-  },
-  emptyIcon: {
-    fontSize: '48px',
-    opacity: 0.5,
-  },
-  emptyTitle: {
-    fontSize: '20px',
-    color: 'var(--text-secondary)',
-    fontWeight: 600,
-  },
-  emptyHints: {
-    display: 'flex',
-    gap: '8px',
-    flexWrap: 'wrap' as const,
-    justifyContent: 'center',
-    maxWidth: '600px',
-  },
-  hintChip: {
-    padding: '8px 16px',
-    borderRadius: '20px',
-    background: 'var(--bg-tertiary)',
-    border: '1px solid var(--border-default)',
-    color: 'var(--text-secondary)',
-    fontSize: '13px',
-    cursor: 'pointer',
-  },
-  inputArea: {
-    borderTop: '1px solid var(--border-default)',
-    padding: '12px 20px',
-    background: 'var(--bg-secondary)',
-  },
-  inputWrapper: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    gap: '8px',
-    maxWidth: '900px',
-    margin: '0 auto',
-  },
-  textarea: {
-    flex: 1,
-    padding: '10px 14px',
-    background: 'var(--bg-tertiary)',
-    border: '1px solid var(--border-default)',
-    borderRadius: '12px',
-    color: 'var(--text-primary)',
-    fontSize: '14px',
-    lineHeight: 1.5,
-    resize: 'none' as const,
-    outline: 'none',
-    minHeight: '44px',
-    maxHeight: '200px',
-    fontFamily: 'inherit',
-  },
-  sendBtn: (active: boolean) => ({
-    padding: '10px 18px',
-    borderRadius: '12px',
-    border: 'none',
-    background: active ? 'var(--accent-blue)' : 'var(--bg-tertiary)',
-    color: active ? '#fff' : 'var(--text-muted)',
-    fontSize: '14px',
-    fontWeight: 600,
-    cursor: active ? 'pointer' : 'default',
-    transition: 'all 0.15s',
-  }),
-  stopBtn: {
-    padding: '10px 18px',
-    borderRadius: '12px',
-    border: '1px solid var(--accent-red)',
-    background: 'transparent',
-    color: 'var(--accent-red)',
-    fontSize: '14px',
-    fontWeight: 600,
-    cursor: 'pointer',
-  },
-  hint: {
-    textAlign: 'center' as const,
-    fontSize: '11px',
-    color: 'var(--text-muted)',
-    marginTop: '6px',
-  },
-}
 
 const quickPrompts = [
-  '寫一個 Python 快速排序',
-  '解釋 React hooks 原理',
-  '幫我寫一個 REST API',
-  '分析這段代碼的性能',
-  '生成 TypeScript 類型定義',
+  { icon: '⚡', text: '寫一個 Python 快速排序' },
+  { icon: '🔍', text: '解釋 React hooks 原理' },
+  { icon: '🛠', text: '幫我 debug 這段代碼' },
+  { icon: '📐', text: '設計一個 REST API 架構' },
 ]
+
+// ── Empty state ───────────────────────────────────────────────────
+
+function EmptyState({ onPrompt }: { onPrompt: (text: string) => void }) {
+  const currentModel = useChatStore((s) => s.currentModel)
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
+
+  return (
+    <div style={{
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      height: '100%', padding: '40px 24px',
+      animation: 'fadeIn 0.2s ease',
+    }}>
+      {/* Logo mark */}
+      <div style={{
+        width: 52, height: 52, borderRadius: '14px',
+        background: 'linear-gradient(135deg, #cc785c 0%, #a0522d 100%)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 24, fontWeight: 700, color: '#fff',
+        marginBottom: 20,
+        boxShadow: '0 8px 24px rgba(204,120,92,0.25)',
+        letterSpacing: '-1px',
+      }}>
+        C
+      </div>
+
+      <h1 style={{
+        fontSize: 22, fontWeight: 600,
+        color: 'var(--text-primary)',
+        marginBottom: 8, textAlign: 'center',
+      }}>
+        How can I help you today?
+      </h1>
+
+      {currentModel && (
+        <p style={{
+          fontSize: 13, color: 'var(--text-muted)',
+          marginBottom: 32, textAlign: 'center',
+        }}>
+          {currentModel}
+        </p>
+      )}
+
+      {/* Suggestion chips */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 10,
+        width: '100%',
+        maxWidth: 480,
+      }}>
+        {quickPrompts.map((p, i) => (
+          <button
+            key={i}
+            onClick={() => onPrompt(p.text)}
+            onMouseEnter={() => setHoveredIdx(i)}
+            onMouseLeave={() => setHoveredIdx(null)}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '12px 16px',
+              background: hoveredIdx === i ? 'var(--bg-hover)' : 'var(--bg-tertiary)',
+              border: `1px solid ${hoveredIdx === i ? 'var(--border-focus)' : 'var(--border-default)'}`,
+              borderRadius: 10, cursor: 'pointer',
+              fontSize: 13, color: 'var(--text-secondary)',
+              textAlign: 'left', transition: 'all 0.12s',
+              fontFamily: 'inherit', lineHeight: 1.4,
+            }}
+          >
+            <span style={{ fontSize: 16, flexShrink: 0 }}>{p.icon}</span>
+            <span>{p.text}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── Connection status bar ─────────────────────────────────────────
+
+function ConnectionBanner({ status, onReconnect }: { status: string; onReconnect: () => void }) {
+  if (status === 'connected') return null
+
+  const isReconnecting = status === 'reconnecting' || status === 'connecting'
+  const color = isReconnecting ? 'var(--accent-yellow)' : 'var(--accent-red)'
+  const bg = isReconnecting ? 'rgba(251,191,36,0.08)' : 'rgba(248,113,113,0.08)'
+  const border = isReconnecting ? 'rgba(251,191,36,0.25)' : 'rgba(248,113,113,0.25)'
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+      padding: '7px 16px', margin: '0 0 8px',
+      background: bg, border: `1px solid ${border}`,
+      borderRadius: 8, fontSize: 12, color,
+    }}>
+      {isReconnecting && (
+        <div style={{
+          width: 8, height: 8, borderRadius: '50%',
+          background: color, animation: 'pulse-dot 1.2s infinite',
+        }} />
+      )}
+      <span>{isReconnecting ? '正在重連後端...' : '連接已中斷'}</span>
+      {!isReconnecting && (
+        <button
+          onClick={onReconnect}
+          style={{
+            padding: '2px 10px', borderRadius: 5,
+            border: `1px solid ${color}`, background: 'transparent',
+            color, fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
+          }}
+        >
+          重連
+        </button>
+      )}
+    </div>
+  )
+}
+
+// ── Input area ────────────────────────────────────────────────────
+
+interface InputAreaProps {
+  value: string
+  onChange: (v: string) => void
+  onSend: () => void
+  onAbort: () => void
+  isStreaming: boolean
+  wsStatus: string
+  textareaRef: React.RefObject<HTMLTextAreaElement>
+}
+
+function InputArea({ value, onChange, onSend, onAbort, isStreaming, wsStatus, textareaRef }: InputAreaProps) {
+  const currentModel = useChatStore((s) => s.currentModel)
+  const currentProvider = useChatStore((s) => s.currentProvider)
+  const canSend = value.trim().length > 0 && wsStatus === 'connected' && !isStreaming
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      if (canSend) onSend()
+    }
+  }
+
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onChange(e.target.value)
+    const el = e.target
+    el.style.height = '44px'
+    el.style.height = Math.min(el.scrollHeight, 200) + 'px'
+  }
+
+  return (
+    <div style={{
+      borderTop: '1px solid var(--border-muted)',
+      padding: '12px 16px 16px',
+      background: 'var(--bg-primary)',
+    }}>
+      <div style={{ maxWidth: 'var(--chat-max-width)', margin: '0 auto' }}>
+        <ConnectionBanner status={wsStatus} onReconnect={() => useChatStore.getState().reconnectModeWs(MODE)} />
+
+        <div style={{
+          background: 'var(--bg-tertiary)',
+          border: `1px solid var(--border-default)`,
+          borderRadius: 14,
+          overflow: 'hidden',
+          transition: 'border-color 0.15s',
+        }}
+          onFocusCapture={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-focus)' }}
+          onBlurCapture={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-default)' }}
+        >
+          <textarea
+            ref={textareaRef}
+            value={value}
+            onChange={handleInput}
+            onKeyDown={handleKeyDown}
+            rows={1}
+            placeholder="Ask Cato anything… (Enter to send, Shift+Enter for newline)"
+            style={{
+              width: '100%', padding: '14px 16px 6px',
+              background: 'transparent', border: 'none',
+              color: 'var(--text-primary)', fontSize: 14,
+              lineHeight: 1.6, resize: 'none',
+              outline: 'none', fontFamily: 'inherit',
+              minHeight: 44, maxHeight: 200,
+              display: 'block',
+            }}
+          />
+
+          {/* Footer row inside input */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '6px 12px 10px',
+          }}>
+            {/* Model badge */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              fontSize: 11, color: 'var(--text-muted)',
+            }}>
+              {currentProvider && (
+                <span style={{
+                  padding: '2px 7px', borderRadius: 4,
+                  background: 'var(--bg-hover)',
+                  border: '1px solid var(--border-muted)',
+                  textTransform: 'capitalize',
+                }}>
+                  {currentProvider}
+                </span>
+              )}
+              {currentModel && (
+                <span style={{ color: 'var(--text-muted)' }}>
+                  {currentModel.length > 30 ? currentModel.slice(0, 28) + '…' : currentModel}
+                </span>
+              )}
+            </div>
+
+            {/* Send / Stop button */}
+            {isStreaming ? (
+              <button
+                onClick={onAbort}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  padding: '5px 14px', borderRadius: 8,
+                  border: '1px solid var(--accent-red)',
+                  background: 'transparent', color: 'var(--accent-red)',
+                  fontSize: 13, fontWeight: 500, cursor: 'pointer',
+                  fontFamily: 'inherit', transition: 'all 0.12s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(248,113,113,0.08)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
+              >
+                <span style={{ fontSize: 10 }}>■</span> Stop
+              </button>
+            ) : (
+              <button
+                onClick={onSend}
+                disabled={!canSend}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  padding: '5px 14px', borderRadius: 8,
+                  border: 'none',
+                  background: canSend
+                    ? 'linear-gradient(135deg, #cc785c 0%, #a85c3e 100%)'
+                    : 'var(--bg-hover)',
+                  color: canSend ? '#fff' : 'var(--text-muted)',
+                  fontSize: 13, fontWeight: 500,
+                  cursor: canSend ? 'pointer' : 'default',
+                  fontFamily: 'inherit', transition: 'all 0.12s',
+                  boxShadow: canSend ? '0 2px 8px rgba(204,120,92,0.3)' : 'none',
+                }}
+              >
+                Send
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+
+        <p style={{ textAlign: 'center', fontSize: 11, color: 'var(--text-muted)', marginTop: 8 }}>
+          Ctrl+K 切換模型 · Agent 模式可執行命令、讀寫文件、搜索代碼
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// ── Main page ─────────────────────────────────────────────────────
 
 export default function ChatPage() {
   const { sessionId: urlSessionId } = useParams<{ sessionId?: string }>()
@@ -129,23 +285,24 @@ export default function ChatPage() {
 
   const messages = store.modeMessages[MODE] ?? []
   const isStreaming = store.modeStreaming[MODE] ?? false
+  const wsStatus = useChatStore((s) => s.wsStatus[MODE] ?? 'disconnected')
 
   const [input, setInput] = useState('')
   const [permissionRequest, setPermissionRequest] = useState<{
     toolName: string; toolId: string; input: Record<string, unknown>; description: string
   } | null>(null)
+
   const messageEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const wsRef = useRef<WebSocket | null>(null)
   const pendingMessagesRef = useRef<string[]>([])
 
-  // Load session history from URL param
+  // Load session history from URL
   useEffect(() => {
     if (!urlSessionId) return
     const currentSessionId = useChatStore.getState().getModeSession(MODE)
     if (currentSessionId === urlSessionId && messages.length > 0) return
 
-    // Fetch session from backend and populate messages
     fetch(`/api/sessions/${urlSessionId}`)
       .then((r) => {
         if (!r.ok) throw new Error('Session not found')
@@ -154,8 +311,6 @@ export default function ChatPage() {
       .then((data) => {
         const s = useChatStore.getState()
         s.setModeSession(MODE, urlSessionId)
-
-        // Convert stored messages to ChatMessage format
         const chatMessages: ChatMessage[] = (data.messages || [])
           .filter((m: any) => m.role === 'user' || m.role === 'assistant')
           .map((m: any) => ({
@@ -166,156 +321,113 @@ export default function ChatPage() {
               : Array.isArray(m.content) ? m.content : [],
             timestamp: data.createdAt || Date.now(),
           }))
-
         s.setModeMessages(MODE, chatMessages)
       })
       .catch(() => {
-        // Session not found — just set the ID so new messages go to this session
         useChatStore.getState().setModeSession(MODE, urlSessionId)
       })
   }, [urlSessionId])
 
-  // Auto-scroll to bottom
+  // Auto-scroll
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // WebSocket message handler
-  const handleServerMessage = useCallback(
-    (msg: Record<string, unknown>) => {
-      const store = useChatStore.getState()
+  // WS message handler
+  const handleServerMessage = useCallback((msg: Record<string, unknown>) => {
+    const s = useChatStore.getState()
 
-      switch (msg.type) {
-        case 'session_info': {
-          const sessionId = (msg.sessionId as string) || (msg.session_id as string)
-          if (sessionId) {
-            store.setModeSession(MODE, sessionId)
-            window.dispatchEvent(new CustomEvent('sessions-updated'))
-          }
-          if (msg.model && msg.provider) {
-            store.setModelLocal(msg.model as string, msg.provider as string)
-          }
-          break
-        }
-
-        case 'stream_start': {
-          store.setModeStreaming(MODE, true)
-          const { currentModel, currentProvider } = useChatStore.getState()
-          const assistantMsg: ChatMessage = {
-            id: (msg.messageId as string) || crypto.randomUUID(),
-            role: 'assistant',
-            content: [],
-            model: currentModel,
-            provider: currentProvider,
-            timestamp: Date.now(),
-            streaming: true,
-          }
-          store.addModeMessage(MODE, assistantMsg)
-          break
-        }
-
-        case 'stream_delta':
-          if (msg.contentType === 'text') {
-            store.appendModeTextDelta(MODE, msg.text as string)
-          } else if (msg.contentType === 'thinking') {
-            store.appendModeThinkingDelta(MODE, msg.text as string)
-          }
-          break
-
-        case 'stream_text_delta':
-          store.appendModeTextDelta(MODE, msg.text as string)
-          break
-
-        case 'stream_thinking_delta':
-          store.appendModeThinkingDelta(MODE, msg.text as string)
-          break
-
-        case 'tool_use_start':
-          store.updateLastModeAssistant(MODE, (m) => ({
-            ...m,
-            content: [
-              ...m.content,
-              { type: 'tool_use', id: msg.toolId as string, name: msg.toolName as string, input: msg.input as Record<string, unknown> },
-            ],
-          }))
-          break
-
-        case 'tool_result':
-          store.updateLastModeAssistant(MODE, (m) => ({
-            ...m,
-            content: [
-              ...m.content,
-              { type: 'tool_result', tool_use_id: msg.toolId as string, content: msg.output as string, is_error: msg.isError as boolean },
-            ],
-          }))
-          break
-
-        case 'message_complete':
-        case 'stream_end':
-          store.setModeStreaming(MODE, false)
-          store.updateLastModeAssistant(MODE, {
-            streaming: false,
-            usage: msg.usage as { inputTokens: number; outputTokens: number } | undefined,
-          })
+    switch (msg.type) {
+      case 'session_info': {
+        const sessionId = (msg.sessionId as string) || (msg.session_id as string)
+        if (sessionId) {
+          s.setModeSession(MODE, sessionId)
           window.dispatchEvent(new CustomEvent('sessions-updated'))
-          break
-
-        case 'error':
-          store.setModeStreaming(MODE, false)
-          store.addModeMessage(MODE, {
-            id: crypto.randomUUID(),
-            role: 'system',
-            content: [{ type: 'text', text: `Error: ${msg.message}` }],
-            timestamp: Date.now(),
-          })
-          break
-
-        case 'permission_request': {
-          const toolName = msg.toolName as string
-          const toolId = msg.toolId as string
-          const sessionId = store.getModeSession(MODE)
-          if (store.isToolAllowed(toolName, sessionId || '')) {
-            const ws = wsRef.current
-            if (ws && ws.readyState === WebSocket.OPEN) {
-              ws.send(JSON.stringify({ type: 'permission_response', toolUseId: toolId, allowed: true }))
-            }
-          } else {
-            setPermissionRequest({
-              toolName,
-              toolId,
-              input: msg.input as Record<string, unknown>,
-              description: msg.description as string,
-            })
-          }
-          break
         }
-
-        case 'title_updated': {
-          const sessionId = (msg as any).sessionId as string
-          const newTitle = (msg as any).title as string
-          if (sessionId && newTitle) {
-            store.setSessionTitle(sessionId, newTitle)
-            window.dispatchEvent(new CustomEvent('sessions-updated'))
-          }
-          break
+        if (msg.model && msg.provider) {
+          s.setModelLocal(msg.model as string, msg.provider as string)
         }
-
-        case 'model_switched':
-          break
+        break
       }
-    },
-    []
-  )
+      case 'stream_start': {
+        s.setModeStreaming(MODE, true)
+        const { currentModel, currentProvider } = useChatStore.getState()
+        s.addModeMessage(MODE, {
+          id: (msg.messageId as string) || crypto.randomUUID(),
+          role: 'assistant', content: [],
+          model: currentModel, provider: currentProvider,
+          timestamp: Date.now(), streaming: true,
+        })
+        break
+      }
+      case 'stream_delta':
+        if (msg.contentType === 'text') s.appendModeTextDelta(MODE, msg.text as string)
+        else if (msg.contentType === 'thinking') s.appendModeThinkingDelta(MODE, msg.text as string)
+        break
+      case 'stream_text_delta':
+        s.appendModeTextDelta(MODE, msg.text as string)
+        break
+      case 'stream_thinking_delta':
+        s.appendModeThinkingDelta(MODE, msg.text as string)
+        break
+      case 'tool_use_start':
+        s.updateLastModeAssistant(MODE, (m) => ({
+          ...m,
+          content: [...m.content, { type: 'tool_use', id: msg.toolId as string, name: msg.toolName as string, input: msg.input as Record<string, unknown> }],
+        }))
+        break
+      case 'tool_result':
+        s.updateLastModeAssistant(MODE, (m) => ({
+          ...m,
+          content: [...m.content, { type: 'tool_result', tool_use_id: msg.toolId as string, content: msg.output as string, is_error: msg.isError as boolean }],
+        }))
+        break
+      case 'message_complete':
+      case 'stream_end':
+        s.setModeStreaming(MODE, false)
+        s.updateLastModeAssistant(MODE, { streaming: false, usage: msg.usage as any })
+        window.dispatchEvent(new CustomEvent('sessions-updated'))
+        break
+      case 'error':
+        s.setModeStreaming(MODE, false)
+        s.addModeMessage(MODE, {
+          id: crypto.randomUUID(), role: 'system',
+          content: [{ type: 'text', text: `Error: ${msg.message}` }],
+          timestamp: Date.now(),
+        })
+        break
+      case 'permission_request': {
+        const toolName = msg.toolName as string
+        const toolId = msg.toolId as string
+        const sessionId = s.getModeSession(MODE)
+        if (s.isToolAllowed(toolName, sessionId || '')) {
+          const ws = wsRef.current
+          if (ws?.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ type: 'permission_response', toolUseId: toolId, allowed: true }))
+          }
+        } else {
+          setPermissionRequest({ toolName, toolId, input: msg.input as Record<string, unknown>, description: msg.description as string })
+        }
+        break
+      }
+      case 'title_updated': {
+        const sessionId = (msg as any).sessionId as string
+        const newTitle = (msg as any).title as string
+        if (sessionId && newTitle) {
+          s.setSessionTitle(sessionId, newTitle)
+          window.dispatchEvent(new CustomEvent('sessions-updated'))
+        }
+        break
+      }
+    }
+  }, [])
 
-  // Get persistent WebSocket from store manager — no reconnect on tab switch
-  const wsStatus = useChatStore((s) => s.wsStatus[MODE] ?? 'disconnected')
-
-  // Connect handler on mount, keep connection alive on unmount
+  // Connect WS on mount
   useEffect(() => {
     useChatStore.getState().connectModeWs(MODE, handleServerMessage)
   }, [])
 
-  // Sync wsRef for send
+  // Sync wsRef and flush pending messages
   useEffect(() => {
     wsRef.current = useChatStore.getState().getModeWs(MODE)
     if (wsStatus === 'connected') {
@@ -324,182 +436,83 @@ export default function ChatPage() {
     }
   }, [wsStatus])
 
-  const handleSend = () => {
-    const trimmed = input.trim()
-    if (!trimmed) return
-    if (isStreaming) return
-
-    const store = useChatStore.getState()
-    const ws = wsRef.current
-
-    const userMsg: ChatMessage = {
-      id: crypto.randomUUID(),
-      role: 'user',
-      content: [{ type: 'text', text: trimmed }],
-      timestamp: Date.now(),
-    }
-    store.addModeMessage(MODE, userMsg)
-
-    if (!ws || ws.readyState !== WebSocket.OPEN) {
-      // Queue message for when ws connects
-      pendingMessagesRef.current.push(trimmed)
-      store.reconnectModeWs(MODE)
-      setInput('')
-      return
-    }
-
-    sendWsMessage(trimmed)
-    setInput('')
-    if (textareaRef.current) {
-      textareaRef.current.style.height = '44px'
-    }
-  }
-
   const sendWsMessage = (content: string) => {
-    const store = useChatStore.getState()
+    const s = useChatStore.getState()
     const ws = wsRef.current
     if (!ws || ws.readyState !== WebSocket.OPEN) return
+    ws.send(JSON.stringify({
+      type: 'user_message', content,
+      sessionId: s.getModeSession(MODE),
+      mode: MODE,
+      model: s.currentModel,
+      provider: s.currentProvider,
+    }))
+  }
 
-    const sessionId = store.getModeSession(MODE)
-    const { currentModel, currentProvider } = store
+  const handleSend = () => {
+    const trimmed = input.trim()
+    if (!trimmed || isStreaming) return
 
-    ws.send(
-      JSON.stringify({
-        type: 'user_message',
-        content,
-        sessionId,
-        mode: MODE,
-        model: currentModel,
-        provider: currentProvider,
-      })
-    )
+    const s = useChatStore.getState()
+    s.addModeMessage(MODE, {
+      id: crypto.randomUUID(), role: 'user',
+      content: [{ type: 'text', text: trimmed }],
+      timestamp: Date.now(),
+    })
+
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+      pendingMessagesRef.current.push(trimmed)
+      s.reconnectModeWs(MODE)
+    } else {
+      sendWsMessage(trimmed)
+    }
+
+    setInput('')
+    if (textareaRef.current) textareaRef.current.style.height = '44px'
   }
 
   const handleAbort = () => {
-    const ws = wsRef.current
-    if (ws?.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type: 'abort' }))
-    }
+    wsRef.current?.send(JSON.stringify({ type: 'abort' }))
     useChatStore.getState().setModeStreaming(MODE, false)
   }
 
-  const newChat = () => {
-    useChatStore.getState().clearModeMessages(MODE)
-  }
-
   const handlePermissionDecision = useCallback((toolId: string, allowed: boolean) => {
-    const ws = wsRef.current
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type: 'permission_response', toolUseId: toolId, allowed }))
-    }
+    wsRef.current?.send(JSON.stringify({ type: 'permission_response', toolUseId: toolId, allowed }))
     setPermissionRequest(null)
   }, [])
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
-    }
-  }
-
-  const handleTextareaInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(e.target.value)
-    // Auto-resize
-    const el = e.target
-    el.style.height = '44px'
-    el.style.height = Math.min(el.scrollHeight, 200) + 'px'
-  }
-
   return (
-    <div style={{ ...styles.container, position: 'relative' }}>
-      <ChatModeIndicator />
-      <div style={styles.messageArea}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--bg-primary)' }}>
+      {/* Message area */}
+      <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
         {messages.length === 0 ? (
-          <div style={styles.emptyState}>
-            <div style={styles.emptyIcon}>⚡</div>
-            <div style={styles.emptyTitle}>開始對話</div>
-            <div style={{ fontSize: '13px' }}>
-              選擇模型後，輸入你的問題或嘗試以下快捷提示
-            </div>
-            <div style={styles.emptyHints}>
-              {quickPrompts.map((prompt) => (
-                <div
-                  key={prompt}
-                  style={styles.hintChip}
-                  onClick={() => {
-                    setInput(prompt)
-                    textareaRef.current?.focus()
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--accent-blue)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--border-default)'
-                  }}
-                >
-                  {prompt}
-                </div>
-              ))}
-            </div>
-          </div>
+          <EmptyState onPrompt={(text) => { setInput(text); textareaRef.current?.focus() }} />
         ) : (
-          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{
+            maxWidth: 'var(--chat-max-width)',
+            margin: '0 auto',
+            padding: '24px 24px 8px',
+          }}>
             {messages.map((msg) => (
               <MessageBubble key={msg.id} message={msg} />
             ))}
-            <div ref={messageEndRef} />
+            <div ref={messageEndRef} style={{ height: 16 }} />
           </div>
         )}
       </div>
 
-      <div style={styles.inputArea}>
-        {wsStatus !== 'connected' && (
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-            padding: '6px 12px', marginBottom: '8px', borderRadius: '8px',
-            background: wsStatus === 'reconnecting' ? 'rgba(210,153,34,0.15)' : 'rgba(248,81,73,0.15)',
-            color: wsStatus === 'reconnecting' ? '#d29922' : '#f85149',
-            fontSize: '13px', maxWidth: '900px', margin: '0 auto 8px',
-          }}>
-            <span>{wsStatus === 'reconnecting' ? '正在重連後端...' : wsStatus === 'connecting' ? '正在連接...' : '連接已斷開'}</span>
-            {wsStatus === 'disconnected' && (
-              <button onClick={() => useChatStore.getState().reconnectModeWs(MODE)} style={{
-                padding: '2px 10px', borderRadius: '6px', border: '1px solid #f85149',
-                background: 'transparent', color: '#f85149', fontSize: '12px', cursor: 'pointer',
-              }}>重連</button>
-            )}
-          </div>
-        )}
-        <div style={styles.inputWrapper}>
-          <textarea
-            ref={textareaRef}
-            style={styles.textarea}
-            placeholder="輸入消息... (Enter 發送, Shift+Enter 換行, Ctrl+K 切換模型)"
-            value={input}
-            onChange={handleTextareaInput}
-            onKeyDown={handleKeyDown}
-            rows={1}
-          />
-          {isStreaming ? (
-            <button style={styles.stopBtn} onClick={handleAbort}>
-              停止
-            </button>
-          ) : (
-            <button
-              style={styles.sendBtn(input.trim().length > 0 && wsStatus === 'connected')}
-              onClick={handleSend}
-              disabled={!input.trim() || wsStatus !== 'connected'}
-            >
-              發送
-            </button>
-          )}
-        </div>
-        <div style={styles.hint}>
-          Ctrl+K 快速切換模型 · Ctrl+1/2/3 快捷切換 · Agent 模式：AI 可執行命令、讀寫文件、搜索代碼
-        </div>
-      </div>
+      {/* Input */}
+      <InputArea
+        value={input}
+        onChange={setInput}
+        onSend={handleSend}
+        onAbort={handleAbort}
+        isStreaming={isStreaming}
+        wsStatus={wsStatus}
+        textareaRef={textareaRef}
+      />
 
-      {/* Permission Dialog */}
+      {/* Permission dialog */}
       {permissionRequest && (
         <PermissionDialog
           toolName={permissionRequest.toolName}

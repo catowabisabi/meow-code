@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLayoutStore, type AppMode } from '../../stores/layoutStore.ts'
+import { useChatStore } from '../../stores/chatStore.ts'
 
 const modes: { key: AppMode; label: string; path: string }[] = [
   { key: 'chat', label: 'Chat', path: '/chat' },
@@ -8,150 +9,17 @@ const modes: { key: AppMode; label: string; path: string }[] = [
   { key: 'code', label: 'Code', path: '/code' },
 ]
 
-const styles = {
-  bar: {
-    height: '48px',
-    minHeight: '48px',
-    background: '#0f0f10',
-    borderBottom: '1px solid #2a2a2e',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '0 16px',
-    userSelect: 'none' as const,
-  },
-
-  /* ---- left ---- */
-  left: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    minWidth: '200px',
-  },
-  navBtn: {
-    background: 'none',
-    border: '1px solid #2a2a2e',
-    borderRadius: '6px',
-    color: '#71717a',
-    fontSize: '16px',
-    width: '30px',
-    height: '30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    transition: 'color 0.15s, border-color 0.15s',
-    padding: 0,
-    lineHeight: 1,
-  },
-  breadcrumb: {
-    fontSize: '13px',
-    color: '#71717a',
-    marginLeft: '10px',
-    whiteSpace: 'nowrap' as const,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    maxWidth: '260px',
-  },
-
-  /* ---- center ---- */
-  center: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  tabGroup: {
-    display: 'flex',
-    alignItems: 'center',
-    background: '#151517',
-    border: '1px solid #2a2a2e',
-    borderRadius: '10px',
-    padding: '3px',
-    gap: '2px',
-  },
-  tab: {
-    padding: '5px 18px',
-    fontSize: '13px',
-    fontWeight: 500,
-    borderRadius: '8px',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'background 0.15s, color 0.15s',
-    lineHeight: 1.4,
-  },
-  tabActive: {
-    background: '#2a2a2e',
-    color: '#e6e6e6',
-  },
-  tabInactive: {
-    background: 'transparent',
-    color: '#71717a',
-  },
-
-  /* ---- right ---- */
-  right: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    minWidth: '200px',
-    justifyContent: 'flex-end',
-  },
-  previewBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    background: '#151517',
-    border: '1px solid #2a2a2e',
-    borderRadius: '8px',
-    color: '#a1a1aa',
-    fontSize: '13px',
-    padding: '5px 12px',
-    cursor: 'pointer',
-    transition: 'color 0.15s, border-color 0.15s',
-  },
-  previewCheck: {
-    fontSize: '12px',
-    color: '#22c55e',
-  },
-  panelToggle: {
-    background: 'none',
-    border: '1px solid #2a2a2e',
-    borderRadius: '6px',
-    color: '#71717a',
-    fontSize: '16px',
-    width: '30px',
-    height: '30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    transition: 'color 0.15s, border-color 0.15s',
-    padding: 0,
-    lineHeight: 1,
-  },
-}
-
-function hoverColor(e: React.MouseEvent<HTMLButtonElement>) {
-  ;(e.currentTarget as HTMLButtonElement).style.color = '#e6e6e6'
-  ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#3f3f46'
-}
-function unhoverColor(e: React.MouseEvent<HTMLButtonElement>) {
-  ;(e.currentTarget as HTMLButtonElement).style.color = '#71717a'
-  ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#2a2a2e'
-}
-
 export default function TopBar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { mode, setMode, currentFolder, rightPanelOpen, toggleRightPanel } =
-    useLayoutStore()
+  const { mode, setMode, currentFolder, rightPanelOpen, toggleRightPanel } = useLayoutStore()
+  const currentModel = useChatStore((s) => s.currentModel)
+  const currentProvider = useChatStore((s) => s.currentProvider)
+  const wsStatus = useChatStore((s) => s.wsStatus[mode] ?? 'disconnected')
 
   // Sync mode from URL
   useEffect(() => {
-    const segment = location.pathname.split('/').filter(Boolean)[0] as
-      | AppMode
-      | undefined
+    const segment = location.pathname.split('/').filter(Boolean)[0] as AppMode | undefined
     if (segment && ['chat', 'cowork', 'code'].includes(segment) && segment !== mode) {
       setMode(segment)
     }
@@ -162,60 +30,78 @@ export default function TopBar() {
     navigate(path)
   }
 
-  const showBreadcrumb = mode !== 'chat' && currentFolder
+  // WS status dot
+  const statusColor = wsStatus === 'connected' ? '#4ade80' : wsStatus === 'connecting' || wsStatus === 'reconnecting' ? '#fbbf24' : '#5e5e5e'
 
   return (
-    <div style={styles.bar}>
-      {/* ---- Left ---- */}
-      <div style={styles.left}>
+    <div style={{
+      height: 48, minHeight: 48,
+      background: 'var(--bg-primary)',
+      borderBottom: '1px solid var(--border-muted)',
+      display: 'flex', alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0 16px',
+      userSelect: 'none',
+      gap: 12,
+    }}>
+      {/* ── Left: nav + breadcrumb ── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0, flex: '0 0 auto' }}>
         <button
-          style={styles.navBtn}
           title="Back"
           onClick={() => navigate(-1)}
-          onMouseEnter={hoverColor}
-          onMouseLeave={unhoverColor}
+          style={navBtnStyle}
+          onMouseEnter={hoverIn}
+          onMouseLeave={hoverOut}
         >
-          &#8592;
+          ←
         </button>
         <button
-          style={styles.navBtn}
           title="Forward"
           onClick={() => navigate(1)}
-          onMouseEnter={hoverColor}
-          onMouseLeave={unhoverColor}
+          style={navBtnStyle}
+          onMouseEnter={hoverIn}
+          onMouseLeave={hoverOut}
         >
-          &#8594;
+          →
         </button>
-        {showBreadcrumb && (
-          <span style={styles.breadcrumb} title={currentFolder ?? undefined}>
+        {currentFolder && mode !== 'chat' && (
+          <span style={{
+            fontSize: 12, color: 'var(--text-muted)',
+            marginLeft: 6, maxWidth: 200,
+            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+          }} title={currentFolder}>
             {currentFolder}
           </span>
         )}
       </div>
 
-      {/* ---- Center: mode tabs ---- */}
-      <div style={styles.center}>
-        <div style={styles.tabGroup}>
+      {/* ── Center: mode tabs ── */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          background: 'var(--bg-secondary)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 10, padding: 3, gap: 2,
+        }}>
           {modes.map((m) => {
             const active = m.key === mode
             return (
               <button
                 key={m.key}
-                style={{
-                  ...styles.tab,
-                  ...(active ? styles.tabActive : styles.tabInactive),
-                }}
                 onClick={() => handleTabClick(m.key, m.path)}
-                onMouseEnter={(e) => {
-                  if (!active) {
-                    ;(e.currentTarget as HTMLButtonElement).style.color = '#a1a1aa'
-                  }
+                style={{
+                  padding: '5px 20px',
+                  fontSize: 13, fontWeight: active ? 600 : 400,
+                  borderRadius: 7, border: 'none',
+                  background: active ? 'var(--bg-hover)' : 'transparent',
+                  color: active ? 'var(--text-primary)' : 'var(--text-muted)',
+                  cursor: 'pointer',
+                  transition: 'all 0.12s',
+                  fontFamily: 'inherit',
+                  letterSpacing: active ? '-0.2px' : '0',
                 }}
-                onMouseLeave={(e) => {
-                  if (!active) {
-                    ;(e.currentTarget as HTMLButtonElement).style.color = '#71717a'
-                  }
-                }}
+                onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-secondary)' }}
+                onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)' }}
               >
                 {m.label}
               </button>
@@ -224,25 +110,74 @@ export default function TopBar() {
         </div>
       </div>
 
-      {/* ---- Right ---- */}
-      <div style={styles.right}>
+      {/* ── Right: model + status + panel toggle ── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: '0 0 auto' }}>
+        {/* Model info */}
+        {currentModel && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '4px 10px',
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border-default)',
+            borderRadius: 7, fontSize: 11,
+          }}>
+            {/* WS status dot */}
+            <div style={{
+              width: 6, height: 6, borderRadius: '50%',
+              background: statusColor,
+              flexShrink: 0,
+              ...(wsStatus === 'reconnecting' ? { animation: 'pulse-dot 1s infinite' } : {}),
+            }} />
+            {currentProvider && (
+              <span style={{ color: 'var(--text-muted)', textTransform: 'capitalize' }}>{currentProvider}</span>
+            )}
+            <span style={{
+              color: 'var(--text-secondary)',
+              maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>
+              {currentModel}
+            </span>
+          </div>
+        )}
+
+        {/* Right panel toggle */}
         <button
-          style={{
-            ...styles.panelToggle,
-            ...(rightPanelOpen
-              ? { color: '#e6e6e6', borderColor: '#3f3f46' }
-              : {}),
-          }}
           title="Toggle right panel"
           onClick={toggleRightPanel}
-          onMouseEnter={hoverColor}
-          onMouseLeave={(e) => {
-            if (!rightPanelOpen) unhoverColor(e)
+          style={{
+            ...navBtnStyle,
+            background: rightPanelOpen ? 'var(--bg-hover)' : 'transparent',
+            color: rightPanelOpen ? 'var(--text-primary)' : 'var(--text-muted)',
+            borderColor: rightPanelOpen ? 'var(--border-focus)' : 'var(--border-default)',
           }}
+          onMouseEnter={hoverIn}
+          onMouseLeave={(e) => { if (!rightPanelOpen) hoverOut(e) }}
         >
-          {'☰'}
+          ☰
         </button>
       </div>
     </div>
   )
+}
+
+const navBtnStyle: React.CSSProperties = {
+  background: 'transparent',
+  border: '1px solid var(--border-default)',
+  borderRadius: 6,
+  color: 'var(--text-muted)',
+  fontSize: 15,
+  width: 30, height: 30,
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  cursor: 'pointer',
+  transition: 'color 0.12s, border-color 0.12s',
+  padding: 0, lineHeight: 1, fontFamily: 'inherit',
+}
+
+function hoverIn(e: React.MouseEvent<HTMLButtonElement>) {
+  e.currentTarget.style.color = 'var(--text-primary)'
+  e.currentTarget.style.borderColor = 'var(--border-focus)'
+}
+function hoverOut(e: React.MouseEvent<HTMLButtonElement>) {
+  e.currentTarget.style.color = 'var(--text-muted)'
+  e.currentTarget.style.borderColor = 'var(--border-default)'
 }
