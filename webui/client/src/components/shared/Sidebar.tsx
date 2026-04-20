@@ -19,14 +19,14 @@ interface Session {
 // ---------- Color tokens (Claude.ai dark mode) ----------
 
 const C = {
-  bg: '#151517',
-  bgHover: '#1b1b1f',
-  bgActive: '#1b1b1f',
-  text: '#e6e6e6',
-  textSecondary: '#a1a1aa',
-  textMuted: '#71717a',
-  border: '#2a2a2e',
-  accent: '#f97316',
+  bg: 'var(--bg-sidebar)',
+  bgHover: 'var(--bg-hover)',
+  bgActive: 'var(--bg-tertiary)',
+  text: 'var(--text-primary)',
+  textSecondary: 'var(--text-secondary)',
+  textMuted: 'var(--text-muted)',
+  border: 'var(--border-default)',
+  accent: 'var(--accent-primary)',
 } as const
 
 // ---------- Sidebar dimensions ----------
@@ -472,12 +472,12 @@ export default function Sidebar() {
                 width: 28,
                 height: 28,
                 borderRadius: '50%',
-                background: '#6366f1',
+                background: 'linear-gradient(135deg, #cc785c 0%, #a0522d 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '13px',
-                fontWeight: 600,
+                fontWeight: 700,
                 color: '#fff',
                 flexShrink: 0,
               }}
@@ -525,12 +525,12 @@ export default function Sidebar() {
                 right: collapsed ? undefined : 8,
                 width: collapsed ? 200 : undefined,
                 marginBottom: 4,
-                background: '#1e1e22',
+                background: 'var(--bg-tertiary)',
                 border: `1px solid ${C.border}`,
                 borderRadius: '10px',
                 padding: '4px',
                 zIndex: 1000,
-                boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
               }}
             >
               {[
@@ -604,7 +604,7 @@ export default function Sidebar() {
               width: '90vw',
               maxWidth: '860px',
               maxHeight: '85vh',
-              background: '#151517',
+              background: 'var(--bg-secondary)',
               border: `1px solid ${C.border}`,
               borderRadius: '14px',
               display: 'flex',

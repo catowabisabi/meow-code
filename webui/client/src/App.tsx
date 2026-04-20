@@ -115,42 +115,44 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#0f0f10' }}>
-      <HotkeyManager />
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: 'var(--bg-primary)' }}>
       <GlobalWarningBanner />
-      <Sidebar />
+      <HotkeyManager />
       <ToastContainer />
       {needsSetup && <ApiSetupModal />}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
-        {isMainMode && <TopBar />}
-        <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-          <main style={{ flex: 1, overflow: 'auto', minWidth: 0 }}>
-            <Routes>
-              <Route path="/" element={<Navigate to="/chat" replace />} />
-              <Route path="/chat" element={<ChatPage key="chat-list" />} />
-              <Route path="/chat/:sessionId" element={<ChatPage />} />
-              <Route path="/cowork" element={<CoworkPage />} />
-              <Route path="/cowork/:sessionId" element={<CoworkPage />} />
-              <Route path="/code" element={<CodeModePage key="code-list" />} />
-              <Route path="/code/:sessionId" element={<CodeModePage key="code-session" />} />
-              <Route path="/models" element={<ModelsPage />} />
-              <Route path="/history" element={<HistoryPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/notion" element={<NotionPage />} />
-              <Route path="/memory" element={<MemoryPage />} />
-              <Route path="/skills" element={<SkillsPage />} />
-              <Route path="/database" element={<DatabasePage />} />
-              <Route path="/mcp" element={<MCPPage />} />
-              <Route path="/agents" element={<AgentsPage />} />
-              <Route path="/agent-dashboard" element={<AgentDashboard />} />
-              <Route path="/teams" element={<TeamsPage />} />
-              <Route path="/hooks" element={<HooksPage />} />
-              <Route path="/connections" element={<ConnectionsPage />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/customize" element={<CustomizePage />} />
-            </Routes>
-          </main>
-          {isMainMode && rightPanelOpen && <RightPanel />}
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        <Sidebar />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
+          {isMainMode && <TopBar />}
+          <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
+            <main style={{ flex: 1, overflow: 'auto', minWidth: 0 }}>
+              <Routes>
+                <Route path="/" element={<Navigate to="/chat" replace />} />
+                <Route path="/chat" element={<ChatPage key="chat-list" />} />
+                <Route path="/chat/:sessionId" element={<ChatPage />} />
+                <Route path="/cowork" element={<CoworkPage />} />
+                <Route path="/cowork/:sessionId" element={<CoworkPage />} />
+                <Route path="/code" element={<CodeModePage key="code-list" />} />
+                <Route path="/code/:sessionId" element={<CodeModePage key="code-session" />} />
+                <Route path="/models" element={<ModelsPage />} />
+                <Route path="/history" element={<HistoryPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/notion" element={<NotionPage />} />
+                <Route path="/memory" element={<MemoryPage />} />
+                <Route path="/skills" element={<SkillsPage />} />
+                <Route path="/database" element={<DatabasePage />} />
+                <Route path="/mcp" element={<MCPPage />} />
+                <Route path="/agents" element={<AgentsPage />} />
+                <Route path="/agent-dashboard" element={<AgentDashboard />} />
+                <Route path="/teams" element={<TeamsPage />} />
+                <Route path="/hooks" element={<HooksPage />} />
+                <Route path="/connections" element={<ConnectionsPage />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route path="/customize" element={<CustomizePage />} />
+              </Routes>
+            </main>
+            {isMainMode && rightPanelOpen && <RightPanel />}
+          </div>
         </div>
       </div>
     </div>

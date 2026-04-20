@@ -257,9 +257,6 @@ export const useChatStore = create<ChatState>((set, get) => ({
   clearMessages: () => set({
     messages: [],
     sessionId: null,
-    modeMessages: { chat: [], cowork: [], code: [] },
-    modeSessionId: { chat: null, cowork: null, code: null },
-    modeStreaming: { chat: false, cowork: false, code: false },
   }),
   setWs: (ws) => set({ ws }),
 
