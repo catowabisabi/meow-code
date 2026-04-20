@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { toast } from '../components/shared/Toast'
 
 export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'reconnecting'
 
@@ -96,6 +97,7 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
         onMessageRef.current(msg)
       } catch (e) {
         console.error('[WebSocket] Failed to parse message:', e)
+        toast.error('Invalid message received', 'WebSocket parse error')
       }
     }
 

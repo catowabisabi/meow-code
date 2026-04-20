@@ -3,6 +3,15 @@
 *.sqlite
 *.sqlite3
 
+# ========== Database files (local development) ==========
+api_server/*.db
+api_server/*.log
+api_server/test_results*.json
+api_server/test_*.py
+api_server/progress.db
+api_server/user_settings.db
+api_server/issues.db
+
 # ========== Documentation (internal only) ==========
 webui/**/*.md
 api_server/**/*.md

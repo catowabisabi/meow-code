@@ -72,7 +72,7 @@ export default function App() {
   const location = useLocation()
   const rightPanelOpen = useLayoutStore((s) => s.rightPanelOpen)
   const sidebarCollapsed = useLayoutStore((s) => s.sidebarCollapsed)
-  const isMainMode = MAIN_MODES.some((m) => location.pathname.startsWith(m)) || location.pathname === '/'
+  const isMainMode = (MAIN_MODES.some((m) => location.pathname === m || location.pathname.startsWith(m + '/')) || location.pathname === '/')
   const [needsSetup, setNeedsSetup] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -88,6 +88,12 @@ export default function App() {
       .catch(() => {
         setLoading(false)
       })
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      useChatStore.getState().cleanupAllWs()
+    }
   }, [])
 
   if (loading) {
@@ -125,8 +131,8 @@ export default function App() {
               <Route path="/chat/:sessionId" element={<ChatPage />} />
               <Route path="/cowork" element={<CoworkPage />} />
               <Route path="/cowork/:sessionId" element={<CoworkPage />} />
-              <Route path="/code" element={<CodeModePage />} />
-              <Route path="/code/:sessionId" element={<CodeModePage />} />
+              <Route path="/code" element={<CodeModePage key="code-list" />} />
+              <Route path="/code/:sessionId" element={<CodeModePage key="code-session" />} />
               <Route path="/models" element={<ModelsPage />} />
               <Route path="/history" element={<HistoryPage />} />
               <Route path="/settings" element={<SettingsPage />} />

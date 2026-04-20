@@ -114,7 +114,17 @@ export async function executeTool(
   })
 
   // Permission check for high-risk tools
-  if (tool.riskLevel === 'high' && ctx.requestPermission) {
+  if (tool.riskLevel === 'high') {
+    if (!ctx.requestPermission) {
+      const result: ToolCallResult = {
+        tool_call_id: toolCall.id,
+        name: toolCall.name,
+        output: `Permission required: ${tool.name} is a high-risk tool but no permission callback was provided. This tool cannot execute in the current context.`,
+        isError: true,
+      }
+      onEvent?.({ type: 'tool_end', toolId: toolCall.id, toolName: toolCall.name, result })
+      return result
+    }
     const description = `Execute ${tool.name}: ${JSON.stringify(toolCall.arguments).slice(0, 200)}`
     const allowed = await ctx.requestPermission(tool.name, toolCall.arguments, description)
     if (!allowed) {

@@ -1,0 +1,78 @@
+# Git
+.git
+.gitignore
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment & secrets
+.env
+.env.*
+*.secret
+config.local.*
+
+# Claude / AI tooling
+.claude/
+.sisyphus/
+.opencode/
+skills/
+pending_jobs/
+sisyphus/
+opencode_docs/
+ai_must_read.txt
+
+# Screenshots
+screenshot/
+*.png
+*.jpg
+*.jpeg
+screenshot_b64.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+dist/
+.next/
+.nuxt/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentation
+*.md
+!README.md
+
+# Temporary files
+*.tmp
+*.temp
+*.bak

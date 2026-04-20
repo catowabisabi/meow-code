@@ -238,7 +238,7 @@ export default function Sidebar() {
     fetch(`/api/sessions/${id}`, { method: 'DELETE' })
       .then(() => {
         setSessions((prev) => prev.filter((s) => s.id !== id))
-        // If we just deleted the active session, navigate away
+        useChatStore.getState().removeSessionData(id)
         if (id === currentSessionId) {
           navigate('/chat')
         }

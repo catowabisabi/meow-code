@@ -60,7 +60,8 @@ function connectWs(mode: string, handler: WsHandler) {
     entry.ws = null
   }
 
-  entry.status = entry.retryCount > 0 ? 'reconnecting' : 'connecting'
+  entry.retryCount = 0
+  entry.status = 'connecting'
   useChatStore.getState().notifyWsStatusChange(mode)
 
   const socket = new WebSocket(WS_TARGET)
@@ -164,7 +165,7 @@ interface ChatState {
   setSessionTitle: (sessionId: string, title: string) => void
   /** Connect WebSocket for a mode and register its message handler */
   connectModeWs: (mode: string, handler: (msg: Record<string, unknown>) => void) => void
-  /** Disconnect WebSocket for a mode (does NOT close — keeps connection alive) */
+  /** Disconnect WebSocket for a mode */
   disconnectModeWs: (mode: string) => void
   /** Get the active WebSocket for a mode */
   getModeWs: (mode: string) => WebSocket | null
@@ -172,6 +173,8 @@ interface ChatState {
   notifyWsStatusChange: (mode: string) => void
   /** Manually reconnect a mode's WebSocket */
   reconnectModeWs: (mode: string) => void
+  cleanupAllWs: () => void
+  removeSessionData: (sessionId: string) => void
 }
 
 export const useChatStore = create<ChatState>((set, get) => ({
@@ -251,7 +254,13 @@ export const useChatStore = create<ChatState>((set, get) => ({
     }),
 
   setStreaming: (v) => set({ isStreaming: v }),
-  clearMessages: () => set({ messages: [], sessionId: null }),
+  clearMessages: () => set({
+    messages: [],
+    sessionId: null,
+    modeMessages: { chat: [], cowork: [], code: [] },
+    modeSessionId: { chat: null, cowork: null, code: null },
+    modeStreaming: { chat: false, cowork: false, code: false },
+  }),
   setWs: (ws) => set({ ws }),
 
   sendMessage: (content) => {
@@ -398,8 +407,17 @@ export const useChatStore = create<ChatState>((set, get) => ({
     connectWs(mode, handler)
   },
 
-  disconnectModeWs: (_mode) => {
-    // no-op — connection stays alive
+  disconnectModeWs: (mode) => {
+    const entry = wsManager[mode]
+    if (!entry) return
+    if (entry.ws) {
+      try { entry.ws.close() } catch {}
+      entry.ws = null
+    }
+    entry.status = 'disconnected'
+    entry.handler = null
+    clearWsTimers(entry)
+    set((s) => ({ wsStatus: { ...s.wsStatus, [mode]: 'disconnected' } }))
   },
 
   getModeWs: (mode) => getWs(mode),
@@ -412,5 +430,29 @@ export const useChatStore = create<ChatState>((set, get) => ({
 
   reconnectModeWs: (mode) => {
     reconnectWs(mode)
+  },
+
+  removeSessionData: (sessionId) => set((s) => {
+    const nextAlwaysAllowed = { ...s.alwaysAllowedTools }
+    delete nextAlwaysAllowed[sessionId]
+    const nextTitles = { ...s.sessionTitles }
+    delete nextTitles[sessionId]
+    return { alwaysAllowedTools: nextAlwaysAllowed, sessionTitles: nextTitles }
+  }),
+
+  cleanupAllWs: () => {
+    for (const mode of Object.keys(wsManager)) {
+      const entry = wsManager[mode as keyof typeof wsManager]
+      if (entry.ws) {
+        try { entry.ws.close() } catch {}
+        entry.ws = null
+      }
+      entry.handler = null
+      entry.status = 'disconnected'
+      clearWsTimers(entry)
+    }
+    set(() => ({
+      wsStatus: { chat: 'disconnected', cowork: 'disconnected', code: 'disconnected' },
+    }))
   },
 }))

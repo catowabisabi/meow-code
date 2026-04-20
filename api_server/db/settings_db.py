@@ -96,3 +96,108 @@ def get_all_api_credentials() -> list:
     rows = cursor.fetchall()
     conn.close()
     return [dict(row) for row in rows]
+
+
+# ─── Issues Database ───────────────────────────────────────────────────────────
+
+ISSUES_DB_PATH = Path(__file__).parent.parent / "issues.db"
+
+def get_issues_db():
+    conn = sqlite3.connect(ISSUES_DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_issues_db():
+    conn = get_issues_db()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS issues (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            issue_id TEXT UNIQUE NOT NULL,
+            category TEXT NOT NULL,
+            severity TEXT NOT NULL CHECK(severity IN ('critical', 'high', 'medium', 'low')),
+            title TEXT NOT NULL,
+            description TEXT NOT NULL,
+            file_path TEXT,
+            line_number INTEGER,
+            status TEXT NOT NULL DEFAULT 'open' CHECK(status IN ('open', 'in_progress', 'fixed', 'wontfix')),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            test_plan TEXT
+        )
+    """)
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS health_checks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            check_name TEXT UNIQUE NOT NULL,
+            endpoint TEXT NOT NULL,
+            expected_status INTEGER,
+            description TEXT,
+            last_run TIMESTAMP,
+            last_status TEXT,
+            last_error TEXT
+        )
+    """)
+    
+    conn.commit()
+    conn.close()
+
+def add_issue(
+    issue_id: str,
+    category: str,
+    severity: str,
+    title: str,
+    description: str,
+    file_path: str = None,
+    line_number: int = None,
+    test_plan: str = None,
+) -> None:
+    conn = get_issues_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT OR IGNORE INTO issues (issue_id, category, severity, title, description, file_path, line_number, test_plan)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """, (issue_id, category, severity, title, description, file_path, line_number, test_plan))
+    conn.commit()
+    conn.close()
+
+def get_all_issues() -> list:
+    conn = get_issues_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM issues ORDER BY created_at DESC")
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+def get_issues_by_status(status: str) -> list:
+    conn = get_issues_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM issues WHERE status = ? ORDER BY created_at DESC", (status,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+def update_issue_status(issue_id: str, status: str) -> None:
+    conn = get_issues_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE issues SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE issue_id = ?
+    """, (status, issue_id))
+    conn.commit()
+    conn.close()
+
+def record_health_check(check_name: str, status: str, error: str = None) -> None:
+    conn = get_issues_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO health_checks (check_name, last_run, last_status, last_error)
+        VALUES (?, CURRENT_TIMESTAMP, ?, ?)
+        ON CONFLICT(check_name) DO UPDATE SET
+            last_run = CURRENT_TIMESTAMP,
+            last_status = excluded.last_status,
+            last_error = excluded.last_error
+    """, (check_name, status, error))
+    conn.commit()
+    conn.close()

@@ -554,7 +554,9 @@ export default function CoworkPage() {
         s.setModeMessages(MODE, chatMessages)
       })
       .catch(() => {
-        useChatStore.getState().setModeSession(MODE, urlSessionId)
+        const s = useChatStore.getState()
+        s.setModeSession(MODE, urlSessionId)
+        s.setModeMessages(MODE, [])
       })
   }, [urlSessionId])
 
@@ -664,6 +666,9 @@ export default function CoworkPage() {
 
   useEffect(() => {
     useChatStore.getState().connectModeWs(MODE, handleServerMessage)
+    return () => {
+      useChatStore.getState().disconnectModeWs(MODE)
+    }
   }, [])
 
   useEffect(() => {
@@ -737,7 +742,7 @@ export default function CoworkPage() {
 
   const handleNewTask = () => {
     useChatStore.getState().clearModeMessages(MODE)
-    useChatStore.getState().setModeSession(MODE, null as unknown as string)
+    useChatStore.getState().setModeSession(MODE, '')
     setTaskName('New Task')
   }
 

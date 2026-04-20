@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from pathlib import Path
+import time
 
 from .routes import (
     sessions_router,
@@ -32,7 +33,7 @@ from .routes import (
     container_router,
     mcp_router,
 )
-from .db.settings_db import init_db
+from .db.settings_db import init_db, init_issues_db, get_db, get_issues_db
 from .ws.chat import websocket_endpoint
 from .ws.agent_summary_ws import agent_summary_websocket
 from .ws.bridge_ws import bridge_websocket
@@ -47,6 +48,7 @@ async def lifespan(app: FastAPI):
     from api_server.tools.register import register_all_tools
     register_all_tools()
     init_db()
+    init_issues_db()
     yield
 
 
@@ -93,7 +95,39 @@ def create_app() -> FastAPI:
 
     @app.get("/health")
     async def health():
-        return {"status": "ok"}
+        checks = []
+        overall_ok = True
+        
+        start = time.time()
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            cursor.execute("SELECT 1")
+            cursor.fetchone()
+            conn.close()
+            db_ms = round((time.time() - start) * 1000, 1)
+            checks.append({"name": "sqlite_db", "status": "ok", "latency_ms": db_ms})
+        except Exception as e:
+            checks.append({"name": "sqlite_db", "status": "error", "error": str(e)})
+            overall_ok = False
+        
+        start = time.time()
+        try:
+            issues_conn = get_issues_db()
+            cursor = issues_conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM issues WHERE status = 'open'")
+            open_count = cursor.fetchone()[0]
+            issues_conn.close()
+            issues_ms = round((time.time() - start) * 1000, 1)
+            checks.append({"name": "issues_db", "status": "ok", "open_issues": open_count, "latency_ms": issues_ms})
+        except Exception as e:
+            checks.append({"name": "issues_db", "status": "error", "error": str(e)})
+            overall_ok = False
+        
+        if overall_ok:
+            return {"status": "ok", "checks": checks, "timestamp": time.time()}
+        else:
+            return {"status": "degraded", "checks": checks, "timestamp": time.time()}
 
     if WEBUI_DIST.exists():
         # Serve /assets/* as static files
