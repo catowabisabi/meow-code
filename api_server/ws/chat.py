@@ -38,6 +38,7 @@ from .protocol import (
     ServerSessionInfo,
     ServerModelSwitched,
     ServerPong,
+    ServerPermissionRequest,
     ContentBlock,
     UnifiedMessage,
     ToolCall,
@@ -932,14 +933,19 @@ async def execute_tool_calls_real(
 ) -> List[ToolCallResult]:
     """Real tool executor using api_server.tools."""
     results: List[ToolCallResult] = []
-    
+
     def abort_signal() -> bool:
         return abort_event.is_set()
-    
+
+    async def _request_permission(tool_name: str, tool_input: dict, description: str) -> bool:
+        return await request_permission_via_ws(websocket, session, tool_name, tool_input, description)
+
+    project_cwd = session.folder or "."
+
     ctx = ToolContext(
-        cwd=".",
+        cwd=project_cwd,
         abort_signal=abort_signal,
-        request_permission=None,
+        request_permission=_request_permission,
         on_progress=None,
     )
     
@@ -1000,26 +1006,32 @@ async def execute_tool_calls_mock(
 # ─── Permission Request Helper ─────────────────────────────────
 
 
-async def request_permission_mock(
+async def request_permission_via_ws(
+    websocket: WebSocket,
     session: ChatSession,
     tool_name: str,
     tool_input: dict,
     description: str,
 ) -> bool:
-    """
-    Request permission from user (mock implementation).
-    
-    In real implementation, this would send a permission_request
-    and wait for user response.
-    """
-    perm_id = str(uuid.uuid4())
+    """Send a permission_request to the frontend and wait for user's allow/deny."""
+    tool_id = str(uuid.uuid4())
     future: asyncio.Future = asyncio.get_event_loop().create_future()
-    session.pending_permissions[perm_id] = future
-    
-    await asyncio.sleep(0.1)
-    future.set_result(True)
-    
-    return future.result()
+    session.pending_permissions[tool_id] = future
+
+    await send_message(websocket, ServerPermissionRequest(
+        type="permission_request",
+        toolName=tool_name,
+        toolId=tool_id,
+        input=tool_input,
+        description=description,
+    ))
+
+    try:
+        allowed = await asyncio.wait_for(future, timeout=300.0)
+        return bool(allowed)
+    except asyncio.TimeoutError:
+        session.pending_permissions.pop(tool_id, None)
+        return False
 
 
 # ─── Utility Functions ──────────────────────────────────────────

@@ -426,7 +426,17 @@ async def _file_write(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         file_path = args["file_path"]
         content = args["content"]
         full_path = expand_path(file_path)
-        
+
+        # Restrict writes to the project working directory
+        if ctx.cwd:
+            allowed_root = os.path.abspath(ctx.cwd)
+            if not full_path.startswith(allowed_root + os.sep) and full_path != allowed_root:
+                return ToolResult(
+                    tool_call_id=tool_call_id,
+                    output=f"Error: cannot write outside project directory ({allowed_root}). Path: {full_path}",
+                    is_error=True,
+                )
+
         path = Path(full_path)
         original_content = None
         file_existed = path.exists()
@@ -483,7 +493,16 @@ async def _file_edit(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         new_str = args["new_string"]
         replace_all = args.get("replace_all", False)
         full_path = expand_path(file_path)
-        
+
+        if ctx.cwd:
+            allowed_root = os.path.abspath(ctx.cwd)
+            if not full_path.startswith(allowed_root + os.sep) and full_path != allowed_root:
+                return ToolResult(
+                    tool_call_id=tool_call_id,
+                    output=f"Error: cannot edit outside project directory ({allowed_root}). Path: {full_path}",
+                    is_error=True,
+                )
+
         if old_str == new_str:
             return ToolResult(
                 tool_call_id=tool_call_id,
