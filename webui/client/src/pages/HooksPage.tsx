@@ -1,198 +1,216 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
+import { hooksApi, Hook, HookExecution } from "../../services/hooks";
+import styles from "./HooksPage.module.css";
 
-interface Hook {
-  name: string
-  type: 'pre-command' | 'post-command' | 'pre-task' | 'post-task'
-  enabled: boolean
-  script: string
-  description: string
-}
-
-const styles = {
-  container: { padding: '24px 32px', maxWidth: '900px', margin: '0 auto' },
-  title: { fontSize: '22px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' },
-  subtitle: { fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '24px' },
-  section: { background: 'var(--bg-secondary)', border: '1px solid #2a2a2e', borderRadius: '12px', padding: '20px', marginBottom: '16px' },
-  sectionTitle: { fontSize: '16px', fontWeight: 600, marginBottom: '14px', color: 'var(--text-primary)' },
-  hookCard: { background: 'var(--bg-primary)', border: '1px solid #2a2a2e', borderRadius: '8px', padding: '14px', marginBottom: '10px' },
-  hookTop: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' },
-  hookName: { fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' },
-  hookDesc: { fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' },
-  hookScript: { marginTop: '10px', padding: '10px', background: 'var(--bg-tertiary)', borderRadius: '6px', fontSize: '12px', fontFamily: 'monospace', color: '#9ca3af', whiteSpace: 'pre-wrap' as const, maxHeight: '100px', overflowY: 'auto' as const },
-  typeBadge: (type: string) => ({
-    padding: '2px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 500,
-    background: type.includes('pre') ? 'rgba(59,130,246,0.1)' : 'rgba(34,197,94,0.1)',
-    color: type.includes('pre') ? 'var(--accent-blue)' : 'var(--accent-green)',
-    border: `1px solid ${type.includes('pre') ? 'rgba(59,130,246,0.3)' : 'rgba(34,197,94,0.3)'}`,
-  }),
-  toggle: (enabled: boolean) => ({
-    padding: '4px 10px', borderRadius: '14px', border: `1px solid ${enabled ? 'var(--accent-green)' : 'var(--text-muted)'}`,
-    background: enabled ? 'rgba(34,197,94,0.12)' : 'rgba(113,113,122,0.1)',
-    color: enabled ? 'var(--accent-green)' : 'var(--text-muted)', fontSize: '11px', cursor: 'pointer', fontFamily: 'inherit',
-  }),
-  addBtn: { padding: '8px 16px', borderRadius: '8px', border: 'none', background: 'var(--accent-primary)', color: '#fff', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' },
-  editBtn: { padding: '4px 10px', borderRadius: '6px', border: '1px solid #2a2a2e', background: 'transparent', color: 'var(--text-secondary)', fontSize: '12px', cursor: 'pointer' },
-  deleteBtn: { padding: '4px 10px', borderRadius: '6px', border: 'none', background: 'transparent', color: 'var(--accent-red)', fontSize: '12px', cursor: 'pointer' },
-  empty: { textAlign: 'center' as const, padding: '30px', color: 'var(--text-muted)', fontSize: '13px' },
-  infoBox: { background: 'var(--bg-primary)', border: '1px solid #2a2a2e', borderRadius: '8px', padding: '14px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6 },
-  modal: { position: 'fixed' as const, inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 },
-  modalContent: { background: 'var(--bg-secondary)', border: '1px solid #2a2a2e', borderRadius: '12px', padding: '24px', width: '500px', maxWidth: '90vw' },
-  field: { marginBottom: '14px' },
-  label: { fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px', display: 'block' },
-  input: { width: '100%', padding: '8px 12px', background: 'var(--bg-primary)', border: '1px solid #2a2a2e', borderRadius: '6px', color: 'var(--text-primary)', fontSize: '14px', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' as const },
-  select: { width: '100%', padding: '8px 12px', background: 'var(--bg-primary)', border: '1px solid #2a2a2e', borderRadius: '6px', color: 'var(--text-primary)', fontSize: '14px', outline: 'none' },
-}
-
-const TYPE_LABELS: Record<string, string> = {
-  'pre-command': 'Pre-Command',
-  'post-command': 'Post-Command',
-  'pre-task': 'Pre-Task',
-  'post-task': 'Post-Task',
-}
-
-function Modal({ title, children, onClose }: { title: string; children: React.ReactNode; onClose: () => void }) {
-  return (
-    <div style={styles.modal} onClick={onClose}>
-      <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{title}</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '20px', cursor: 'pointer' }}>✕</button>
-        </div>
-        {children}
-      </div>
-    </div>
-  )
-}
-
-export default function HooksPage() {
-  const [hooks, setHooks] = useState<Hook[]>([])
-  const [loading, setLoading] = useState(true)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [editingHook, setEditingHook] = useState<Hook | undefined>()
-  const [newHook, setNewHook] = useState<Hook>({ name: '', type: 'post-command', enabled: true, script: '#!/bin/bash\necho "Hook running..."', description: '' })
+export function HooksPage() {
+  const [hooks, setHooks] = useState<Hook[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedHook, setSelectedHook] = useState<Hook | null>(null);
+  const [executions, setExecutions] = useState<HookExecution[]>([]);
 
   useEffect(() => {
-    const mockHooks: Hook[] = [
-      { name: 'lint-check', type: 'pre-command', enabled: true, description: 'Run linter before git commits', script: '#!/bin/bash\nexit 0' },
-      { name: 'format-code', type: 'post-command', enabled: false, description: 'Auto-format code after changes', script: '#!/bin/bash\nnpm run format' },
-      { name: 'test-runner', type: 'post-task', enabled: true, description: 'Run tests after task completion', script: '#!/bin/bash\nnpm test' },
-    ]
-    setHooks(mockHooks)
-    setLoading(false)
-  }, [])
+    loadHooks();
+  }, []);
 
-  const handleSave = () => {
-    if (editingHook) {
-      setHooks(hooks.map((h) => (h.name === editingHook.name ? { ...newHook, name: editingHook.name } : h)))
-    } else {
-      setHooks([...hooks, newHook])
+  const loadHooks = async () => {
+    try {
+      setLoading(true);
+      const data = await hooksApi.getHooks();
+      setHooks(data);
+    } catch (err: any) {
+      setError(err.message || "Failed to load hooks");
+    } finally {
+      setLoading(false);
     }
-    setModalOpen(false)
-    setEditingHook(undefined)
-    setNewHook({ name: '', type: 'post-command', enabled: true, script: '#!/bin/bash\necho "Hook running..."', description: '' })
-  }
+  };
 
-  const handleEdit = (hook: Hook) => {
-    setEditingHook(hook)
-    setNewHook(hook)
-    setModalOpen(true)
-  }
+  const handleCreateHook = async (data: Partial<Hook>) => {
+    try {
+      await hooksApi.createHook(data);
+      setShowCreateModal(false);
+      loadHooks();
+    } catch (err: any) {
+      setError(err.message || "Failed to create hook");
+    }
+  };
 
-  const handleDelete = (name: string) => {
-    if (!confirm(`Delete hook "${name}"?`)) return
-    setHooks(hooks.filter((h) => h.name !== name))
-  }
+  const handleUpdateHook = async (hookId: string, data: Partial<Hook>) => {
+    try {
+      await hooksApi.updateHook(hookId, data);
+      setSelectedHook(null);
+      loadHooks();
+    } catch (err: any) {
+      setError(err.message || "Failed to update hook");
+    }
+  };
 
-  const handleToggle = (name: string) => {
-    setHooks(hooks.map((h) => (h.name === name ? { ...h, enabled: !h.enabled } : h)))
-  }
+  const handleDeleteHook = async (hookId: string) => {
+    if (!confirm("Are you sure you want to delete this hook?")) return;
+    try {
+      await hooksApi.deleteHook(hookId);
+      loadHooks();
+    } catch (err: any) {
+      setError(err.message || "Failed to delete hook");
+    }
+  };
+
+  const handleExecuteHook = async (hookId: string) => {
+    try {
+      await hooksApi.executeHook(hookId);
+      loadHooks();
+    } catch (err: any) {
+      setError(err.message || "Failed to execute hook");
+    }
+  };
+
+  const loadExecutions = async (hookId: string) => {
+    try {
+      const data = await hooksApi.getHookExecutions(hookId);
+      setExecutions(data);
+    } catch (err: any) {
+      console.error("Failed to load executions", err);
+    }
+  };
+
+  const getTriggerIcon = (triggerType: string) => {
+    switch (triggerType) {
+      case "on_commit": return "✓";
+      case "on_pr": return "⬡";
+      case "on_deploy": return "🚀";
+      case "on_timer": return "⏰";
+      default: return "⚡";
+    }
+  };
+
+  if (loading) return <div className={styles.loading}>Loading hooks...</div>;
+  if (error) return <div className={styles.error}>{error}</div>;
 
   return (
-    <div style={styles.container}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-        <div style={styles.title}>Hooks</div>
-        <button onClick={() => { setEditingHook(undefined); setNewHook({ name: '', type: 'post-command', enabled: true, script: '#!/bin/bash\necho "Hook running..."', description: '' }); setModalOpen(true) }} style={styles.addBtn}>+ Add Hook</button>
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Hooks</h1>
+        <button className={styles.buttonPrimary} onClick={() => setShowCreateModal(true)}>
+          Create Hook
+        </button>
       </div>
-      <div style={styles.subtitle}>Configure pre/post command and task hooks for automation.</div>
 
-      {loading ? <div style={styles.empty}>Loading hooks...</div> : (
-        <>
-          <div style={styles.section}>
-            <div style={styles.sectionTitle}>Active Hooks ({hooks.filter((h) => h.enabled).length})</div>
-            {hooks.length === 0 ? (
-              <div style={styles.empty}>No hooks configured. Add one to get started.</div>
-            ) : hooks.map((hook) => (
-              <div key={hook.name} style={styles.hookCard}>
-                <div style={styles.hookTop}>
-                  <div>
-                    <div style={styles.hookName}>{hook.name}</div>
-                    <div style={styles.hookDesc}>{hook.description || 'No description'}</div>
-                    <div style={{ marginTop: '6px' }}><span style={styles.typeBadge(hook.type)}>{TYPE_LABELS[hook.type]}</span></div>
-                  </div>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <button onClick={() => handleToggle(hook.name)} style={styles.toggle(hook.enabled)}>{hook.enabled ? 'ON' : 'OFF'}</button>
-                    <button onClick={() => handleEdit(hook)} style={styles.editBtn}>Edit</button>
-                    <button onClick={() => handleDelete(hook.name)} style={styles.deleteBtn}>Delete</button>
-                  </div>
+      <div className={styles.hooksList}>
+        {hooks.length === 0 ? (
+          <div className={styles.empty}>No hooks configured</div>
+        ) : (
+          hooks.map(hook => (
+            <div key={hook.id} className={`${styles.hookCard} ${!hook.is_active ? styles.inactive : ""}`}>
+              <div className={styles.hookHeader}>
+                <span className={styles.triggerIcon}>{getTriggerIcon(hook.trigger_type)}</span>
+                <div className={styles.hookInfo}>
+                  <h3 className={styles.hookName}>{hook.name}</h3>
+                  <span className={styles.hookType}>{hook.hook_type}</span>
                 </div>
-                <div style={styles.hookScript}>{hook.script}</div>
+                <label className={styles.toggle}>
+                  <input
+                    type="checkbox"
+                    checked={hook.is_active}
+                    onChange={() => handleUpdateHook(hook.id, { is_active: !hook.is_active })}
+                  />
+                  <span className={styles.slider}></span>
+                </label>
               </div>
-            ))}
-          </div>
-
-          <div style={styles.section}>
-            <div style={styles.sectionTitle}>Hook Types</div>
-            <div style={styles.infoBox}>
-              <div style={{ marginBottom: '12px' }}>
-                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Pre-Command</div>
-                <div>Runs before a command is executed. Can modify or reject the command.</div>
+              <div className={styles.hookMeta}>
+                <span>Trigger: {hook.trigger_type}</span>
+                <span>Created: {new Date(hook.created_at).toLocaleDateString()}</span>
               </div>
-              <div style={{ marginBottom: '12px' }}>
-                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Post-Command</div>
-                <div>Runs after a command completes. Useful for notifications or cleanup.</div>
-              </div>
-              <div style={{ marginBottom: '12px' }}>
-                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Pre-Task</div>
-                <div>Runs before a task starts. Can validate task parameters.</div>
-              </div>
-              <div>
-                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>Post-Task</div>
-                <div>Runs after a task completes. Useful for testing or deployment.</div>
+              <div className={styles.hookActions}>
+                <button className={styles.buttonSmall} onClick={() => { setSelectedHook(hook); loadExecutions(hook.id); }}>
+                  View Executions
+                </button>
+                <button className={styles.buttonSmall} onClick={() => handleExecuteHook(hook.id)}>
+                  Execute
+                </button>
+                <button className={styles.buttonSmall} onClick={() => setSelectedHook(hook)}>
+                  Edit
+                </button>
+                <button className={styles.buttonDanger} onClick={() => handleDeleteHook(hook.id)}>
+                  Delete
+                </button>
               </div>
             </div>
-          </div>
-        </>
+          ))
+        )}
+      </div>
+
+      {showCreateModal && (
+        <HookModal
+          onClose={() => setShowCreateModal(false)}
+          onSubmit={handleCreateHook}
+        />
       )}
 
-      {modalOpen && (
-        <Modal title={editingHook ? `Edit Hook: ${editingHook.name}` : 'Add New Hook'} onClose={() => { setModalOpen(false); setEditingHook(undefined) }}>
-          <div style={styles.field}>
-            <label style={styles.label}>Hook Name</label>
-            <input style={styles.input} value={newHook.name} onChange={(e) => setNewHook({ ...newHook, name: e.target.value })} placeholder="e.g. lint-before-commit" disabled={!!editingHook} />
-          </div>
-          <div style={styles.field}>
-            <label style={styles.label}>Type</label>
-            <select style={styles.select} value={newHook.type} onChange={(e) => setNewHook({ ...newHook, type: e.target.value as Hook['type'] })}>
-              <option value="pre-command">Pre-Command</option>
-              <option value="post-command">Post-Command</option>
-              <option value="pre-task">Pre-Task</option>
-              <option value="post-task">Post-Task</option>
-            </select>
-          </div>
-          <div style={styles.field}>
-            <label style={styles.label}>Description</label>
-            <input style={styles.input} value={newHook.description} onChange={(e) => setNewHook({ ...newHook, description: e.target.value })} placeholder="What does this hook do?" />
-          </div>
-          <div style={styles.field}>
-            <label style={styles.label}>Script</label>
-            <textarea style={{ ...styles.input, minHeight: '150px', fontFamily: 'monospace', resize: 'vertical' }} value={newHook.script} onChange={(e) => setNewHook({ ...newHook, script: e.target.value })} placeholder="#!/bin/bash&#10;echo 'Running hook...'" />
-          </div>
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-            <button onClick={() => { setModalOpen(false); setEditingHook(undefined) }} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid #2a2a2e', background: 'transparent', color: 'var(--text-secondary)', fontSize: '13px', cursor: 'pointer' }}>Cancel</button>
-            <button onClick={handleSave} style={styles.addBtn}>Save</button>
-          </div>
-        </Modal>
+      {selectedHook && (
+        <HookModal
+          hook={selectedHook}
+          onClose={() => setSelectedHook(null)}
+          onSubmit={(data) => handleUpdateHook(selectedHook.id, data)}
+        />
       )}
     </div>
-  )
+  );
+}
+
+function HookModal({ hook, onClose, onSubmit }: { hook?: Hook; onClose: () => void; onSubmit: (data: Partial<Hook>) => void }) {
+  const [name, setName] = useState(hook?.name || "");
+  const [triggerType, setTriggerType] = useState(hook?.trigger_type || "on_commit");
+  const [hookType, setHookType] = useState(hook?.hook_type || "webhook");
+  const [code, setCode] = useState(hook?.code || "");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit({
+      name,
+      trigger_type: triggerType,
+      hook_type: hookType,
+      code,
+      config: {},
+    });
+  };
+
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modal}>
+        <h2 className={styles.modalTitle}>{hook ? "Edit Hook" : "Create Hook"}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <label>Name</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+          </div>
+          <div className={styles.field}>
+            <label>Trigger Type</label>
+            <select value={triggerType} onChange={(e) => setTriggerType(e.target.value)}>
+              <option value="on_commit">On Commit</option>
+              <option value="on_pr">On Pull Request</option>
+              <option value="on_deploy">On Deploy</option>
+              <option value="on_timer">On Timer</option>
+            </select>
+          </div>
+          <div className={styles.field}>
+            <label>Hook Type</label>
+            <select value={hookType} onChange={(e) => setHookType(e.target.value)}>
+              <option value="webhook">Webhook</option>
+              <option value="script">Script</option>
+              <option value="pipeline">Pipeline</option>
+            </select>
+          </div>
+          <div className={styles.field}>
+            <label>Code (optional)</label>
+            <textarea value={code} onChange={(e) => setCode(e.target.value)} rows={6} />
+          </div>
+          <div className={styles.modalActions}>
+            <button type="button" className={styles.buttonSecondary} onClick={onClose}>Cancel</button>
+            <button type="submit" className={styles.buttonPrimary}>{hook ? "Update" : "Create"}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }

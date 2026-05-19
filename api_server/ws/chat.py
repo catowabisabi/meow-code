@@ -53,6 +53,7 @@ from api_server.adapters.minimax import MiniMaxAdapter
 from api_server.adapters.deepseek import DeepSeekAdapter
 from api_server.models.message import Message
 from api_server.models.tool import ToolDefinition
+from api_server.services.memory import MemoryService
 
 MAX_AGENT_ITERATIONS = 25
 
@@ -474,6 +475,10 @@ async def handle_user_message(
     if msg.get("provider"):
         session.provider = msg["provider"]
     
+    # WS-001 FIX: Update folder when switching modes, even for existing sessions
+    if msg.get("folder"):
+        session.folder = msg["folder"]
+    
     content_blocks: List[ContentBlock] = [{"type": "text", "text": msg["content"]}]
     
     attachments = msg.get("attachments")
@@ -777,10 +782,18 @@ def _convert_session_messages_to_adapter_messages(
     return result
 
 
-def _build_system_prompt(session: ChatSession) -> str:
-    """Build system prompt that enforces tool usage."""
+async def _build_system_prompt(session: ChatSession) -> str:
     cwd = session.folder or "."
+    memories = await MemoryService.search_memories(session.folder or "")
+    memory_section = ""
+    if memories:
+        memory_lines = ["## MEMORY", ""]
+        for m in memories[:5]:
+            memory_lines.append(f"- **{m.name}**: {m.description}")
+        memory_section = "\n".join(memory_lines) + "\n\n"
     return f"""You are Cato, an autonomous AI coding assistant. You have access to tools and MUST use them.
+
+{memory_section}## CRITICAL RULES
 
 ## CRITICAL RULES
 1. Every response to a task MUST use tools. NEVER just describe what you would do — DO IT.
@@ -853,7 +866,7 @@ async def stream_ai_response(
             provider=session.provider or "anthropic",
             messages=adapter_messages,
             model=session.model or "claude-sonnet-4-20250514",
-            system_prompt=_build_system_prompt(session),
+            system_prompt=await _build_system_prompt(session),
             tools=tool_defs,
             stream=True,
         ):

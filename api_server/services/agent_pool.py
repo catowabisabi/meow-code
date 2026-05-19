@@ -75,6 +75,8 @@ class Agent:
     tools_used: List[str] = field(default_factory=list)
     total_tokens: int = 0
     output_logs: List[str] = field(default_factory=list)
+    isolation: Optional[str] = None
+    worktree_path: Optional[str] = None
 
     def to_dict(self) -> dict:
         return {
@@ -253,6 +255,7 @@ class AgentPool:
         task: str,
         model: str,
         provider: str,
+        isolation: Optional[str] = None,
     ) -> Agent:
         await self.initialize()
 
@@ -267,6 +270,7 @@ class AgentPool:
             provider=provider,
             messages=[Message(role="user", content=task)],
             created_at=datetime.now(),
+            isolation=isolation,
         )
 
         self._agents[agent.id] = agent
@@ -338,10 +342,52 @@ class AgentPool:
             def check_abort() -> bool:
                 return abort_signal is not None and abort_signal.is_set()
 
+            # P-001 FIX: Sub-agents require explicit permission for high-risk tools
+            # Default: deny high-risk tools (shell, file_write, etc.) unless explicitly allowed
+            async def default_request_permission(
+                tool_name: str,
+                input_args: Dict[str, Any],
+                reason: str,
+            ) -> bool:
+                # Sub-agents should only run low-risk tools by default
+                low_risk_tools = {"grep", "glob", "file_read", "read_file", "memory_search", "list_memories"}
+                if tool_name in low_risk_tools:
+                    return True
+                logger.warning(f"Sub-agent denied high-risk tool: {tool_name} - {reason}")
+                return False
+
             ctx = ToolContext(
                 cwd=str(Path.cwd()),
                 abort_signal=check_abort,
+                request_permission=default_request_permission,
             )
+
+            worktree_created = False
+            original_cwd = str(Path.cwd())
+            
+            if agent.isolation == "worktree":
+                import tempfile
+                worktree_dir = Path(tempfile.mkdtemp(prefix=f"agent_worktree_"))
+                try:
+                    result = subprocess.run(
+                        ["git", "worktree", "add", str(worktree_dir), "--detach"],
+                        capture_output=True,
+                        text=True,
+                        cwd=original_cwd,
+                    )
+                    if result.returncode == 0:
+                        agent.worktree_path = str(worktree_dir)
+                        ctx = ToolContext(
+                            cwd=str(worktree_dir),
+                            abort_signal=check_abort,
+                            request_permission=default_request_permission,
+                        )
+                        worktree_created = True
+                        logger.info(f"Created worktree at {worktree_dir}")
+                    else:
+                        logger.warning(f"Failed to create worktree: {result.stderr}")
+                except Exception as e:
+                    logger.warning(f"Worktree creation failed: {e}")
 
             iterations = 0
             messages = list(agent.messages)
@@ -485,6 +531,20 @@ class AgentPool:
             agent.completed_at = datetime.now()
             await self._save_agent(agent)
             return agent.result
+        finally:
+            if worktree_created and agent.worktree_path:
+                try:
+                    subprocess.run(
+                        ["git", "worktree", "remove", agent.worktree_path],
+                        capture_output=True,
+                        text=True,
+                        cwd=original_cwd,
+                    )
+                    import shutil
+                    shutil.rmtree(agent.worktree_path, ignore_errors=True)
+                    logger.info(f"Cleaned up worktree at {agent.worktree_path}")
+                except Exception as e:
+                    logger.warning(f"Worktree cleanup failed: {e}")
 
     async def _stream_chat(
         self,

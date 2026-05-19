@@ -61,7 +61,7 @@ export const usePermissionStore = create<PermissionState>((set) => ({
 
   approve: async (permissionId) => {
     try {
-      const updated = await permissionsAPI.approve(permissionId)
+      await permissionsAPI.approve(permissionId)
       set((s) => ({
         pending: s.pending.filter((p) => p.id !== permissionId),
       }))
@@ -72,7 +72,7 @@ export const usePermissionStore = create<PermissionState>((set) => ({
 
   deny: async (permissionId) => {
     try {
-      const updated = await permissionsAPI.deny(permissionId)
+      await permissionsAPI.deny(permissionId)
       set((s) => ({
         pending: s.pending.filter((p) => p.id !== permissionId),
       }))

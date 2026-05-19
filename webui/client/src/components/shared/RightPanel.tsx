@@ -25,7 +25,10 @@ function Section({ title, defaultOpen = true, children }: { title: string; defau
 }
 
 export default function RightPanel() {
-  const { rightPanelOpen, mode, currentFolder } = useLayoutStore()
+  const rightPanelOpen = useLayoutStore((s) => s.rightPanelOpen)
+  const mode = useLayoutStore((s) => s.mode)
+  const getCurrentFolder = useLayoutStore((s) => s.getCurrentFolder)
+  const currentFolder = getCurrentFolder()
   const [scratchpad, setScratchpad] = useState('')
 
   if (!rightPanelOpen || mode === 'chat') return null

@@ -657,7 +657,9 @@ export default function CodeModePage() {
   const isStreaming = modeStreaming[MODE] || false
   const sessionId = modeSessionId[MODE] || null
 
-  const { currentFolder, setCurrentFolder } = useLayoutStore()
+  const getCurrentFolder = useLayoutStore((s) => s.getCurrentFolder)
+  const setCurrentFolder = useLayoutStore((s) => s.setCurrentFolder)
+  const currentFolder = getCurrentFolder()
 
   const [files, setFiles] = useState<{ name: string; path: string; isDirectory: boolean; isFile: boolean }[]>([])
   const [filesLoading, setFilesLoading] = useState(false)
@@ -919,7 +921,7 @@ export default function CodeModePage() {
 
   const handleNewChat = () => {
     useChatStore.getState().clearModeMessages(MODE)
-    useChatStore.getState().setModeSession(MODE, null as unknown as string)
+    useChatStore.getState().setModeSession(MODE, null)
   }
 
   const handleAbort = () => {

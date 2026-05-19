@@ -505,7 +505,9 @@ export default function CoworkPage() {
   const isStreaming = modeStreaming[MODE] || false
   const sessionId = modeSessionId[MODE] || null
 
-  const { currentFolder, setCurrentFolder } = useLayoutStore()
+  const getCurrentFolder = useLayoutStore((s) => s.getCurrentFolder)
+  const setCurrentFolder = useLayoutStore((s) => s.setCurrentFolder)
+  const currentFolder = getCurrentFolder()
 
   const [input, setInput] = useState('')
   const [taskName, setTaskName] = useState('New Task')
@@ -754,19 +756,26 @@ export default function CoworkPage() {
     useChatStore.getState().setModeStreaming(MODE, false)
   }
 
-  // ---------------------------------------------------------------------------
-  // Render
-  // ---------------------------------------------------------------------------
-
   // Empty state — no folder selected or no messages
+  const [loading, setLoading] = useState(false)
+
+  const handleShowFolders = useCallback(async () => {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/files/directories')
+      const data = await res.json()
+      setDirectories(data.directories || [])
+      setShowFolderDropdown(true)
+    } catch { /* ignore */ }
+    setLoading(false)
+  }, [])
+
+  const handleSelectFolderFromDropdown = useCallback((path: string) => {
+    setCurrentFolder(path)
+    setShowFolderDropdown(false)
+  }, [setCurrentFolder])
+
   if (!currentFolder && messages.length === 0) {
-    const handleBrowse = async () => {
-      try {
-        const res = await fetch('/api/files/browse', { method: 'POST' })
-        const data = await res.json()
-        if (data.path) setCurrentFolder(data.path)
-      } catch { /* ignore */ }
-    }
     return (
       <div style={styles.container}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '16px' }}>
@@ -774,7 +783,7 @@ export default function CoworkPage() {
           <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>開啟專案資料夾</div>
           <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>選擇一個資料夾開始協作</div>
           <button
-            onClick={handleBrowse}
+            onClick={handleShowFolders}
             style={{
               padding: '12px 32px', borderRadius: '8px', border: 'none',
               background: 'var(--accent-blue)', color: '#fff',
@@ -782,8 +791,47 @@ export default function CoworkPage() {
               marginTop: '8px',
             }}
           >
-            選擇資料夾
+            {loading ? '載入中...' : '選擇資料夾'}
           </button>
+
+          {showFolderDropdown && (
+            <div style={{
+              position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+              background: colors.cardBg, border: `1px solid ${colors.cardBorder}`,
+              borderRadius: '12px', padding: '16px', width: '400px', maxHeight: '400px',
+              overflow: 'auto', zIndex: 1000, boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>選擇專案資料夾</span>
+                <button onClick={() => setShowFolderDropdown(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '18px' }}>×</button>
+              </div>
+              {directories.length === 0 ? (
+                <div style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '20px' }}>找不到資料夾</div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  {directories.map((folder, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSelectFolderFromDropdown(folder.path)}
+                      style={{
+                        padding: '10px 12px', borderRadius: '8px', border: 'none',
+                        background: 'transparent', color: 'var(--text-primary)',
+                        fontSize: '13px', cursor: 'pointer', textAlign: 'left',
+                        display: 'flex', alignItems: 'center', gap: '8px'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = colors.fileCardHover}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                    >
+                      📁 {folder.label}
+                      <span style={{ color: 'var(--text-muted)', fontSize: '11px', marginLeft: 'auto', fontFamily: 'monospace' }}>
+                        {folder.path.length > 30 ? '...' + folder.path.slice(-30) : folder.path}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     )

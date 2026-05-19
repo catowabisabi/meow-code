@@ -56,7 +56,7 @@ function connectWs(mode: string, handler: WsHandler) {
   entry.handler = handler
 
   if (entry.ws) {
-    try { entry.ws.close() } catch {}
+    try { entry.ws.close() } catch (e) { console.warn('[chatStore] Failed to close existing WebSocket:', e) }
     entry.ws = null
   }
 
@@ -78,7 +78,7 @@ function connectWs(mode: string, handler: WsHandler) {
       const msg = JSON.parse(event.data as string)
       if (msg.type === 'pong') return
       entry.handler?.(msg)
-    } catch {}
+    } catch (e) { console.error('[chatStore] Failed to parse WebSocket message:', e) }
   }
 
   socket.onclose = (event) => {
@@ -154,7 +154,7 @@ interface ChatState {
 
   setModeMessages: (mode: string, messages: ChatMessage[]) => void
   getModeMessages: (mode: string) => ChatMessage[]
-  setModeSession: (mode: string, id: string) => void
+  setModeSession: (mode: string, id: string | null) => void
   getModeSession: (mode: string) => string | null
   setModeStreaming: (mode: string, streaming: boolean) => void
   addModeMessage: (mode: string, msg: ChatMessage) => void
@@ -408,7 +408,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     const entry = wsManager[mode]
     if (!entry) return
     if (entry.ws) {
-      try { entry.ws.close() } catch {}
+      try { entry.ws.close() } catch (e) { console.warn('[chatStore] Failed to close WebSocket in disconnectModeWs:', e) }
       entry.ws = null
     }
     entry.status = 'disconnected'
@@ -441,7 +441,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     for (const mode of Object.keys(wsManager)) {
       const entry = wsManager[mode as keyof typeof wsManager]
       if (entry.ws) {
-        try { entry.ws.close() } catch {}
+        try { entry.ws.close() } catch (e) { console.warn('[chatStore] Failed to close WebSocket in cleanupAllWs:', e) }
         entry.ws = null
       }
       entry.handler = null

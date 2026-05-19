@@ -12,7 +12,12 @@ const modes: { key: AppMode; label: string; path: string }[] = [
 export default function TopBar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { mode, setMode, currentFolder, rightPanelOpen, toggleRightPanel } = useLayoutStore()
+  const mode = useLayoutStore((s) => s.mode)
+  const setMode = useLayoutStore((s) => s.setMode)
+  const getCurrentFolder = useLayoutStore((s) => s.getCurrentFolder)
+  const currentFolder = getCurrentFolder()
+  const rightPanelOpen = useLayoutStore((s) => s.rightPanelOpen)
+  const toggleRightPanel = useLayoutStore((s) => s.toggleRightPanel)
   const currentModel = useChatStore((s) => s.currentModel)
   const currentProvider = useChatStore((s) => s.currentProvider)
   const wsStatus = useChatStore((s) => s.wsStatus[mode] ?? 'disconnected')

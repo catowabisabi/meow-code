@@ -1,3 +1,7 @@
+from api_server.routes.auth import router as auth_router
+from api_server.routes.admin import router as admin_router
+from api_server.routes.departments import router as departments_router
+from api_server.routes.teams import router as teams_router
 from api_server.routes.history import router as history_router
 from api_server.routes.sessions import router as sessions_router
 from api_server.routes.models import router as models_router
@@ -24,6 +28,10 @@ from api_server.routes.container import router as container_router
 from api_server.routes.mcp import router as mcp_router
 
 __all__ = [
+    "auth_router",
+    "admin_router",
+    "departments_router",
+    "teams_router",
     "history_router",
     "sessions_router",
     "models_router",

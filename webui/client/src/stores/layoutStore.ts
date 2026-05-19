@@ -6,9 +6,10 @@ interface LayoutState {
   mode: AppMode
   setMode: (mode: AppMode) => void
 
-  /** Current working folder for cowork/code modes */
-  currentFolder: string | null
+  /** Per-mode working folder for cowork/code modes */
+  currentFolder: Record<AppMode, string | null>
   setCurrentFolder: (folder: string | null) => void
+  getCurrentFolder: () => string | null
 
   /** Right panel visibility */
   rightPanelOpen: boolean
@@ -24,12 +25,15 @@ interface LayoutState {
   setUserMenuOpen: (open: boolean) => void
 }
 
-export const useLayoutStore = create<LayoutState>((set) => ({
+export const useLayoutStore = create<LayoutState>((set, get) => ({
   mode: 'chat',
   setMode: (mode) => set({ mode, rightPanelOpen: mode !== 'chat' }),
 
-  currentFolder: null,
-  setCurrentFolder: (folder) => set({ currentFolder: folder }),
+  currentFolder: { chat: null, cowork: null, code: null },
+  setCurrentFolder: (folder) => set((s) => ({
+    currentFolder: { ...s.currentFolder, [s.mode]: folder },
+  })),
+  getCurrentFolder: () => get().currentFolder[get().mode],
 
   rightPanelOpen: false,
   toggleRightPanel: () => set((s) => ({ rightPanelOpen: !s.rightPanelOpen })),

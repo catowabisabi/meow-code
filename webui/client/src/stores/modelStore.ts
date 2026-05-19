@@ -69,8 +69,8 @@ export const useModelStore = create<ModelState>((set) => ({
   },
 
   addProvider: async (id, config) => {
-    const data = await modelsAPI.add(id, config)
-    set({ providers: data.providers })
+    const { providers } = await modelsAPI.add(id, config)
+    set((s) => ({ providers }))
   },
 
   updateProvider: async (id, updates) => {

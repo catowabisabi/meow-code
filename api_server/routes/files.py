@@ -2,7 +2,7 @@
 REST API routes for file operations (used by code editor).
 """
 import os
-import subprocess
+import asyncio
 import sys
 from pathlib import Path
 from typing import Annotated
@@ -125,30 +125,47 @@ def _get_subdirs(dir_path: str, max_depth: int = 1) -> list[str]:
 # --- Routes ---
 
 
-@router.get("/directories", response_model=DirectoriesResponse)
-async def list_directories() -> DirectoriesResponse:
-    """Return a list of common project directories."""
+async def _scan_directories_sync() -> list[DirectoryEntry]:
+    """Background thread scanner for directories."""
     home_dir = os.path.expanduser("~")
     cwd = os.getcwd()
-
     directories = [
-        DirectoryEntry(path=cwd, label=f"專案 ({os.path.basename(cwd)})"),
-        DirectoryEntry(path=home_dir, label="主目錄"),
+        DirectoryEntry(path=cwd, label=f"📁 專案 ({os.path.basename(cwd)})"),
     ]
+    search_paths = [
+        Path(cwd),
+        Path(home_dir),
+        Path(home_dir) / "Desktop",
+        Path(home_dir) / "Documents",
+        Path(home_dir) / "Downloads",
+        Path(home_dir) / "Projects",
+        Path(home_dir) / "workspace",
+        Path(home_dir) / "code",
+        Path(home_dir) / "git",
+    ]
+    for base_dir in search_paths:
+        if not base_dir.exists() or not base_dir.is_dir():
+            continue
+        try:
+            for entry in os.scandir(base_dir):
+                if entry.is_dir() and not entry.name.startswith('.'):
+                    directories.append(DirectoryEntry(path=entry.path, label=entry.name))
+                if len(directories) >= 30:
+                    break
+        except (OSError, PermissionError):
+            continue
+    return directories[:30]
 
-    # Add subdirectories from cwd and home
-    for base_dir in [cwd, home_dir]:
-        for subdir in _get_subdirs(base_dir):
-            directories.append(
-                DirectoryEntry(path=subdir, label=os.path.basename(subdir))
-            )
 
+@router.get("/directories", response_model=DirectoriesResponse)
+async def list_directories() -> DirectoriesResponse:
+    loop = asyncio.get_event_loop()
+    directories = await loop.run_in_executor(None, _scan_directories_sync)
     return DirectoriesResponse(directories=directories)
 
 
 @router.post("/browse")
 async def browse_folder():
-    """Open native OS folder picker dialog and return selected path."""
     try:
         if sys.platform == "win32":
             ps_script = (
@@ -157,43 +174,47 @@ async def browse_folder():
                 "$d.Description = 'Select a project folder'; "
                 "if ($d.ShowDialog() -eq 'OK') { $d.SelectedPath } else { '' }"
             )
-            result = subprocess.run(
-                ["powershell", "-Command", ps_script],
-                capture_output=True, text=True, timeout=120,
+            proc = await asyncio.create_subprocess_exec(
+                "powershell", "-Command", ps_script,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
             )
-            selected = result.stdout.strip()
+            stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=120)
+            selected = stdout.decode().strip()
         elif sys.platform == "darwin":
-            # macOS: use osascript to open Finder folder dialog
             apple_script = (
                 'set theFolder to POSIX path of '
                 '(choose folder with prompt "Select a project folder")'
             )
-            result = subprocess.run(
-                ["osascript", "-e", apple_script],
-                capture_output=True, text=True, timeout=120,
+            proc = await asyncio.create_subprocess_exec(
+                "osascript", "-e", apple_script,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
             )
-            selected = result.stdout.strip().rstrip("/")
+            stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=120)
+            selected = stdout.decode().strip().rstrip("/")
         else:
-            # Linux: try zenity (GTK), then kdialog (KDE)
             selected = ""
             for cmd in [
                 ["zenity", "--file-selection", "--directory", "--title=Select a project folder"],
                 ["kdialog", "--getexistingdirectory", os.path.expanduser("~"), "--title", "Select a project folder"],
             ]:
                 try:
-                    result = subprocess.run(
-                        cmd, capture_output=True, text=True, timeout=120,
+                    proc = await asyncio.create_subprocess_exec(
+                        *cmd,
+                        stdout=asyncio.subprocess.PIPE,
+                        stderr=asyncio.subprocess.PIPE,
                     )
-                    if result.returncode == 0:
-                        selected = result.stdout.strip()
+                    stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=120)
+                    if proc.returncode == 0:
+                        selected = stdout.decode().strip()
                         break
                 except FileNotFoundError:
                     continue
-
         if not selected:
             return {"cancelled": True}
         return {"path": selected}
-    except subprocess.TimeoutExpired:
+    except asyncio.TimeoutError:
         return {"cancelled": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -138,7 +138,7 @@ export class AnthropicAdapter implements ModelAdapter {
     }
   }
 
-  private *handleSSEEvent(
+  private async *handleSSEEvent(
     event: Record<string, unknown>,
     state: {
       messageId: string
@@ -148,7 +148,7 @@ export class AnthropicAdapter implements ModelAdapter {
       setMessageId: (id: string) => void
       setToolState: (id: string, name: string, input: string) => void
     }
-  ): Generator<UnifiedStreamEvent> {
+  ): AsyncGenerator<UnifiedStreamEvent> {
     const eventType = event.type as string
 
     switch (eventType) {

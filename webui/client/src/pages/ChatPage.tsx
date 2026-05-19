@@ -308,18 +308,19 @@ export default function ChatPage() {
         if (!r.ok) throw new Error('Session not found')
         return r.json()
       })
-      .then((data) => {
+      .then((data: { messages?: Array<{ role: string; content: string | Array<{ type: string; text?: string }> }>; createdAt?: number } | undefined) => {
         const s = useChatStore.getState()
         s.setModeSession(MODE, urlSessionId)
-        const chatMessages: ChatMessage[] = (data.messages || [])
-          .filter((m: any) => m.role === 'user' || m.role === 'assistant')
-          .map((m: any) => ({
+        const rawMessages = data?.messages || []
+        const chatMessages: ChatMessage[] = rawMessages
+          .filter((m) => m.role === 'user' || m.role === 'assistant')
+          .map((m) => ({
             id: crypto.randomUUID(),
-            role: m.role,
+            role: m.role as 'user' | 'assistant',
             content: typeof m.content === 'string'
-              ? [{ type: 'text', text: m.content }]
-              : Array.isArray(m.content) ? m.content : [],
-            timestamp: data.createdAt || Date.now(),
+              ? [{ type: 'text', text: m.content } as const]
+              : Array.isArray(m.content) ? m.content as unknown as Array<{ type: 'text'; text?: string }> : [],
+            timestamp: data?.createdAt || Date.now(),
           }))
         s.setModeMessages(MODE, chatMessages)
       })
@@ -385,7 +386,7 @@ export default function ChatPage() {
       case 'message_complete':
       case 'stream_end':
         s.setModeStreaming(MODE, false)
-        s.updateLastModeAssistant(MODE, { streaming: false, usage: msg.usage as any })
+        s.updateLastModeAssistant(MODE, { streaming: false, usage: msg.usage as { inputTokens: number; outputTokens: number } })
         window.dispatchEvent(new CustomEvent('sessions-updated'))
         break
       case 'error':
@@ -411,8 +412,8 @@ export default function ChatPage() {
         break
       }
       case 'title_updated': {
-        const sessionId = (msg as any).sessionId as string
-        const newTitle = (msg as any).title as string
+        const sessionId = msg.sessionId as string | undefined
+        const newTitle = msg.title as string | undefined
         if (sessionId && newTitle) {
           s.setSessionTitle(sessionId, newTitle)
           window.dispatchEvent(new CustomEvent('sessions-updated'))

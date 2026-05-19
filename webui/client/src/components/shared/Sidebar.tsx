@@ -308,7 +308,7 @@ export default function Sidebar() {
             if (currentPath.startsWith('/cowork')) { targetPath = '/cowork'; mode = 'cowork' }
             else if (currentPath.startsWith('/code')) { targetPath = '/code'; mode = 'code' }
             useChatStore.getState().clearModeMessages(mode)
-            useChatStore.getState().setModeSession(mode, null as unknown as string)
+            useChatStore.getState().setModeSession(mode, null)
             navigate(targetPath)
           }}
           onMouseEnter={() => setHoveredItem('new-chat')}
