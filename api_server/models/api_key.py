@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, Boolean, Index
+from sqlalchemy import Column, String, DateTime, Boolean, Index, ForeignKey
 from datetime import datetime
 from api_server.models.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 

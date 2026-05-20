@@ -1,7 +1,7 @@
 """Services package - API server backend services."""
 
 # Core services - these imports should work
-from .memory import MemoryService, Memory, MemoryInput, get_memory_index
+from .memory import MemoryService, get_memory_service
 from .session_store import SessionStore, Session, SessionSummary, Message, generate_title
 from .skill import SkillService, Skill, SkillDetail
 from .title_gen import generate_smart_title
@@ -209,9 +209,7 @@ except ImportError:
 __all__ = [
     # Core
     "MemoryService",
-    "Memory",
-    "MemoryInput",
-    "get_memory_index",
+    "get_memory_service",
     "SessionStore",
     "Session",
     "SessionSummary",

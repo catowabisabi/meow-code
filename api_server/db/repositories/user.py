@@ -7,11 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api_server.db.repositories.base import BaseRepository
-from api_server.models.base import Base
-
-
-class User(Base):
-    pass
+from api_server.models.user import User
 
 
 class UserRepository(BaseRepository[User]):

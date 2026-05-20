@@ -11,14 +11,6 @@ from api_server.models.base import Base
 T = TypeVar("T", bound=Base)
 
 
-class Role(Base):
-    pass
-
-
-class ApiKey(Base):
-    pass
-
-
 class BaseRepository(Generic[T]):
     def __init__(self, model: Type[T], session: AsyncSession) -> None:
         self._model = model

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Text, Boolean, JSON, Index
+from sqlalchemy import Column, String, Text, Boolean, JSON, Index, ForeignKey
 from api_server.models.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 
 class Hook(Base, TimestampMixin, UUIDPrimaryKeyMixin):

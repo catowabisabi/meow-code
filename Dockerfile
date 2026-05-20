@@ -10,11 +10,12 @@ FROM node:18-alpine AS frontend-builder
 
 WORKDIR /app
 
-COPY frontend/package*.json ./
+COPY webui/client/package*.json ./
 
+WORKDIR /app
 RUN npm ci
 
-COPY frontend/ ./
+COPY webui/client/ ./
 
 RUN npm run build
 

@@ -6,7 +6,8 @@ from typing import List, Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from api_server.db.repositories.base import BaseRepository, Role
+from api_server.db.repositories.base import BaseRepository
+from api_server.models.role import Role
 
 
 class RoleRepository(BaseRepository[Role]):

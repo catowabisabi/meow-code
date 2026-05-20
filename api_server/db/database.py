@@ -111,6 +111,23 @@ class DatabaseManager:
             DatabaseManager._engine = None
 
 
+_engine: Optional[AsyncEngine] = None
+_default_config: Optional[DatabaseConfig] = None
+
+
+def _get_engine() -> AsyncEngine:
+    global _engine, _default_config
+    if _engine is None:
+        if _default_config is None:
+            _default_config = create_sqlite_config("/tmp/cato.db")
+        manager = DatabaseManager(_default_config)
+        _engine = manager.create_engine()
+    return _engine
+
+
 def get_engine(config: DatabaseConfig) -> AsyncEngine:
+    global _engine, _default_config
+    _default_config = config
     manager = DatabaseManager(config)
-    return manager.create_engine()
+    _engine = manager.create_engine()
+    return _engine
