@@ -59,3 +59,14 @@ class TokenService:
             return jwt.decode(token, self.secret_key, algorithms=[self.algorithm], options={"verify_exp": False})
         except JWTError:
             return None
+
+    def get_token_iat(self, token: str) -> Optional[datetime]:
+        """Extract the issued-at time from a token without full verification."""
+        try:
+            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm], options={"verify_exp": False, "verify_iat": False})
+            iat = payload.get("iat")
+            if iat:
+                return datetime.fromtimestamp(iat, tz=timezone.utc)
+            return None
+        except JWTError:
+            return None

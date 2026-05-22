@@ -1,5 +1,6 @@
-from sqlalchemy import Column, String, Boolean, Index
+from sqlalchemy import Column, String, Boolean, DateTime, Index
 from api_server.models.base import Base, TimestampMixin, UUIDPrimaryKeyMixin, SoftDeleteMixin
+import datetime
 
 class User(Base, TimestampMixin, UUIDPrimaryKeyMixin, SoftDeleteMixin):
     __tablename__ = "users"
@@ -12,6 +13,7 @@ class User(Base, TimestampMixin, UUIDPrimaryKeyMixin, SoftDeleteMixin):
     is_active = Column(Boolean, default=True)
     is_superuser = Column(Boolean, default=False)
     email_verified = Column(Boolean, default=False)
+    token_revoked_at = Column(DateTime, nullable=True, default=None)
     
     __table_args__ = (
         Index("ix_users_email_active", "email", "is_active"),

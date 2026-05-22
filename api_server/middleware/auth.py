@@ -21,6 +21,7 @@ async def get_token_payload(
 
 async def get_current_user(
     payload: Optional[dict] = Depends(get_token_payload),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
 ) -> dict:
     if not payload:
         raise HTTPException(
@@ -42,6 +43,18 @@ async def get_current_user(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="User not found",
             )
+        # Check if token was revoked: compare token iat with user's token_revoked_at
+        if user.token_revoked_at is not None and credentials is not None:
+            from api_server.core.config import settings
+            token_service = TokenService(secret_key=settings.SECRET_KEY)
+            token_iat = token_service.get_token_iat(credentials.credentials)
+            if token_iat is not None:
+                # If token was issued after revocation, reject it
+                if token_iat >= user.token_revoked_at:
+                    raise HTTPException(
+                        status_code=status.HTTP_401_UNAUTHORIZED,
+                        detail="Token has been revoked",
+                    )
         return user
 
 

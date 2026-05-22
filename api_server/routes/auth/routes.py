@@ -1,12 +1,16 @@
 from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from typing import Optional
 from api_server.routes.auth.schemas import (
     RegisterRequest, LoginRequest, RefreshRequest,
     UpdatePasswordRequest, TokenResponse, MessageResponse, UserResponse,
 )
 from api_server.services.auth import AuthService
 from api_server.db.session import get_db_context
-from api_server.middleware.auth import get_current_active_user
+from api_server.middleware.auth import get_current_active_user, get_token_payload
 from sqlalchemy.ext.asyncio import AsyncSession
+
+security = HTTPBearer(auto_error=False)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -146,7 +150,24 @@ async def refresh(request: RefreshRequest):
 
 
 @router.post("/logout", response_model=MessageResponse)
-async def logout():
+async def logout(
+    payload: Optional[dict] = Depends(get_token_payload),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+):
+    if payload and credentials:
+        user_id = payload.get("sub")
+        if user_id:
+            from api_server.db.repositories.user import UserRepository
+            from api_server.db.database import _get_engine
+            from api_server.db.session import get_session_factory
+            from datetime import datetime, timezone
+            
+            engine = _get_engine()
+            session_factory = get_session_factory(engine)
+            async with session_factory() as db:
+                user_repo = UserRepository(db)
+                await user_repo.update(user_id, token_revoked_at=datetime.now(timezone.utc))
+                await db.commit()
     return MessageResponse(message="Logged out successfully")
 
 
