@@ -162,7 +162,7 @@ export class OpenAICompatibleAdapter implements ModelAdapter {
             if (!delta) continue
 
             // Text content — parse <think> tags for models like MiniMax
-            if (delta.content) {
+            if (typeof delta.content === 'string') {
               let chunk: string = delta.content
               while (chunk.length > 0) {
                 if (insideThinkTag) {
@@ -196,7 +196,7 @@ export class OpenAICompatibleAdapter implements ModelAdapter {
             }
 
             // Reasoning/thinking content (DeepSeek R1 style)
-            if (delta.reasoning_content) {
+            if (typeof delta.reasoning_content === 'string') {
               yield { type: 'stream_thinking_delta', text: delta.reasoning_content }
             }
 

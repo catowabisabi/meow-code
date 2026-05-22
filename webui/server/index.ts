@@ -51,9 +51,15 @@ routes.set('GET:/api/health', async () => {
   return Response.json({ status: 'ok', timestamp: Date.now() })
 })
 
+// ─── Types ──────────────────────────────────────────────────────
+
+interface EnrichedRequest extends Request {
+  pathParams?: Record<string, string>
+}
+
 // ─── Route Matching ───────────────────────────────────────────
 
-function matchRoute(method: string, pathname: string): { handler: (req: Request) => Promise<Response>; params: Record<string, string> } | null {
+function matchRoute(method: string, pathname: string): { handler: (req: EnrichedRequest) => Promise<Response>; params: Record<string, string> } | null {
   // Try exact match first
   const exact = routes.get(`${method}:${pathname}`)
   if (exact) return { handler: exact, params: {} }
@@ -221,8 +227,8 @@ export function startWebUI(portOverride?: number) {
               method: req.method,
               headers: req.headers,
               body: req.body,
-            })
-            ;(enrichedReq as any).pathParams = params
+            }) as EnrichedRequest
+            enrichedReq.pathParams = params
             const response = await handler(enrichedReq)
             // Add CORS headers to response
             const headers = new Headers(response.headers)

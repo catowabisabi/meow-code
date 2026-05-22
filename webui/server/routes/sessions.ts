@@ -10,6 +10,7 @@ import {
   deleteSession,
   generateTitle,
 } from '../../services/sessionStore.js'
+import type { EnrichedRequest } from '../index.js'
 
 export function registerSessionRoutes(router: Map<string, (req: Request) => Promise<Response>>) {
   // POST /api/sessions — Create a new chat session
@@ -74,7 +75,7 @@ export function registerSessionRoutes(router: Map<string, (req: Request) => Prom
 
   // GET /api/sessions/:id — Get full session (checks in-memory first, then disk)
   router.set('GET:/api/sessions/:id', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
 
     // Check in-memory first
     const session = getSession(id)
@@ -110,7 +111,7 @@ export function registerSessionRoutes(router: Map<string, (req: Request) => Prom
 
   // POST /api/sessions/:id/save — Save an active session to persistent storage
   router.set('POST:/api/sessions/:id/save', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
 
     // Get active session
     const session = getSession(id)
@@ -146,14 +147,14 @@ export function registerSessionRoutes(router: Map<string, (req: Request) => Prom
 
   // DELETE /api/sessions/:id — Delete a persisted session
   router.set('DELETE:/api/sessions/:id', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
     await deleteSession(id)
     return Response.json({ ok: true })
   })
 
   // PUT /api/sessions/:id — Update session title
   router.set('PUT:/api/sessions/:id', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
 
     let body: { title?: string } = {}
     try {

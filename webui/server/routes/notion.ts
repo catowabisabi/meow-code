@@ -2,6 +2,7 @@
  * Notion API routes — proxy to Notion REST API.
  */
 import { getNotionClient } from '../../services/notion.js'
+import type { EnrichedRequest } from '../index.js'
 
 export function registerNotionRoutes(router: Map<string, (req: Request) => Promise<Response>>) {
   // GET /api/notion/search — Search Notion workspace
@@ -22,7 +23,7 @@ export function registerNotionRoutes(router: Map<string, (req: Request) => Promi
   // GET /api/notion/pages/:id — Read a page
   router.set('GET:/api/notion/pages/:id', async (req) => {
     try {
-      const id = (req as any).pathParams?.id
+      const id = (req as EnrichedRequest).pathParams?.id
       const client = getNotionClient()
       const [page, blocks] = await Promise.all([
         client.getPage(id),
@@ -53,7 +54,7 @@ export function registerNotionRoutes(router: Map<string, (req: Request) => Promi
   // GET /api/notion/databases/:id — Get database info
   router.set('GET:/api/notion/databases/:id', async (req) => {
     try {
-      const id = (req as any).pathParams?.id
+      const id = (req as EnrichedRequest).pathParams?.id
       const client = getNotionClient()
       const result = await client.getDatabase(id)
       return Response.json(result)
@@ -65,7 +66,7 @@ export function registerNotionRoutes(router: Map<string, (req: Request) => Promi
   // POST /api/notion/databases/:id/query — Query database
   router.set('POST:/api/notion/databases/:id/query', async (req) => {
     try {
-      const id = (req as any).pathParams?.id
+      const id = (req as EnrichedRequest).pathParams?.id
       const body = await req.json() as Record<string, unknown>
       const client = getNotionClient()
       const results = await client.queryDatabase(id, body.filter, body.sorts as unknown[])

@@ -155,16 +155,16 @@ export class AnthropicAdapter implements ModelAdapter {
     switch (eventType) {
       case 'message_start': {
         const msg = event.message as Record<string, unknown>
-        const id = (msg?.id as string) || crypto.randomUUID()
+        const id = (msg && typeof msg.id === 'string' ? msg.id : null) || crypto.randomUUID()
         state.setMessageId(id)
         yield { type: 'stream_start', messageId: id }
         break
       }
       case 'content_block_start': {
         const block = event.content_block as Record<string, unknown>
-        if (block?.type === 'tool_use') {
-          const toolId = block.id as string
-          const toolName = block.name as string
+        if (block && typeof block.type === 'string' && block.type === 'tool_use') {
+          const toolId = block && typeof block.id === 'string' ? block.id : ''
+          const toolName = block && typeof block.name === 'string' ? block.name : ''
           state.setToolState(toolId, toolName, '')
           yield { type: 'stream_tool_use_start', toolId, toolName }
         }
@@ -172,14 +172,16 @@ export class AnthropicAdapter implements ModelAdapter {
       }
       case 'content_block_delta': {
         const delta = event.delta as Record<string, unknown>
-        if (delta?.type === 'text_delta') {
-          yield { type: 'stream_text_delta', text: delta.text as string }
-        } else if (delta?.type === 'thinking_delta') {
-          yield { type: 'stream_thinking_delta', text: delta.thinking as string }
-        } else if (delta?.type === 'input_json_delta') {
-          const partial = delta.partial_json as string
-          state.setToolState(state.currentToolId, state.currentToolName, state.toolInputBuffer + partial)
-          yield { type: 'stream_tool_use_delta', toolId: state.currentToolId, inputDelta: partial }
+        if (delta && typeof delta.type === 'string') {
+          if (delta.type === 'text_delta' && typeof delta.text === 'string') {
+            yield { type: 'stream_text_delta', text: delta.text }
+          } else if (delta.type === 'thinking_delta' && typeof delta.thinking === 'string') {
+            yield { type: 'stream_thinking_delta', text: delta.thinking }
+          } else if (delta.type === 'input_json_delta' && typeof delta.partial_json === 'string') {
+            const partial = delta.partial_json
+            state.setToolState(state.currentToolId, state.currentToolName, state.toolInputBuffer + partial)
+            yield { type: 'stream_tool_use_delta', toolId: state.currentToolId, inputDelta: partial }
+          }
         }
         break
       }

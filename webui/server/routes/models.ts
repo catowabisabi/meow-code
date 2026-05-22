@@ -13,6 +13,7 @@ import {
 import { testProvider } from '../../adapters/router.js'
 import { clearAdapterCache } from '../../adapters/router.js'
 import { KNOWN_PROVIDERS } from '../../adapters/types.js'
+import type { EnrichedRequest } from '../index.js'
 
 export function registerModelRoutes(router: Map<string, (req: Request) => Promise<Response>>) {
   // GET /api/models — List all providers and available models
@@ -59,7 +60,7 @@ export function registerModelRoutes(router: Map<string, (req: Request) => Promis
 
   // PUT /api/models/:id — Update a provider
   router.set('PUT:/api/models/:id', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
     const body = await req.json() as Record<string, unknown>
 
     const config = readModelsConfig()
@@ -76,7 +77,7 @@ export function registerModelRoutes(router: Map<string, (req: Request) => Promis
 
   // DELETE /api/models/:id — Remove a provider
   router.set('DELETE:/api/models/:id', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
     const config = removeProvider(id)
     clearAdapterCache()
     return Response.json({ ok: true, providers: config.providers })
@@ -84,7 +85,7 @@ export function registerModelRoutes(router: Map<string, (req: Request) => Promis
 
   // POST /api/models/:id/test — Test provider connectivity
   router.set('POST:/api/models/:id/test', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
     const result = await testProvider(id)
     return Response.json(result)
   })

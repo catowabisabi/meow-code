@@ -4,6 +4,7 @@
 import fs from 'fs'
 import path from 'path'
 import { homedir } from 'os'
+import type { EnrichedRequest } from '../index.js'
 
 const MCP_CONFIG_PATH = path.join(homedir(), '.claude', 'mcp_servers.json')
 
@@ -64,7 +65,7 @@ export function registerMCPRoutes(router: Map<string, (req: Request) => Promise<
 
   router.set('PUT:/api/mcp/servers/:name', async (req: Request) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name) return Response.json({ error: 'name is required' }, { status: 400 })
       const servers = loadMCPServers()
       const idx = servers.findIndex((s) => s.name === name)
@@ -81,7 +82,7 @@ export function registerMCPRoutes(router: Map<string, (req: Request) => Promise<
 
   router.set('DELETE:/api/mcp/servers/:name', async (req: Request) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name) return Response.json({ error: 'name is required' }, { status: 400 })
       const servers = loadMCPServers()
       const filtered = servers.filter((s) => s.name !== name)
@@ -98,7 +99,7 @@ export function registerMCPRoutes(router: Map<string, (req: Request) => Promise<
 
   router.set('PATCH:/api/mcp/servers/:name/enable', async (req: Request) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       const url = new URL(req.url)
       const enabled = url.searchParams.get('enabled')
       if (!name) return Response.json({ error: 'name is required' }, { status: 400 })

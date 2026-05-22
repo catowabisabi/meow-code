@@ -4,6 +4,7 @@
 import { getAllSkills, getSkill, getCustomSkills, addCustomSkill, updateCustomSkill, deleteCustomSkill } from '../../skills/registry.js'
 import { executeSkill } from '../../skills/executor.js'
 import type { SkillDef } from '../../skills/types.js'
+import type { EnrichedRequest } from '../index.js'
 
 export function registerSkillRoutes(router: Map<string, (req: Request) => Promise<Response>>) {
   router.set('GET:/api/skills', async () => {
@@ -72,7 +73,7 @@ export function registerSkillRoutes(router: Map<string, (req: Request) => Promis
 
   router.set('PUT:/api/skills/:name', async (req: Request) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name) return Response.json({ error: 'name is required' }, { status: 400 })
       const existing = getCustomSkills().find((s) => s.name === name)
       if (!existing) return Response.json({ error: 'skill not found or is default' }, { status: 404 })
@@ -87,7 +88,7 @@ export function registerSkillRoutes(router: Map<string, (req: Request) => Promis
 
   router.set('POST:/api/skills/:name/duplicate', async (req: Request) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name) return Response.json({ error: 'name is required' }, { status: 400 })
       const skill = getAllSkills().find((s) => s.name === name) || getCustomSkills().find((s) => s.name === name)
       if (!skill) return Response.json({ error: 'skill not found' }, { status: 404 })
@@ -102,7 +103,7 @@ export function registerSkillRoutes(router: Map<string, (req: Request) => Promis
 
   router.set('DELETE:/api/skills/:name', async (req: Request) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name) return Response.json({ error: 'name is required' }, { status: 400 })
       const isDefault = getAllSkills().some((s) => s.name === name)
       if (isDefault) return Response.json({ error: 'cannot delete default skill' }, { status: 403 })
@@ -117,7 +118,7 @@ export function registerSkillRoutes(router: Map<string, (req: Request) => Promis
 
   router.set('PATCH:/api/skills/:name/enable', async (req: Request) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       const url = new URL(req.url)
       const enabled = url.searchParams.get('enabled')
       if (!name) return Response.json({ error: 'name is required' }, { status: 400 })

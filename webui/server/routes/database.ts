@@ -4,6 +4,7 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import { Database } from 'bun:sqlite'
+import type { EnrichedRequest } from '../index.js'
 
 const DB_DIR = path.join(process.env.HOME || process.env.USERPROFILE || '.', '.claude', 'databases')
 
@@ -47,7 +48,7 @@ export function registerDatabaseRoutes(router: Map<string, (req: Request) => Pro
   // GET /api/databases/:name/tables — List tables
   router.set('GET:/api/databases/:name/tables', async (req) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name || name === 'tables') return Response.json({ error: 'Invalid database name' }, { status: 400 })
       const dbPath = getDbPath(name)
       if (!fs.existsSync(dbPath)) return Response.json({ error: 'Database not found' }, { status: 404 })
@@ -71,7 +72,7 @@ export function registerDatabaseRoutes(router: Map<string, (req: Request) => Pro
   // POST /api/databases/:name/query — Execute SQL query
   router.set('POST:/api/databases/:name/query', async (req) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name || name === 'query') return Response.json({ error: 'Invalid database name' }, { status: 400 })
       const body = await req.json() as { sql: string; params?: unknown[] }
       const dbPath = getDbPath(name)
@@ -110,7 +111,7 @@ export function registerDatabaseRoutes(router: Map<string, (req: Request) => Pro
   // DELETE /api/databases/:name — Delete a database
   router.set('DELETE:/api/databases/:name', async (req) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name) return Response.json({ error: 'Invalid database name' }, { status: 400 })
       const dbPath = getDbPath(name)
       if (!fs.existsSync(dbPath)) return Response.json({ error: 'Database not found' }, { status: 404 })
@@ -124,7 +125,7 @@ export function registerDatabaseRoutes(router: Map<string, (req: Request) => Pro
   // POST /api/databases/:name/export — Export as CSV or JSON
   router.set('POST:/api/databases/:name/export', async (req) => {
     try {
-      const name = (req as any).pathParams?.name
+      const name = (req as EnrichedRequest).pathParams?.name
       if (!name || name === 'export') return Response.json({ error: 'Invalid database name' }, { status: 400 })
       const body = await req.json() as { table?: string; sql?: string; format?: 'csv' | 'json' }
       if (body.table) {

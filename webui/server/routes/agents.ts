@@ -2,6 +2,7 @@
  * REST API for agent/subagent management.
  */
 import { agentPool } from '../../services/agentPool.js'
+import type { EnrichedRequest } from '../index.js'
 
 export function registerAgentRoutes(router: Map<string, (req: Request) => Promise<Response>>) {
   router.set('GET:/api/agents', async (req) => {
@@ -15,7 +16,7 @@ export function registerAgentRoutes(router: Map<string, (req: Request) => Promis
   })
 
   router.set('GET:/api/agents/:id', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
     if (!id) return Response.json({ error: 'id required' }, { status: 400 })
     const agent = agentPool.getAgent(id)
     if (!agent) return Response.json({ error: 'Agent not found' }, { status: 404 })
@@ -50,7 +51,7 @@ export function registerAgentRoutes(router: Map<string, (req: Request) => Promis
   })
 
   router.set('POST:/api/agents/:id/run', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
     if (!id) return Response.json({ error: 'id required' }, { status: 400 })
     try {
       const result = await agentPool.runAgent(id)
@@ -62,7 +63,7 @@ export function registerAgentRoutes(router: Map<string, (req: Request) => Promis
   })
 
   router.set('DELETE:/api/agents/:id', async (req) => {
-    const id = (req as any).pathParams?.id
+    const id = (req as EnrichedRequest).pathParams?.id
     if (!id) return Response.json({ error: 'id required' }, { status: 400 })
     agentPool.removeAgent(id)
     return Response.json({ ok: true })
