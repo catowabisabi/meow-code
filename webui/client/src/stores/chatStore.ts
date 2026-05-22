@@ -158,6 +158,7 @@ interface ChatState {
   abort: () => void
   setPermissionMode: (mode: PermissionMode) => void
   editMessage: (messageId: string, newContent: string) => void
+  addAnnotation: (messageId: string, annotation: Annotation) => void
   alwaysAllowTool: (toolName: string, sessionId: string) => void
   isToolAllowed: (toolName: string, sessionId: string) => boolean
 
@@ -305,11 +306,21 @@ export const useChatStore = create<ChatState>((set, get) => ({
 
   setPermissionMode: (mode) => set({ permissionMode: mode }),
 
-  editMessage: (messageId, newContent) =>
+editMessage: (messageId, newContent) =>
     set((s) => {
       const msgs = s.messages.map(m =>
         m.id === messageId
           ? { ...m, content: [{ type: 'text' as const, text: newContent }], edited: true }
+          : m
+      )
+      return { messages: msgs }
+    }),
+
+  addAnnotation: (messageId, annotation) =>
+    set((s) => {
+      const msgs = s.messages.map(m =>
+        m.id === messageId
+          ? { ...m, annotations: [...(m.annotations || []), annotation] }
           : m
       )
       return { messages: msgs }

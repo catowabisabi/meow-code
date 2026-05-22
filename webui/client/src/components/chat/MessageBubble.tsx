@@ -318,8 +318,11 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
   const [isHovered, setIsHovered] = useState(false)
   const [showContextMenu, setShowContextMenu] = useState(false)
   const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 })
+  const [showAnnotationInput, setShowAnnotationInput] = useState(false)
+  const [annotationText, setAnnotationText] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const editMessage = useChatStore(s => s.editMessage)
+  const addAnnotation = useChatStore(s => s.addAnnotation)
 
   const toggleThinking = (key: string) => {
     setOpenThinking(prev => {
@@ -354,6 +357,29 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
   const cancelEdit = () => {
     setIsEditing(false)
     setEditValue('')
+  }
+
+  const startAnnotation = () => {
+    setAnnotationText('')
+    setShowAnnotationInput(true)
+    setShowContextMenu(false)
+  }
+
+  const submitAnnotation = async () => {
+    if (!annotationText.trim() || !isUser || !message.id) return
+    try {
+      const newAnnotation = await historyApi.createAnnotation(parseInt(message.id), 'paste_ref', annotationText.trim())
+      addAnnotation(message.id, newAnnotation)
+      setShowAnnotationInput(false)
+      setAnnotationText('')
+    } catch (e) {
+      console.error('Failed to create annotation:', e)
+    }
+  }
+
+  const cancelAnnotation = () => {
+    setShowAnnotationInput(false)
+    setAnnotationText('')
   }
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -545,24 +571,104 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
           alignItems: 'center',
           justifyContent: isUser ? 'flex-end' : 'flex-start',
         }}>
-          {isUser && isHovered && !isEditing && (
-            <button
-              onClick={startEdit}
-              style={{
-                padding: '2px 8px',
-                fontSize: '10px',
-                border: '1px solid var(--border-default)',
-                borderRadius: '4px',
-                background: 'var(--bg-tertiary)',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-                transition: 'all 0.12s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-focus)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.color = 'var(--text-muted)' }}
-            >
-              Edit
-            </button>
+          {isUser && isHovered && !isEditing && !showAnnotationInput && (
+            <>
+              <button
+                onClick={startAnnotation}
+                style={{
+                  padding: '2px 6px',
+                  fontSize: '10px',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: '4px',
+                  background: 'var(--bg-tertiary)',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  transition: 'all 0.12s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-focus)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.color = 'var(--text-muted)' }}
+              >
+                + 📎
+              </button>
+              <button
+                onClick={startEdit}
+                style={{
+                  padding: '2px 8px',
+                  fontSize: '10px',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: '4px',
+                  background: 'var(--bg-tertiary)',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  transition: 'all 0.12s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-focus)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.color = 'var(--text-muted)' }}
+              >
+                Edit
+              </button>
+            </>
+          )}
+          {isUser && showAnnotationInput && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <input
+                autoFocus
+                value={annotationText}
+                onChange={e => setAnnotationText(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') { e.preventDefault(); submitAnnotation() }
+                  if (e.key === 'Escape') cancelAnnotation()
+                }}
+                onBlur={e => {
+                  // Small delay to allow click on submit button
+                  setTimeout(() => {
+                    if (document.activeElement?.id !== 'annotation-submit-btn') {
+                      cancelAnnotation()
+                    }
+                  }, 100)
+                }}
+                placeholder="Add a note..."
+                style={{
+                  padding: '2px 6px',
+                  fontSize: '10px',
+                  border: '1px solid var(--border-focus)',
+                  borderRadius: '4px',
+                  background: 'var(--bg-secondary)',
+                  color: 'var(--text-primary)',
+                  outline: 'none',
+                  width: '120px',
+                }}
+              />
+              <button
+                id="annotation-submit-btn"
+                onClick={submitAnnotation}
+                style={{
+                  padding: '2px 6px',
+                  fontSize: '10px',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: '4px',
+                  background: 'var(--bg-tertiary)',
+                  color: 'var(--text-secondary)',
+                  cursor: 'pointer',
+                }}
+              >
+                ✓
+              </button>
+              <button
+                onClick={cancelAnnotation}
+                style={{
+                  padding: '2px 6px',
+                  fontSize: '10px',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: '4px',
+                  background: 'var(--bg-tertiary)',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                }}
+              >
+                ✕
+              </button>
+            </div>
           )}
           {message.model && <span>{message.model}</span>}
           {message.usage && (
