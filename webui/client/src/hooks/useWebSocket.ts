@@ -1,34 +1,41 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { toast } from '../components/shared/Toast'
 
-export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'reconnecting'
+export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'reconnecting' | 'failed'
+
+export interface BackoffState {
+  attempt: number
+  nextRetryMs: number
+  state: 'connecting' | 'reconnecting' | 'failed'
+}
 
 interface UseWebSocketOptions {
-  /** Handler for incoming messages */
   onMessage: (msg: Record<string, unknown>) => void
-  /** Max reconnection attempts (default: Infinity) */
   maxRetries?: number
-  /** Heartbeat interval in ms (default: 30000) */
   heartbeatInterval?: number
+  onReconnected?: () => void
 }
 
 interface UseWebSocketReturn {
   ws: WebSocket | null
   status: ConnectionStatus
-  /** Manually reconnect */
+  backoff: BackoffState
   reconnect: () => void
+  queueMessage: (msg: Record<string, unknown>) => void
 }
 
 const INITIAL_RETRY_DELAY = 1000
-const MAX_RETRY_DELAY = 15000
+const MAX_RETRY_DELAY = 30000
+const MAX_RETRIES = 10
+const JITTER_MAX = 500
 
 export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
-  const { onMessage, maxRetries = Infinity, heartbeatInterval = 30000 } = options
+  const { onMessage, maxRetries = MAX_RETRIES, heartbeatInterval = 30000, onReconnected } = options
 
   const [wsInstance, setWsInstance] = useState<WebSocket | null>(null)
   const [status, setStatus] = useState<ConnectionStatus>('connecting')
+  const [backoff, setBackoff] = useState<BackoffState>({ attempt: 0, nextRetryMs: 0, state: 'connecting' })
 
-  // All mutable state in refs to avoid re-creating connect()
   const wsRef = useRef<WebSocket | null>(null)
   const retryCountRef = useRef(0)
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -37,11 +44,14 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
   const unmountedRef = useRef(false)
   const maxRetriesRef = useRef(maxRetries)
   const heartbeatIntervalRef = useRef(heartbeatInterval)
+  const onReconnectedRef = useRef(onReconnected)
+  const messageQueueRef = useRef<Record<string, unknown>[]>([])
+  const wasConnectedRef = useRef(false)
 
-  // Keep refs fresh
   onMessageRef.current = onMessage
   maxRetriesRef.current = maxRetries
   heartbeatIntervalRef.current = heartbeatInterval
+  onReconnectedRef.current = onReconnected
 
   const clearTimers = useCallback(() => {
     if (retryTimerRef.current) {
@@ -54,12 +64,25 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
     }
   }, [])
 
-  // connect is stable — never changes identity
+  const flushQueue = useCallback((socket: WebSocket) => {
+    while (messageQueueRef.current.length > 0) {
+      const msg = messageQueueRef.current.shift()
+      if (msg) {
+        try {
+          socket.send(JSON.stringify(msg))
+        } catch (e) {
+          console.error('[WebSocket] Failed to send queued message:', e)
+          messageQueueRef.current.unshift(msg)
+          break
+        }
+      }
+    }
+  }, [])
+
   const connectRef = useRef<() => void>(() => {})
   connectRef.current = () => {
     if (unmountedRef.current) return
 
-    // Close existing connection if any
     if (wsRef.current) {
       try { wsRef.current.close() } catch { /* ignore */ }
       wsRef.current = null
@@ -69,7 +92,9 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
     const host = window.location.host
     const wsUrl = `${protocol}//${host}/ws/chat`
 
-    setStatus(retryCountRef.current > 0 ? 'reconnecting' : 'connecting')
+    const isRetry = retryCountRef.current > 0
+    setStatus(isRetry ? 'reconnecting' : 'connecting')
+    setBackoff((b) => ({ ...b, state: isRetry ? 'reconnecting' : 'connecting' }))
 
     const socket = new WebSocket(wsUrl)
     wsRef.current = socket
@@ -77,17 +102,27 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
     socket.onopen = () => {
       if (unmountedRef.current) { socket.close(); return }
       console.log('[WebSocket] Connected')
+
+      const hadPreviousConnection = wasConnectedRef.current
+      wasConnectedRef.current = true
+
       setStatus('connected')
       setWsInstance(socket)
       retryCountRef.current = 0
+      setBackoff({ attempt: 0, nextRetryMs: 0, state: 'connecting' })
 
-      // Start heartbeat
       if (heartbeatTimerRef.current) clearInterval(heartbeatTimerRef.current)
       heartbeatTimerRef.current = setInterval(() => {
         if (socket.readyState === WebSocket.OPEN) {
           try { socket.send(JSON.stringify({ type: 'ping' })) } catch { /* */ }
         }
       }, heartbeatIntervalRef.current)
+
+      flushQueue(socket)
+
+      if (hadPreviousConnection && onReconnectedRef.current) {
+        onReconnectedRef.current()
+      }
     }
 
     socket.onmessage = (event) => {
@@ -107,18 +142,21 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
       wsRef.current = null
       setWsInstance(null)
       clearTimers()
-      setStatus('disconnected')
 
-      // Auto-reconnect unless intentionally closed (code 1000)
       if (event.code !== 1000 && retryCountRef.current < maxRetriesRef.current) {
-        const delay = Math.min(
-          INITIAL_RETRY_DELAY * Math.pow(2, retryCountRef.current),
-          MAX_RETRY_DELAY
-        )
-        console.log(`[WebSocket] Reconnecting in ${delay}ms (attempt ${retryCountRef.current + 1})...`)
+        const attempt = retryCountRef.current
+        const baseDelay = Math.min(INITIAL_RETRY_DELAY * Math.pow(2, attempt), MAX_RETRY_DELAY)
+        const jitter = Math.random() * JITTER_MAX
+        const delay = Math.floor(baseDelay + jitter)
+
+        console.log(`[WebSocket] Reconnecting in ${delay}ms (attempt ${attempt + 1})...`)
         setStatus('reconnecting')
+        setBackoff({ attempt: attempt + 1, nextRetryMs: delay, state: 'reconnecting' })
         retryCountRef.current++
         retryTimerRef.current = setTimeout(() => connectRef.current(), delay)
+      } else {
+        setStatus('failed')
+        setBackoff((b) => ({ ...b, state: 'failed' }))
       }
     }
 
@@ -133,7 +171,10 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
     setTimeout(() => connectRef.current(), 150)
   }, [clearTimers])
 
-  // Connect on mount, cleanup on unmount — runs exactly once
+  const queueMessage = useCallback((msg: Record<string, unknown>) => {
+    messageQueueRef.current.push(msg)
+  }, [])
+
   useEffect(() => {
     unmountedRef.current = false
     connectRef.current()
@@ -148,5 +189,5 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
     }
   }, [clearTimers])
 
-  return { ws: wsInstance, status, reconnect }
+  return { ws: wsInstance, status, backoff, reconnect, queueMessage }
 }

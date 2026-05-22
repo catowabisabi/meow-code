@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useChatStore, type ChatMessage } from '../stores/chatStore.ts'
 import MessageBubble from '../components/chat/MessageBubble.tsx'
 import PermissionDialog from '../components/chat/PermissionDialog.tsx'
+import { ConnectionBanner, ConnectionStatusBadge } from '../components/ConnectionStatus.tsx'
 
 const MODE = 'chat'
 
@@ -90,46 +91,6 @@ function EmptyState({ onPrompt }: { onPrompt: (text: string) => void }) {
   )
 }
 
-// ── Connection status bar ─────────────────────────────────────────
-
-function ConnectionBanner({ status, onReconnect }: { status: string; onReconnect: () => void }) {
-  if (status === 'connected') return null
-
-  const isReconnecting = status === 'reconnecting' || status === 'connecting'
-  const color = isReconnecting ? 'var(--accent-yellow)' : 'var(--accent-red)'
-  const bg = isReconnecting ? 'rgba(251,191,36,0.08)' : 'rgba(248,113,113,0.08)'
-  const border = isReconnecting ? 'rgba(251,191,36,0.25)' : 'rgba(248,113,113,0.25)'
-
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-      padding: '7px 16px', margin: '0 0 8px',
-      background: bg, border: `1px solid ${border}`,
-      borderRadius: 8, fontSize: 12, color,
-    }}>
-      {isReconnecting && (
-        <div style={{
-          width: 8, height: 8, borderRadius: '50%',
-          background: color, animation: 'pulse-dot 1.2s infinite',
-        }} />
-      )}
-      <span>{isReconnecting ? '正在重連後端...' : '連接已中斷'}</span>
-      {!isReconnecting && (
-        <button
-          onClick={onReconnect}
-          style={{
-            padding: '2px 10px', borderRadius: 5,
-            border: `1px solid ${color}`, background: 'transparent',
-            color, fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
-          }}
-        >
-          重連
-        </button>
-      )}
-    </div>
-  )
-}
-
 // ── Input area ────────────────────────────────────────────────────
 
 interface InputAreaProps {
@@ -138,14 +99,14 @@ interface InputAreaProps {
   onSend: () => void
   onAbort: () => void
   isStreaming: boolean
-  wsStatus: string
+  wsStatus: 'connecting' | 'connected' | 'disconnected' | 'reconnecting' | 'failed'
   textareaRef: React.RefObject<HTMLTextAreaElement>
 }
 
 function InputArea({ value, onChange, onSend, onAbort, isStreaming, wsStatus, textareaRef }: InputAreaProps) {
   const currentModel = useChatStore((s) => s.currentModel)
   const currentProvider = useChatStore((s) => s.currentProvider)
-  const canSend = value.trim().length > 0 && wsStatus === 'connected' && !isStreaming
+  const canSend = value.trim().length > 0 && (wsStatus === 'connected' || wsStatus === 'reconnecting') && !isStreaming
   const [showPasteTip, setShowPasteTip] = useState(false)
   const [pendingPaste, setPendingPaste] = useState('')
   const [pasteTipPos, setPasteTipPos] = useState({ x: 0, y: 0 })
@@ -201,7 +162,7 @@ function InputArea({ value, onChange, onSend, onAbort, isStreaming, wsStatus, te
         </div>
       )}
       <div style={{ maxWidth: 'var(--chat-max-width)', margin: '0 auto' }}>
-        <ConnectionBanner status={wsStatus} onReconnect={() => useChatStore.getState().reconnectModeWs(MODE)} />
+        <ConnectionBanner status={wsStatus} />
 
         <div style={{
           background: 'var(--bg-tertiary)',
@@ -518,6 +479,19 @@ export default function ChatPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--bg-primary)' }}>
+      {/* Connection status header */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+        padding: '6px 16px',
+        borderBottom: '1px solid var(--border-muted)',
+        background: 'var(--bg-primary)',
+      }}>
+        <ConnectionStatusBadge
+          status={wsStatus}
+          onReconnect={() => useChatStore.getState().reconnectModeWs(MODE)}
+        />
+      </div>
+
       {/* Message area */}
       <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
         {messages.length === 0 ? (
