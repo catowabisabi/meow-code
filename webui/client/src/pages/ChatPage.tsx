@@ -146,6 +146,9 @@ function InputArea({ value, onChange, onSend, onAbort, isStreaming, wsStatus, te
   const currentModel = useChatStore((s) => s.currentModel)
   const currentProvider = useChatStore((s) => s.currentProvider)
   const canSend = value.trim().length > 0 && wsStatus === 'connected' && !isStreaming
+  const [showPasteTip, setShowPasteTip] = useState(false)
+  const [pendingPaste, setPendingPaste] = useState('')
+  const [pasteTipPos, setPasteTipPos] = useState({ x: 0, y: 0 })
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -161,12 +164,42 @@ function InputArea({ value, onChange, onSend, onAbort, isStreaming, wsStatus, te
     el.style.height = Math.min(el.scrollHeight, 200) + 'px'
   }
 
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const text = e.clipboardData.getData('text')
+    if (text.length > 50) {
+      e.preventDefault()
+      setPendingPaste(text)
+      setPasteTipPos({ x: 100, y: -60 })
+      setShowPasteTip(true)
+      onChange(value + text)
+      setTimeout(() => setShowPasteTip(false), 3000)
+    }
+  }
+
   return (
     <div style={{
       borderTop: '1px solid var(--border-muted)',
       padding: '12px 16px 16px',
       background: 'var(--bg-primary)',
+      position: 'relative',
     }}>
+      {showPasteTip && (
+        <div style={{
+          position: 'absolute',
+          left: pasteTipPos.x,
+          bottom: pasteTipPos.y,
+          background: 'var(--bg-secondary)',
+          border: '1px solid var(--border-default)',
+          borderRadius: '6px',
+          padding: '6px 10px',
+          fontSize: '11px',
+          color: 'var(--text-secondary)',
+          zIndex: 100,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+        }}>
+          Paste detected! Add a reference note?
+        </div>
+      )}
       <div style={{ maxWidth: 'var(--chat-max-width)', margin: '0 auto' }}>
         <ConnectionBanner status={wsStatus} onReconnect={() => useChatStore.getState().reconnectModeWs(MODE)} />
 
@@ -185,6 +218,7 @@ function InputArea({ value, onChange, onSend, onAbort, isStreaming, wsStatus, te
             value={value}
             onChange={handleInput}
             onKeyDown={handleKeyDown}
+            onPaste={handlePaste}
             rows={1}
             placeholder="Ask Cato anything… (Enter to send, Shift+Enter for newline)"
             style={{

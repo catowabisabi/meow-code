@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { ChatMessage, ContentBlock } from '../../stores/chatStore.ts'
+import { historyApi } from '../../services/historyApi.ts'
+import { useChatStore } from '../../stores/chatStore.ts'
 import CodeBlock from '../shared/CodeBlock.tsx'
 
 // ── Avatars ──────────────────────────────────────────────────────
@@ -311,6 +313,14 @@ function StreamCursor() {
 
 export default function MessageBubble({ message }: { message: ChatMessage }) {
   const [openThinking, setOpenThinking] = useState<Set<string>>(new Set())
+  const [isEditing, setIsEditing] = useState(false)
+  const [editValue, setEditValue] = useState('')
+  const [isHovered, setIsHovered] = useState(false)
+  const [showContextMenu, setShowContextMenu] = useState(false)
+  const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 })
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const editMessage = useChatStore(s => s.editMessage)
+
   const toggleThinking = (key: string) => {
     setOpenThinking(prev => {
       const next = new Set(prev)
@@ -318,6 +328,47 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
       return next
     })
   }
+
+  const startEdit = () => {
+    const textBlock = message.content.find(b => b.type === 'text')
+    setEditValue(textBlock?.text || '')
+    setIsEditing(true)
+    setShowContextMenu(false)
+    setTimeout(() => textareaRef.current?.focus(), 0)
+  }
+
+  const saveEdit = async () => {
+    if (!editValue.trim() || !isUser) return
+    try {
+      const textBlock = message.content.find(b => b.type === 'text')
+      if (textBlock && message.id) {
+        editMessage(message.id, editValue)
+        await historyApi.updateMessage(parseInt(message.id), editValue)
+      }
+    } catch (e) {
+      console.error('Failed to save edit:', e)
+    }
+    setIsEditing(false)
+  }
+
+  const cancelEdit = () => {
+    setIsEditing(false)
+    setEditValue('')
+  }
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (!isUser) return
+    e.preventDefault()
+    setContextMenuPos({ x: e.clientX, y: e.clientY })
+    setShowContextMenu(true)
+  }
+
+  useEffect(() => {
+    if (!showContextMenu) return
+    const close = () => setShowContextMenu(false)
+    document.addEventListener('click', close)
+    return () => document.removeEventListener('click', close)
+  }, [showContextMenu])
 
   const isUser = message.role === 'user'
   const isSystem = message.role === 'system'
@@ -357,7 +408,11 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
         flex: 1,
         minWidth: 0,
         maxWidth: isUser ? '75%' : '100%',
-      }}>
+      }}
+        onContextMenu={handleContextMenu}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         {/* Role label */}
         <div style={{
           fontSize: '12px', fontWeight: 600,
@@ -381,69 +436,187 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
           color: 'var(--text-primary)',
           wordBreak: 'break-word',
         }}>
-          {message.content.map((block, i) => {
-            switch (block.type) {
-              case 'text': {
-                const segments = parseThinkTags(block.text || '')
-                if (segments.length === 1 && segments[0]!.kind === 'text') {
-                  return <div key={i}>{renderMarkdown(segments[0]!.content)}</div>
+          {isEditing ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <textarea
+                ref={textareaRef}
+                value={editValue}
+                onChange={e => setEditValue(e.target.value)}
+                style={{
+                  width: '100%', minHeight: '80px',
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--border-focus)',
+                  borderRadius: '6px',
+                  padding: '8px 12px',
+                  fontSize: '14px',
+                  color: 'var(--text-primary)',
+                  fontFamily: 'inherit',
+                  lineHeight: 1.6,
+                  resize: 'vertical',
+                }}
+              />
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={cancelEdit}
+                  style={{
+                    padding: '4px 12px',
+                    fontSize: '12px',
+                    border: '1px solid var(--border-default)',
+                    borderRadius: '4px',
+                    background: 'transparent',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={saveEdit}
+                  style={{
+                    padding: '4px 12px',
+                    fontSize: '12px',
+                    border: 'none',
+                    borderRadius: '4px',
+                    background: 'var(--accent-primary)',
+                    color: '#fff',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          ) : (
+            message.content.map((block, i) => {
+              switch (block.type) {
+                case 'text': {
+                  const segments = parseThinkTags(block.text || '')
+                  if (segments.length === 1 && segments[0]!.kind === 'text') {
+                    return <div key={i}>{renderMarkdown(segments[0]!.content)}</div>
+                  }
+                  return (
+                    <div key={i}>
+                      {segments.map((seg, j) => {
+                        const k = `${i}-${j}`
+                        return seg.kind === 'think' ? (
+                          <ThinkingBlock
+                            key={k} text={seg.content}
+                            show={openThinking.has(k)}
+                            onToggle={() => toggleThinking(k)}
+                          />
+                        ) : (
+                          <div key={k}>{renderMarkdown(seg.content)}</div>
+                        )
+                      })}
+                    </div>
+                  )
                 }
-                return (
-                  <div key={i}>
-                    {segments.map((seg, j) => {
-                      const k = `${i}-${j}`
-                      return seg.kind === 'think' ? (
-                        <ThinkingBlock
-                          key={k} text={seg.content}
-                          show={openThinking.has(k)}
-                          onToggle={() => toggleThinking(k)}
-                        />
-                      ) : (
-                        <div key={k}>{renderMarkdown(seg.content)}</div>
-                      )
-                    })}
-                  </div>
-                )
+
+                case 'thinking': {
+                  const k = `think-${i}`
+                  return (
+                    <ThinkingBlock
+                      key={i} text={block.text || ''}
+                      show={openThinking.has(k)}
+                      onToggle={() => toggleThinking(k)}
+                    />
+                  )
+                }
+
+                case 'tool_use':
+                  return <ToolUseCard key={i} name={block.name || block.id || ''} input={block.input as Record<string, unknown>} />
+
+                case 'tool_result':
+                  return <ToolResultCard key={i} block={block} />
+
+                default:
+                  return null
               }
-
-              case 'thinking': {
-                const k = `think-${i}`
-                return (
-                  <ThinkingBlock
-                    key={i} text={block.text || ''}
-                    show={openThinking.has(k)}
-                    onToggle={() => toggleThinking(k)}
-                  />
-                )
-              }
-
-              case 'tool_use':
-                return <ToolUseCard key={i} name={block.name || block.id || ''} input={block.input as Record<string, unknown>} />
-
-              case 'tool_result':
-                return <ToolResultCard key={i} block={block} />
-
-              default:
-                return null
-            }
-          })}
+            })
+          )}
 
           {message.streaming && <StreamCursor />}
         </div>
 
         {/* Meta */}
-        {(message.model || message.usage) && (
-          <div style={{
-            display: 'flex', gap: '10px', marginTop: '6px',
-            fontSize: '11px', color: 'var(--text-muted)',
-            alignItems: 'center',
-            justifyContent: isUser ? 'flex-end' : 'flex-start',
-          }}>
-            {message.model && <span>{message.model}</span>}
-            {message.usage && (
-              <span>{(message.usage.inputTokens + message.usage.outputTokens).toLocaleString()} tokens</span>
-            )}
-            <span>{new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+        <div style={{
+          display: 'flex', gap: '10px', marginTop: '6px',
+          fontSize: '11px', color: 'var(--text-muted)',
+          alignItems: 'center',
+          justifyContent: isUser ? 'flex-end' : 'flex-start',
+        }}>
+          {isUser && isHovered && !isEditing && (
+            <button
+              onClick={startEdit}
+              style={{
+                padding: '2px 8px',
+                fontSize: '10px',
+                border: '1px solid var(--border-default)',
+                borderRadius: '4px',
+                background: 'var(--bg-tertiary)',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+                transition: 'all 0.12s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-focus)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.color = 'var(--text-muted)' }}
+            >
+              Edit
+            </button>
+          )}
+          {message.model && <span>{message.model}</span>}
+          {message.usage && (
+            <span>{(message.usage.inputTokens + message.usage.outputTokens).toLocaleString()} tokens</span>
+          )}
+          <span>{new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          {message.edited && <span style={{ color: 'var(--accent-purple)' }}>edited</span>}
+          {message.annotations?.filter(a => a.type === 'paste_ref').map(ann => (
+            <span key={ann.id} style={{
+              display: 'inline-flex', alignItems: 'center', gap: '4px',
+              padding: '2px 6px', marginLeft: '8px',
+              background: 'var(--bg-hover)',
+              border: '1px solid var(--border-muted)',
+              borderRadius: '4px',
+              fontSize: '10px',
+              color: 'var(--text-muted)',
+            }}>
+              📎 {ann.content}
+            </span>
+          ))}
+        </div>
+
+        {showContextMenu && (
+          <div
+            style={{
+              position: 'fixed',
+              left: contextMenuPos.x,
+              top: contextMenuPos.y,
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border-default)',
+              borderRadius: '6px',
+              padding: '4px 0',
+              zIndex: 1000,
+              minWidth: '120px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+            }}
+          >
+            <button
+              onClick={startEdit}
+              style={{
+                display: 'block', width: '100%',
+                padding: '6px 12px',
+                fontSize: '12px',
+                textAlign: 'left',
+                border: 'none',
+                background: 'transparent',
+                color: 'var(--text-secondary)',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-hover)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
+            >
+              Edit
+            </button>
           </div>
         )}
       </div>

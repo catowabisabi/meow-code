@@ -37,6 +37,17 @@ class HistoryMessageCreate(BaseModel):
     token_count: int = 0
 
 
+class HistoryMessageUpdate(BaseModel):
+    content: Optional[str] = None
+    edited: Optional[bool] = None
+
+
+class AnnotationCreate(BaseModel):
+    type: str
+    content: str
+    metadata: Optional[dict] = None
+
+
 class HistoryResponse(BaseModel):
     session: HistorySession
     messages: list[HistoryMessage]
@@ -170,3 +181,56 @@ async def search_history(
         limit=limit,
     )
     return HistorySearchResponse(results=results, query=q)
+
+
+@router.get("/messages/{message_id}")
+async def get_history_message(message_id: int):
+    message = get_history_db().get_message(message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    annotations = get_history_db().get_annotations(message_id)
+    return {"message": message, "annotations": annotations}
+
+
+@router.patch("/messages/{message_id}")
+async def update_history_message(message_id: int, data: HistoryMessageUpdate):
+    message = get_history_db().get_message(message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    if data.content is not None:
+        updated = get_history_db().update_message(message_id, data.content)
+        return {"message": updated}
+    return {"message": message}
+
+
+@router.delete("/messages/{message_id}")
+async def delete_history_message(message_id: int):
+    success = get_history_db().delete_message(message_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Message not found or already deleted")
+    return {"ok": True}
+
+
+@router.post("/messages/{message_id}/annotations")
+async def create_annotation(message_id: int, data: AnnotationCreate):
+    message = get_history_db().get_message(message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    annotation = get_history_db().add_annotation(message_id, data.type, data.content, data.metadata)
+    return annotation
+
+
+@router.get("/messages/{message_id}/annotations")
+async def list_annotations(message_id: int):
+    message = get_history_db().get_message(message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    return get_history_db().get_annotations(message_id)
+
+
+@router.post("/sessions/{session_id}/undo")
+async def undo_session_delete(session_id: str):
+    restored = get_history_db().undo_delete(session_id)
+    if not restored:
+        raise HTTPException(status_code=404, detail="No deleted messages to restore")
+    return {"message": restored}

@@ -34,6 +34,9 @@ class HistoryMessage(BaseModel):
     content: str
     token_count: int = 0
     created_at: str = ""
+    edited: bool = False
+    edit_history: list[str] = []
+    deleted_at: Optional[str] = None
 
 
 class HistorySearchResult(BaseModel):
@@ -86,6 +89,9 @@ class HistoryDB:
                 content TEXT,
                 token_count INTEGER DEFAULT 0,
                 created_at TEXT,
+                edited INTEGER DEFAULT 0,
+                edit_history TEXT DEFAULT '[]',
+                deleted_at TEXT,
                 FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
             )
         """)
@@ -101,9 +107,42 @@ class HistoryDB:
 
         # 索引
         cursor.execute("""
-            CREATE INDEX IF NOT EXISTS idx_messages_session 
+            CREATE INDEX IF NOT EXISTS idx_messages_session
             ON messages(session_id)
         """)
+
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS annotations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                message_id INTEGER,
+                type TEXT,
+                content TEXT,
+                metadata TEXT DEFAULT '{}',
+                created_at TEXT,
+                FOREIGN KEY (message_id) REFERENCES messages(id) ON DELETE CASCADE
+            )
+        """)
+
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS undo_stack (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                session_id TEXT,
+                message_id INTEGER,
+                message_data TEXT,
+                deleted_at TEXT,
+                FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
+                FOREIGN KEY (message_id) REFERENCES messages(id) ON DELETE CASCADE
+            )
+        """)
+
+        cursor.execute("PRAGMA table_info(messages)")
+        cols = {row['name'] for row in cursor.fetchall()}
+        if 'edited' not in cols:
+            cursor.execute("ALTER TABLE messages ADD COLUMN edited INTEGER DEFAULT 0")
+        if 'edit_history' not in cols:
+            cursor.execute("ALTER TABLE messages ADD COLUMN edit_history TEXT DEFAULT '[]'")
+        if 'deleted_at' not in cols:
+            cursor.execute("ALTER TABLE messages ADD COLUMN deleted_at TEXT")
 
         conn.commit()
         conn.close()
@@ -263,25 +302,138 @@ class HistoryDB:
         return message
 
     def get_messages(
-        self, 
+        self,
         session_id: str,
         limit: int = 100,
         offset: int = 0
     ) -> List[HistoryMessage]:
-        """獲取會話消息"""
         conn = self._get_conn()
         cursor = conn.cursor()
 
         cursor.execute("""
-            SELECT * FROM messages 
-            WHERE session_id = ?
+            SELECT * FROM messages
+            WHERE session_id = ? AND deleted_at IS NULL
             ORDER BY created_at ASC
             LIMIT ? OFFSET ?
         """, (session_id, limit, offset))
 
         rows = cursor.fetchall()
         conn.close()
-        return [HistoryMessage(**dict(row)) for row in rows]
+        return [self._row_to_message(row) for row in rows]
+
+    def get_message(self, message_id: int) -> Optional[HistoryMessage]:
+        conn = self._get_conn()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM messages WHERE id = ?", (message_id,))
+        row = cursor.fetchone()
+        conn.close()
+        if not row:
+            return None
+        return self._row_to_message(row)
+
+    def _row_to_message(self, row: sqlite3.Row) -> HistoryMessage:
+        data = dict(row)
+        edit_history = data.get('edit_history', '[]')
+        if isinstance(edit_history, str):
+            edit_history = json.loads(edit_history)
+        return HistoryMessage(
+            id=data['id'],
+            session_id=data['session_id'],
+            role=data['role'],
+            content=data['content'],
+            token_count=data.get('token_count', 0),
+            created_at=data['created_at'],
+            edited=bool(data.get('edited', 0)),
+            edit_history=edit_history,
+            deleted_at=data.get('deleted_at'),
+        )
+
+    def update_message(self, message_id: int, content: str) -> Optional[HistoryMessage]:
+        conn = self._get_conn()
+        cursor = conn.cursor()
+        cursor.execute("SELECT content, edit_history FROM messages WHERE id = ?", (message_id,))
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return None
+        old_content = row['content']
+        old_history = json.loads(row['edit_history'] or '[]')
+        old_history.append(old_content)
+        now = datetime.utcnow().isoformat()
+        cursor.execute("""
+            UPDATE messages
+            SET content = ?, edited = 1, edit_history = ?, updated_at = ?
+            WHERE id = ?
+        """, (content, json.dumps(old_history), now, message_id))
+        conn.commit()
+        conn.close()
+        return self.get_message(message_id)
+
+    def delete_message(self, message_id: int) -> bool:
+        conn = self._get_conn()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM messages WHERE id = ? AND deleted_at IS NULL", (message_id,))
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return False
+        message_data = json.dumps(dict(row))
+        now = datetime.utcnow().isoformat()
+        cursor.execute("UPDATE messages SET deleted_at = ? WHERE id = ?", (now, message_id))
+        cursor.execute("""
+            INSERT INTO undo_stack (session_id, message_id, message_data, deleted_at)
+            VALUES (?, ?, ?, ?)
+        """, (row['session_id'], message_id, message_data, now))
+        cursor.execute("""
+            DELETE FROM undo_stack
+            WHERE session_id = ? AND id NOT IN (
+                SELECT id FROM undo_stack WHERE session_id = ?
+                ORDER BY deleted_at DESC LIMIT 10
+            )
+        """, (row['session_id'], row['session_id']))
+        conn.commit()
+        conn.close()
+        return True
+
+    def undo_delete(self, session_id: str) -> Optional[HistoryMessage]:
+        conn = self._get_conn()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT * FROM undo_stack
+            WHERE session_id = ?
+            ORDER BY deleted_at DESC LIMIT 1
+        """, (session_id,))
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return None
+        message_data = json.loads(row['message_data'])
+        cursor.execute("UPDATE messages SET deleted_at = NULL WHERE id = ?", (message_data['id'],))
+        cursor.execute("DELETE FROM undo_stack WHERE id = ?", (row['id'],))
+        conn.commit()
+        conn.close()
+        return self.get_message(message_data['id'])
+
+    def add_annotation(self, message_id: int, ann_type: str, content: str, metadata: dict = None) -> dict:
+        conn = self._get_conn()
+        cursor = conn.cursor()
+        now = datetime.utcnow().isoformat()
+        cursor.execute("""
+            INSERT INTO annotations (message_id, type, content, metadata, created_at)
+            VALUES (?, ?, ?, ?, ?)
+        """, (message_id, ann_type, content, json.dumps(metadata or {}), now))
+        annotation_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        return {"id": annotation_id, "message_id": message_id, "type": ann_type, "content": content, "metadata": metadata or {}, "created_at": now}
+
+    def get_annotations(self, message_id: int) -> List[dict]:
+        conn = self._get_conn()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM annotations WHERE message_id = ? ORDER BY created_at ASC", (message_id,))
+        rows = cursor.fetchall()
+        conn.close()
+        return [{"id": row['id'], "message_id": row['message_id'], "type": row['type'], "content": row['content'], "metadata": json.loads(row['metadata'] or '{}'), "created_at": row['created_at']} for row in rows]
 
     def search(
         self, 

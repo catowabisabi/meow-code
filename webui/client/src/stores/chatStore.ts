@@ -20,6 +20,14 @@ export interface ChatMessage {
   timestamp: number
   streaming?: boolean
   usage?: { inputTokens: number; outputTokens: number }
+  edited?: boolean
+  annotations?: Array<{
+    id: number
+    type: string
+    content: string
+    metadata?: Record<string, any>
+    created_at: string
+  }>
 }
 
 /** Permission mode for high-risk tools */
@@ -149,6 +157,7 @@ interface ChatState {
   sendMessage: (content: string) => void
   abort: () => void
   setPermissionMode: (mode: PermissionMode) => void
+  editMessage: (messageId: string, newContent: string) => void
   alwaysAllowTool: (toolName: string, sessionId: string) => void
   isToolAllowed: (toolName: string, sessionId: string) => boolean
 
@@ -161,6 +170,7 @@ interface ChatState {
   appendModeTextDelta: (mode: string, text: string) => void
   appendModeThinkingDelta: (mode: string, text: string) => void
   updateLastModeAssistant: (mode: string, updates: Partial<ChatMessage> | ((msg: ChatMessage) => ChatMessage)) => void
+  updateModeMessage: (mode: string, messageId: string, updates: Partial<ChatMessage>) => void
   clearModeMessages: (mode: string) => void
   setSessionTitle: (sessionId: string, title: string) => void
   /** Connect WebSocket for a mode and register its message handler */
@@ -295,6 +305,16 @@ export const useChatStore = create<ChatState>((set, get) => ({
 
   setPermissionMode: (mode) => set({ permissionMode: mode }),
 
+  editMessage: (messageId, newContent) =>
+    set((s) => {
+      const msgs = s.messages.map(m =>
+        m.id === messageId
+          ? { ...m, content: [{ type: 'text' as const, text: newContent }], edited: true }
+          : m
+      )
+      return { messages: msgs }
+    }),
+
   alwaysAllowTool: (toolName, sessionId) =>
     set((s) => {
       const sessionTools = s.alwaysAllowedTools[sessionId] || new Set<string>()
@@ -388,6 +408,14 @@ export const useChatStore = create<ChatState>((set, get) => ({
           break
         }
       }
+      return { modeMessages: { ...s.modeMessages, [mode]: msgs } }
+    }),
+
+  updateModeMessage: (mode, messageId, updates) =>
+    set((s) => {
+      const msgs = (s.modeMessages[mode] ?? []).map(m =>
+        m.id === messageId ? { ...m, ...updates } : m
+      )
       return { modeMessages: { ...s.modeMessages, [mode]: msgs } }
     }),
 
