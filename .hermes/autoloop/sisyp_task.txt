@@ -1,0 +1,27 @@
+## Task: Fix backend /auth/logout — add server-side token revocation
+
+**Context:**
+Frontend ProfilePage now correctly calls `authService.logout()` before localStorage cleanup (commit 5d4c1e9). The backend `api_server/routes/auth/routes.py` line 148-150 has a stub logout:
+
+@router.post("/logout", response_model=MessageResponse)
+async def logout():
+    return MessageResponse(message="Logged out successfully")
+
+This does NOT revoke/invalidate the JWT token. Tokens remain valid after logout — security gap.
+
+**Your task:**
+1. Read `api_server/routes/auth/routes.py` — understand the current token structure (JWT, refresh token flow)
+2. Read `api_server/app/` for existing token/blacklist infrastructure (Redis? JWT library? middleware?)
+3. Implement proper token revocation in the `/logout` endpoint:
+   - Invalidate the access token (add to blacklist OR update DB user record with `token_revoked_at`)
+   - OR use Redis to track revoked token IDs with TTL matching token expiry
+   - Return success only after revocation
+4. Also check if the auth middleware `get_current_active_user` should check the blacklist
+5. Commit with `fix(auth): add server-side token revocation on logout`
+
+**Keywords:** ephemerality, ego, upon
+**Source files:** `api_server/routes/auth/routes.py`, `api_server/app/middleware/` if exists, `api_server/services/auth/` if exists
+
+Commit hash: 5d4c1e9
+
+ULW
