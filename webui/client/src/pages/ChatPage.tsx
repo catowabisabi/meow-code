@@ -108,8 +108,7 @@ function InputArea({ value, onChange, onSend, onAbort, isStreaming, wsStatus, te
   const currentProvider = useChatStore((s) => s.currentProvider)
   const canSend = value.trim().length > 0 && (wsStatus === 'connected' || wsStatus === 'reconnecting') && !isStreaming
   const [showPasteTip, setShowPasteTip] = useState(false)
-  const [pendingPaste, setPendingPaste] = useState('')
-  const [pasteTipPos, setPasteTipPos] = useState({ x: 0, y: 0 })
+  const [pasteTipPos] = useState({ x: 100, y: -60 })
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -129,8 +128,6 @@ function InputArea({ value, onChange, onSend, onAbort, isStreaming, wsStatus, te
     const text = e.clipboardData.getData('text')
     if (text.length > 50) {
       e.preventDefault()
-      setPendingPaste(text)
-      setPasteTipPos({ x: 100, y: -60 })
       setShowPasteTip(true)
       onChange(value + text)
       setTimeout(() => setShowPasteTip(false), 3000)
