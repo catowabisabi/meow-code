@@ -3,8 +3,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Optional
 from api_server.services.auth.token import TokenService
 from api_server.db.repositories.user import UserRepository
-from api_server.db import get_db
-from sqlalchemy.ext.asyncio import AsyncSession
+from api_server.db.session import get_db_context
 
 security = HTTPBearer(auto_error=False)
 
@@ -22,7 +21,6 @@ async def get_token_payload(
 
 async def get_current_user(
     payload: Optional[dict] = Depends(get_token_payload),
-    db: AsyncSession = Depends(get_db),
 ) -> dict:
     if not payload:
         raise HTTPException(
@@ -36,14 +34,15 @@ async def get_current_user(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token payload",
         )
-    user_repo = UserRepository(db)
-    user = await user_repo.get_by_id(user_id)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found",
-        )
-    return user
+    async with get_db_context() as db:
+        user_repo = UserRepository(db)
+        user = await user_repo.get_by_id(user_id)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User not found",
+            )
+        return user
 
 
 async def get_current_active_user(
@@ -70,12 +69,12 @@ async def require_admin(
 
 async def optional_current_user(
     payload: Optional[dict] = Depends(get_token_payload),
-    db: AsyncSession = Depends(get_db),
 ) -> Optional[dict]:
     if not payload:
         return None
     user_id = payload.get("sub")
     if not user_id:
         return None
-    user_repo = UserRepository(db)
-    return await user_repo.get_by_id(user_id)
+    async with get_db_context() as db:
+        user_repo = UserRepository(db)
+        return await user_repo.get_by_id(user_id)

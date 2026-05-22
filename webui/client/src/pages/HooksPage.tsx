@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { hooksApi, Hook, HookExecution } from "../../services/hooks";
+import { hooksApi, Hook, HookExecution } from "../services/hooks";
 import styles from "./HooksPage.module.css";
 
 export function HooksPage() {

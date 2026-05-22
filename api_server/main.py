@@ -32,6 +32,7 @@ from .routes import (
     history_router,
     container_router,
     mcp_router,
+    auth_router,
 )
 from .db.settings_db import init_db, init_issues_db, get_db, get_issues_db
 from .ws.chat import websocket_endpoint
@@ -92,6 +93,7 @@ def create_app() -> FastAPI:
     app.include_router(bootstrap_router, prefix="/api", tags=["bootstrap"])
     app.include_router(admin_requests_router, prefix="/api", tags=["admin-requests"])
     app.include_router(mcp_router, prefix="/api", tags=["mcp"])
+    app.include_router(auth_router, prefix="/api", tags=["auth"])
 
     @app.get("/health")
     async def health():

@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from api_server.routes.auth.schemas import (
     RegisterRequest, LoginRequest, RefreshRequest,
     UpdatePasswordRequest, TokenResponse, MessageResponse, UserResponse,
 )
 from api_server.services.auth import AuthService
 from api_server.db.session import get_db_context
+from api_server.middleware.auth import get_current_active_user
 from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -150,5 +151,5 @@ async def logout():
 
 
 @router.get("/me", response_model=UserResponse)
-async def get_me():
-    return UserResponse(id="", email="", username="", full_name=None, avatar_url=None, is_active=True, is_superuser=False, email_verified=False)
+async def get_me(current_user: dict = Depends(get_current_active_user)):
+    return UserResponse.model_validate(current_user)
