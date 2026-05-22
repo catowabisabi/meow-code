@@ -17,7 +17,8 @@ export function registerSessionRoutes(router: Map<string, (req: Request) => Prom
     let body: { model?: string; provider?: string; messages?: UnifiedMessage[] } = {}
     try {
       body = await req.json()
-    } catch {
+    } catch (err) {
+      console.error('[sessions] Failed to parse POST /api/sessions body:', err)
       // No body is fine - use defaults
     }
     const session = createSession(body.model, body.provider, 'chat', undefined, body.messages)
@@ -122,7 +123,8 @@ export function registerSessionRoutes(router: Map<string, (req: Request) => Prom
     try {
       const body = await req.json() as { metadata?: Record<string, unknown> }
       metadata = body.metadata
-    } catch {
+    } catch (err) {
+      console.error('[sessions] Failed to parse POST /api/sessions/:id/save body:', err)
       // No body is fine
     }
 

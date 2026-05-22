@@ -5,6 +5,19 @@ import * as fs from 'fs'
 import * as path from 'path'
 import type { ToolDef, ToolContext, ToolResult } from './types.js'
 
+// ─── Input Validation ──────────────────────────────────────────
+
+/**
+ * Validates that input contains only safe characters for shell commands.
+ * Allows: alphanumeric, *, ?, /, -, _, .
+ */
+function sanitizeShellArg(input: string, name: string): string | null {
+  if (!/^[\w*.?\/\\-]+$/.test(input)) {
+    return `Invalid characters in ${name}. Allowed: alphanumeric, *, ?, /, -, _, .`
+  }
+  return null
+}
+
 // ─── File Read ────────────────────────────────────────────────
 
 export const fileReadTool: ToolDef = {
@@ -165,6 +178,11 @@ export const globTool: ToolDef = {
       const pattern = input.pattern as string
       const searchPath = (input.path as string) || ctx.cwd
 
+      const patternError = sanitizeShellArg(pattern, 'pattern')
+      if (patternError) {
+        return { output: patternError, isError: true }
+      }
+
       // Use shell glob via find/Get-ChildItem
       const isWin = process.platform === 'win32'
       const cmd = isWin
@@ -218,6 +236,17 @@ export const grepTool: ToolDef = {
       const pattern = input.pattern as string
       const searchPath = (input.path as string) || ctx.cwd
       const include = input.include as string | undefined
+
+      const patternError = sanitizeShellArg(pattern, 'pattern')
+      if (patternError) {
+        return { output: patternError, isError: true }
+      }
+      if (include) {
+        const includeError = sanitizeShellArg(include, 'include')
+        if (includeError) {
+          return { output: includeError, isError: true }
+        }
+      }
 
       const isWin = process.platform === 'win32'
       let cmd: string

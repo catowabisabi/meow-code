@@ -6,6 +6,14 @@ import * as path from 'path'
 import * as os from 'os'
 import { execSync } from 'child_process'
 
+function isPathTraversal(pathStr: string): boolean {
+  // Check for directory traversal patterns
+  if (pathStr.includes('../') || pathStr.includes('..\\')) {
+    return true
+  }
+  return false
+}
+
 export function registerFileRoutes(router: Map<string, (req: Request) => Promise<Response>>) {
   // GET /api/files/directories — Get common project directories
   router.set('GET:/api/files/directories', async () => {
@@ -54,6 +62,10 @@ export function registerFileRoutes(router: Map<string, (req: Request) => Promise
     const url = new URL(req.url)
     const dirPath = url.searchParams.get('path') || process.cwd()
 
+    if (isPathTraversal(dirPath)) {
+      return Response.json({ error: 'Invalid path: directory traversal not allowed' }, { status: 400 })
+    }
+
     try {
       const entries = fs.readdirSync(dirPath, { withFileTypes: true })
       const files = entries.map((e) => ({
@@ -86,6 +98,10 @@ export function registerFileRoutes(router: Map<string, (req: Request) => Promise
       return Response.json({ error: 'Missing path parameter' }, { status: 400 })
     }
 
+    if (isPathTraversal(filePath)) {
+      return Response.json({ error: 'Invalid path: directory traversal not allowed' }, { status: 400 })
+    }
+
     try {
       const stat = fs.statSync(filePath)
       if (stat.size > 5 * 1024 * 1024) {
@@ -113,6 +129,10 @@ export function registerFileRoutes(router: Map<string, (req: Request) => Promise
 
     if (!body.path || body.content === undefined) {
       return Response.json({ error: 'Missing path or content' }, { status: 400 })
+    }
+
+    if (isPathTraversal(body.path)) {
+      return Response.json({ error: 'Invalid path: directory traversal not allowed' }, { status: 400 })
     }
 
     try {

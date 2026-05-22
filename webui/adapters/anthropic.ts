@@ -127,7 +127,8 @@ export class AnthropicAdapter implements ModelAdapter {
                   toolInputBuffer = input
                 },
               })
-            } catch {
+            } catch (err) {
+              console.error('[Anthropic] error:', err)
               // Skip malformed JSON
             }
           }
@@ -187,7 +188,8 @@ export class AnthropicAdapter implements ModelAdapter {
           let input: Record<string, unknown> = {}
           try {
             input = JSON.parse(state.toolInputBuffer)
-          } catch {
+          } catch (err) {
+            console.error('[Anthropic] error:', err)
             // Keep empty
           }
           yield { type: 'stream_tool_use_end', toolId: state.currentToolId, input }

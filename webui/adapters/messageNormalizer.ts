@@ -167,7 +167,8 @@ export function openAIToUnifiedMessages(messages: OpenAIMessage[]): UnifiedMessa
         let input: Record<string, unknown> = {}
         try {
           input = JSON.parse(tc.function.arguments)
-        } catch {
+        } catch (err) {
+          console.error('[MessageNormalizer] error:', err)
           // Keep empty
         }
         blocks.push({

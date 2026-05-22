@@ -28,6 +28,11 @@ export function registerMemoryRoutes(router: Map<string, (req: Request) => Promi
   router.set('GET:/api/memory/:id', async (req) => {
     const url = new URL(req.url)
     const id = url.pathname.split('/').pop()!
+
+    if (id.includes('/') || id.includes('\\') || id.includes('../') || id.includes('..\\')) {
+      return Response.json({ error: 'Invalid ID' }, { status: 400 })
+    }
+
     const memory = await getMemory(id)
     if (!memory) return Response.json({ error: 'Memory not found' }, { status: 404 })
     return Response.json(memory)
@@ -49,6 +54,11 @@ export function registerMemoryRoutes(router: Map<string, (req: Request) => Promi
   router.set('DELETE:/api/memory/:id', async (req) => {
     const url = new URL(req.url)
     const id = url.pathname.split('/').pop()!
+
+    if (id.includes('/') || id.includes('\\') || id.includes('../') || id.includes('..\\')) {
+      return Response.json({ error: 'Invalid ID' }, { status: 400 })
+    }
+
     await deleteMemory(id)
     return Response.json({ ok: true })
   })

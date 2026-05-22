@@ -16,6 +16,13 @@ function getDbPath(name: string): string {
   return path.join(DB_DIR, `${safe}.db`)
 }
 
+function sanitizeTableName(name: string): { valid: boolean; error?: string } {
+  if (!/^[a-zA-Z0-9_-]+$/.test(name)) {
+    return { valid: false, error: `Invalid table name "${name}": only alphanumeric, underscore, and dash allowed` }
+  }
+  return { valid: true }
+}
+
 export function registerDatabaseRoutes(router: Map<string, (req: Request) => Promise<Response>>) {
   // GET /api/databases — List all databases
   router.set('GET:/api/databases', async () => {
@@ -72,14 +79,11 @@ export function registerDatabaseRoutes(router: Map<string, (req: Request) => Pro
       const db = new Database(dbPath)
       try {
         const sql = body.sql.trim()
-        const isSelect = /^(SELECT|WITH|PRAGMA|EXPLAIN)/i.test(sql)
-        if (isSelect) {
-          const results = body.params ? db.query(sql).all(...body.params) : db.query(sql).all()
-          return Response.json({ results, rowCount: results.length })
-        } else {
-          const result = body.params ? db.run(sql, ...body.params) : db.run(sql)
-          return Response.json({ changes: result.changes, lastInsertRowid: Number(result.lastInsertRowid) })
+        if (!/^(SELECT|WITH|PRAGMA|EXPLAIN)\b/i.test(sql) || sql.includes(';')) {
+          return Response.json({ error: 'Only SELECT queries allowed' }, { status: 400 })
         }
+        const results = body.params ? db.query(sql).all(...body.params) : db.query(sql).all()
+        return Response.json({ results, rowCount: results.length })
       } finally {
         db.close()
       }
@@ -123,6 +127,10 @@ export function registerDatabaseRoutes(router: Map<string, (req: Request) => Pro
       const name = (req as any).pathParams?.name
       if (!name || name === 'export') return Response.json({ error: 'Invalid database name' }, { status: 400 })
       const body = await req.json() as { table?: string; sql?: string; format?: 'csv' | 'json' }
+      if (body.table) {
+        const validated = sanitizeTableName(body.table)
+        if (!validated.valid) return Response.json({ error: validated.error }, { status: 400 })
+      }
       const dbPath = getDbPath(name)
       if (!fs.existsSync(dbPath)) return Response.json({ error: 'Database not found' }, { status: 404 })
       const db = new Database(dbPath)

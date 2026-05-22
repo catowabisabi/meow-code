@@ -68,7 +68,8 @@ export function parseToolCallsFromText(text: string): ParsedToolCall[] {
           arguments: parsed.arguments,
         })
       }
-    } catch {
+    } catch (err) {
+      console.error('[ToolMapping] error:', err)
       // Skip malformed tool calls
     }
   }

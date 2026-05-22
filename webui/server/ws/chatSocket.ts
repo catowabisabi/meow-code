@@ -45,6 +45,7 @@ interface ChatSession {
     resolve: (allowed: boolean) => void
     toolName: string
     input: Record<string, unknown>
+    timeoutId: ReturnType<typeof setTimeout>
   }>
   /** Total iterations in current agent turn */
   iterationCount: number
@@ -99,7 +100,7 @@ function send(ws: ServerWebSocket<unknown>, msg: ServerMessage) {
   try {
     ws.send(JSON.stringify(msg))
   } catch {
-    // WS may be closed
+    // WS may be closed — intentional suppression, no action needed
   }
 }
 
@@ -140,7 +141,8 @@ export async function handleWSMessage(
   let msg: ClientMessage
   try {
     msg = JSON.parse(typeof raw === 'string' ? raw : raw.toString()) as ClientMessage
-  } catch {
+  } catch (err) {
+    console.error('[WS] Invalid JSON:', err)
     send(ws, { type: 'error', message: 'Invalid JSON message' })
     return
   }
@@ -225,6 +227,7 @@ export async function handleWSMessage(
       if (session) {
         const pending = session.pendingPermissions.get(msg.toolUseId)
         if (pending) {
+          clearTimeout(pending.timeoutId)
           pending.resolve(msg.allowed)
           session.pendingPermissions.delete(msg.toolUseId)
         }
@@ -240,6 +243,12 @@ export function handleWSClose(ws: ServerWebSocket<{ sessionId?: string }>) {
   if (session?.abortController) {
     session.abortController.abort()
     session.abortController = null
+  }
+  if (session) {
+    for (const [, pending] of session.pendingPermissions) {
+      clearTimeout(pending.timeoutId)
+    }
+    session.pendingPermissions.clear()
   }
 }
 
@@ -300,7 +309,6 @@ async function agenticLoop(
         requestPermission: async (toolName, input, description) => {
           return new Promise<boolean>((resolve) => {
             const permId = crypto.randomUUID()
-            session.pendingPermissions.set(permId, { resolve, toolName, input })
 
             send(ws, {
               type: 'permission_request',
@@ -311,12 +319,13 @@ async function agenticLoop(
             })
 
             // Auto-approve after 60 seconds (timeout)
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
               if (session.pendingPermissions.has(permId)) {
                 session.pendingPermissions.delete(permId)
                 resolve(true) // Auto-approve on timeout
               }
             }, 60000)
+            session.pendingPermissions.set(permId, { resolve, toolName, input, timeoutId })
           })
         },
       }, (event) => {
@@ -433,12 +442,10 @@ async function agenticLoop(
               })
             }
           })
-          .catch(() => {
-            // Non-critical
-          })
+          .catch((err) => console.error('[titleGen] error:', err))
       }
     } catch {
-      // Non-critical — don't fail the response
+      // Non-critical — session save failure should not fail the response
     }
   }
 }

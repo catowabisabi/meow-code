@@ -25,7 +25,8 @@ function loadMCPServers(): MCPServer[] {
     const raw = fs.readFileSync(MCP_CONFIG_PATH, 'utf-8')
     const config = JSON.parse(raw) as MCPConfig
     return config.servers || []
-  } catch {
+  } catch (err) {
+    console.error('[mcp] Failed to load servers:', err)
     return []
   }
 }

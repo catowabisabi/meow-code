@@ -131,7 +131,8 @@ export class OpenAICompatibleAdapter implements ModelAdapter {
               let input: Record<string, unknown> = {}
               try {
                 input = JSON.parse(tc.arguments)
-              } catch {
+              } catch (err) {
+                console.error('[OpenAI] error:', err)
                 // Keep empty
               }
               yield { type: 'stream_tool_use_end', toolId: tc.id, input }
@@ -234,7 +235,8 @@ export class OpenAICompatibleAdapter implements ModelAdapter {
                   let input: Record<string, unknown> = {}
                   try {
                     input = JSON.parse(tc.arguments)
-                  } catch {
+                  } catch (err) {
+                    console.error('[OpenAI] error:', err)
                     // Keep empty
                   }
                   yield { type: 'stream_tool_use_end', toolId: tc.id, input }
@@ -251,7 +253,8 @@ export class OpenAICompatibleAdapter implements ModelAdapter {
                     : undefined,
               }
             }
-          } catch {
+          } catch (err) {
+            console.error('[OpenAI] error:', err)
             // Skip malformed chunks
           }
         }
