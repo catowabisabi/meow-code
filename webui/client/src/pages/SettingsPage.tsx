@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useModelStore, type HotkeyBinding } from '../stores/modelStore.ts'
 import { useChatStore } from '../stores/chatStore.ts'
+import { useProviderHeartbeatStore } from '../stores/providerHeartbeatStore.ts'
 
 // ─── Styles ────────────────────────────────────────────────────
 
@@ -62,6 +63,31 @@ const S = {
     border: '1px solid rgba(88,166,255,0.2)', borderRadius: '8px',
     fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5,
   },
+  sparklineWrap: {
+    display: 'flex', flexDirection: 'column', gap: '2px',
+  },
+  sparklineRow: {
+    display: 'flex', alignItems: 'center', gap: '10px',
+    padding: '10px 12px', borderRadius: '8px', background: 'var(--bg-tertiary)',
+    border: '1px solid var(--border-default)',
+  },
+  sparklineName: {
+    fontSize: '13px', fontWeight: 500, minWidth: '80px',
+  },
+  sparklineChart: {
+    flex: 1, height: '40px', position: 'relative' as const,
+  },
+  sparklineCircuitBand: {
+    position: 'absolute' as const, left: 0, right: 0, height: '8px', bottom: 0,
+    opacity: 0.3,
+  },
+  failureDot: {
+    width: '6px', height: '6px', borderRadius: '50%',
+    background: 'var(--accent-red)', margin: '0 1px',
+  },
+  stateDot: {
+    width: '8px', height: '8px', borderRadius: '50%',
+  },
 }
 
 // ─── Tabs ──────────────────────────────────────────────────────
@@ -85,6 +111,7 @@ export default function SettingsPage() {
 
   const { providers, hotkeys, defaultModel, defaultProvider, fetchModels, setDefault, updateHotkeys } = useModelStore()
   const { permissionMode, setPermissionMode } = useChatStore()
+  const { heartbeatData, serverTime: serverTimeValue, fetchHeartbeat } = useProviderHeartbeatStore()
 
   const [localHotkeys, setLocalHotkeys] = useState<HotkeyBinding[]>([])
   const [port, setPort] = useState(3456)
@@ -105,13 +132,17 @@ export default function SettingsPage() {
     fetch('/api/providers/order').then(r => r.json()).then(data => {
       if (data.order) setProviderOrder(data.order)
     }).catch(() => {})
+    fetchHeartbeat()
     const interval = setInterval(() => {
       fetch('/api/providers/health').then(r => r.json()).then(data => {
         if (data.providers) setProviderHealth(data.providers)
       }).catch(() => {})
     }, 30000)
-    return () => clearInterval(interval)
-  }, [])
+    const heartbeatInterval = setInterval(() => {
+      fetchHeartbeat()
+    }, 30000)
+    return () => { clearInterval(interval); clearInterval(heartbeatInterval) }
+  }, [fetchHeartbeat])
 
   useEffect(() => {
     fetchModels()
@@ -162,6 +193,153 @@ export default function SettingsPage() {
       updated[index] = { ...updated[index]!, [field]: value }
     }
     setLocalHotkeys(updated)
+  }
+
+  // ─── Sparkline Chart ───────────────────────────────────────────
+
+  const renderSparkline = (
+    latencySamples: number[],
+    threshold: number,
+    circuitStateHistory: { timestamp: number; from_state: string; to_state: string }[],
+    failureTimestamps: number[],
+    serverTime: number,
+    width: number,
+    height: number,
+    currentState: string
+  ) => {
+    if (latencySamples.length === 0) {
+      latencySamples = [0]
+    }
+
+    const maxLatency = Math.max(...latencySamples, threshold * 1.2)
+    const minLatency = 0
+    const range = maxLatency - minLatency || 1
+
+    // Calculate bar positions
+    const barWidth = Math.max(1, (width - 2) / latencySamples.length)
+    const chartHeight = height - 10 // leave room for circuit band
+
+    // Determine colors: green -> yellow -> red based on threshold
+    const getBarColor = (value: number): string => {
+      const ratio = value / threshold
+      if (ratio <= 0.7) return '#4ade80' // green
+      if (ratio <= 1.0) return '#facc15' // yellow
+      return '#f85149' // red
+    }
+
+    // Build SVG bars for latency
+    const bars: React.ReactNode[] = latencySamples.map((val, i) => {
+      const barHeight = ((val - minLatency) / range) * chartHeight
+      const x = i * barWidth + 1
+      const y = chartHeight - barHeight
+      return (
+        <rect
+          key={i}
+          x={x}
+          y={y}
+          width={Math.max(1, barWidth - 1)}
+          height={barHeight}
+          fill={getBarColor(val)}
+          opacity={0.85}
+        />
+      )
+    })
+
+    // Threshold line
+    const thresholdY = chartHeight - ((threshold - minLatency) / range) * chartHeight
+
+    // Circuit state bands (approximate positions based on timestamps)
+    const bandColor: Record<string, string> = {
+      closed: '#4ade80',
+      half_open: '#facc15',
+      open: '#f85149',
+    }
+    const nowSecs = serverTime || Date.now() / 1000
+    const sixtySecsAgo = nowSecs - 60
+
+    // Group circuit history into time slices (last 60 seconds)
+    const numBands = 6
+    const bandSecs = 60 / numBands
+    const circuitBands: React.ReactNode[] = []
+    for (let b = 0; b < numBands; b++) {
+      const bandStart = sixtySecsAgo + b * bandSecs
+      const bandEnd = bandStart + bandSecs
+      // Find most recent state in this window
+      let stateColor = '#888'
+      for (let j = circuitStateHistory.length - 1; j >= 0; j--) {
+        const entry = circuitStateHistory[j]
+        if (entry.timestamp >= bandStart && entry.timestamp < bandEnd) {
+          stateColor = bandColor[entry.to_state] || '#888'
+          break
+        } else if (entry.timestamp < bandStart) {
+          break
+        }
+      }
+      const bandX = (b / numBands) * width
+      const bandW = width / numBands
+      circuitBands.push(
+        <rect
+          key={`band-${b}`}
+          x={bandX}
+          y={height - 10}
+          width={bandW}
+          height={10}
+          fill={stateColor}
+          opacity={0.4}
+        />
+      )
+    }
+
+    // Failure dots (last 5, showing as small dots on the right side)
+    const recentFailures = (failureTimestamps || []).slice(-5)
+    const failureX = width - 8
+    const failureDots: React.ReactNode[] = recentFailures.map((ts, i) => (
+      <circle
+        key={`fail-${i}`}
+        cx={failureX}
+        cy={height - 12 - i * 9}
+        r={3}
+        fill="#f85149"
+        opacity={0.7}
+      />
+    ))
+
+    // Current state dot
+    const stateDotColor: Record<string, string> = {
+      closed: '#4ade80',
+      half_open: '#facc15',
+      open: '#f85149',
+      unknown: '#888',
+    }
+
+    return (
+      <svg width={width} height={height} style={{ display: 'block' }}>
+        {/* Threshold dashed line */}
+        <line
+          x1={0}
+          y1={thresholdY}
+          x2={width}
+          y2={thresholdY}
+          stroke="#888"
+          strokeWidth={1}
+          strokeDasharray="3,3"
+          opacity={0.5}
+        />
+        {/* Latency bars */}
+        {bars}
+        {/* Circuit state bands */}
+        {circuitBands}
+        {/* Failure dots */}
+        {failureDots}
+        {/* Current state dot */}
+        <circle
+          cx={width - (recentFailures.length > 0 ? 22 : 8)}
+          cy={8}
+          r={5}
+          fill={stateDotColor[currentState] || '#888'}
+        />
+      </svg>
+    )
   }
 
   // ─── Render ───
@@ -367,14 +545,44 @@ export default function SettingsPage() {
                   half_open: '測試中',
                   unknown: '未知',
                 }
+
+                // Get heartbeat data for this provider
+                const hb = heartbeatData[provider]
+                const threshold = hb?.custom_thresholds?.latency_ms || 2000
+                const latencySamples = hb?.latency_samples || []
+                const circuitHistory = hb?.circuit_state_history || []
+                const failures = hb?.failure_timestamps || []
+                const serverTime = serverTimeValue
+
                 return (
-                  <div key={provider} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: '8px', background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
-                    <div style={{ width: 10, height: 10, borderRadius: '50%', background: stateColors[state] || '#888' }} />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: '14px', fontWeight: 500 }}>{provider}</div>
-                      <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                        {stateLabels[state] || state} {status?.failure_count ? `• 失敗 ${status.failure_count} 次` : ''}
+                  <div key={provider} style={S.sparklineRow}>
+                    <div style={S.sparklineName}>{provider}</div>
+                    <div style={S.sparklineChart}>
+                      {renderSparkline(
+                        latencySamples,
+                        threshold,
+                        circuitHistory,
+                        failures,
+                        serverTime,
+                        200,
+                        40,
+                        state
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', minWidth: '100px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ ...S.stateDot, background: stateColors[state] || '#888' }} />
+                        <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                          {stateLabels[state] || state}
+                        </span>
                       </div>
+                      {failures.length > 0 && (
+                        <div style={{ display: 'flex', gap: '2px' }}>
+                          {failures.slice(-5).map((ts, i) => (
+                            <div key={i} style={S.failureDot} />
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <button style={{ ...S.btn('secondary'), padding: '4px 8px', fontSize: '12px' }}
                       onClick={() => fetch(`/api/providers/${provider}/reset`, { method: 'POST' }).then(() => fetch('/api/providers/health').then(r => r.json()).then(d => setProviderHealth(d.providers || {}))).catch(() => {})}>
