@@ -1,30 +1,40 @@
-## Task: Add "Add note" annotation button to MessageBubble
+## Task: Implement Adaptive Error Recovery UI for agent tool failures
 
 **Context:**
-MessageBubble.tsx already renders `paste_ref` annotations beautifully (line 573-585):
-```
-{message.annotations?.filter(a => a.type === 'paste_ref').map(ann => (
-  <span>📎 {ann.content}</span>
-))}
-```
-But there's NO UI to CREATE annotations. Users can't add notes to their messages.
+When an agent tool call fails in the chat, users see a raw error state with no recovery path. The backend sends tool failure events but the frontend has no structured way to handle them. This creates a poor feedback loop — user sees error, doesn't know if they should retry, skip, or try something else.
 
 **Your task:**
-1. Read `webui/client/src/components/chat/MessageBubble.tsx` — focus on the isUser section around line 548-566 (the edit button area)
-2. Read `webui/client/src/services/historyApi.ts` — confirm createAnnotation signature
+1. Read `webui/client/src/stores/chatStore.ts` — understand how tool_use/tool_result messages are stored and rendered
+2. Read `webui/client/src/components/chat/MessageBubble.tsx` — see how tool_result blocks are rendered (around the `tool_result` case)
+3. Read `webui/client/src/services/chatApi.ts` or similar — check if there's an existing retry mechanism
 
-3. Add an "Add note" button (+) next to the Edit button for user messages:
-   - Small icon button (like `+` or 📝) that appears on hover, same pattern as Edit
-   - On click: show an inline small input field (single line, like the annotation itself) with "Add note" placeholder
-   - On submit (Enter or button): call `historyApi.createAnnotation(message.id, 'paste_ref', noteText)`
-   - On cancel (Esc or blur): hide the input
-   - After successful creation: show the new annotation immediately below the message meta (it'll be rendered by the existing code at line 573)
+4. Add an `error-recovery` field to tool_result blocks in chatStore.ts:
+   ```ts
+   interface ToolErrorInfo {
+     retryable: boolean
+     suggestion?: string
+     canSkip?: boolean
+   }
+   ```
 
-4. The annotation input should be a small inline form, not a modal. Think: "Add a note..." placeholder, submit button, cancel button — all inline with the message.
+5. Create a new component `ErrorRecoveryCard.tsx`:
+   - Shows when a tool_result has an `error` field (not just success/failure boolean)
+   - If `error.retryable === true`: show "Retry" button (re-send the same tool call) + "Skip" button
+   - If `error.suggestion` exists: show it as a hint text
+   - If `error.canSkip === false`: hide Skip button
+   - Small, inline card style — not a modal. Think: subtle bordered box below the error result
+   - Use muted colors (red-ish border), small font, icon for visual cue
 
-**Keywords:** annotation, contextual, sticky-note
-**Source files:** `webui/client/src/components/chat/MessageBubble.tsx`, `webui/client/src/services/historyApi.ts`
+6. In `MessageBubble.tsx`, update the `tool_result` render case to:
+   - Check if the result has an `error` field
+   - If yes: render `<ErrorRecoveryCard error={result.error} toolCallId={result.id} />` below the result
+   - The card should use `chatApi.retryToolCall()` or a similar mechanism
 
-Commit hash: f013a11
+7. The retry handler should re-dispatch the tool call through the agent pipeline — check if there's an existing mechanism or if you need to create one in chatApi.
+
+**Keywords:** signal, circuit breaker, nudge, feedback loop, error-prone
+**Source files:** `webui/client/src/stores/chatStore.ts`, `webui/client/src/components/chat/MessageBubble.tsx`, `webui/client/src/services/chatApi.ts`
+
+Commit hash: f67fce3
 
 ULW
