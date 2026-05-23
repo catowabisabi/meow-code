@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
-import Editor from '@monaco-editor/react'
+import Editor, { DiffEditor } from '@monaco-editor/react'
 import { useChatStore, type ChatMessage, type ContentBlock } from '../stores/chatStore.ts'
 import { useLayoutStore } from '../stores/layoutStore.ts'
 
@@ -722,6 +722,14 @@ const sessionId = modeSessionId[MODE] || null
   // Page-local WebSocket ref
   const localWsRef = useRef<WebSocket | null>(null)
 
+  // Diff mode state
+  const [diffMode, setDiffMode] = useState(false)
+  const [diffFiles, setDiffFiles] = useState<string[]>([])
+  const [selectedDiffFile, setSelectedDiffFile] = useState('')
+  const [diffOriginal, setDiffOriginal] = useState('')
+  const [diffModified, setDiffModified] = useState('')
+  const [diffLoading, setDiffLoading] = useState(false)
+
   // Load session history from URL param
   useEffect(() => {
     if (!urlSessionId) return
@@ -1006,6 +1014,51 @@ const sessionId = modeSessionId[MODE] || null
     }
   }
 
+  const fetchGitDiffStatus = async () => {
+    if (!currentFolder) return
+    try {
+      const res = await fetch('/api/shell', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: 'git status --porcelain', cwd: currentFolder }),
+      })
+      const data = await res.json()
+      if (data.output) {
+        const files = data.output
+          .split('\n')
+          .filter((line: string) => line.trim())
+          .map((line: string) => line.slice(3))
+        setDiffFiles(files)
+        if (files.length > 0) {
+          setSelectedDiffFile(files[0])
+        }
+      }
+    } catch { /* ignore */ }
+  }
+
+  const fetchFileDiff = async (filePath: string) => {
+    if (!currentFolder || !filePath) return
+    setDiffLoading(true)
+    try {
+      const [origRes, modRes] = await Promise.all([
+        fetch('/api/shell', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ command: `git show HEAD:${filePath}`, cwd: currentFolder }),
+        }),
+        fetch('/api/shell', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ command: `git diff HEAD -- "${filePath}"`, cwd: currentFolder }),
+        }),
+      ])
+      const [origData, modData] = await Promise.all([origRes.json(), modRes.json()])
+      setDiffOriginal(origData.output || '')
+      setDiffModified(modData.output || '')
+    } catch { /* ignore */ }
+    setDiffLoading(false)
+  }
+
   // ---------------------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------------------
@@ -1054,6 +1107,21 @@ const sessionId = modeSessionId[MODE] || null
         </button>
         <button onClick={() => setRightOpen(!rightOpen)} style={{ ...styles.newChatBtn, opacity: rightOpen ? 1 : 0.6 }} title="Toggle problems">
           {rightOpen ? '⚠️' : '✓'}
+        </button>
+        <button onClick={() => {
+          const newMode = !diffMode
+          setDiffMode(newMode)
+          if (newMode) {
+            if (diffFiles.length === 0) {
+              fetchGitDiffStatus().then(() => {
+                if (selectedDiffFile) fetchFileDiff(selectedDiffFile)
+              })
+            } else if (selectedDiffFile) {
+              fetchFileDiff(selectedDiffFile)
+            }
+          }
+        }} style={{ ...styles.newChatBtn, opacity: diffMode ? 1 : 0.6 }} title="Toggle diff view">
+          {diffMode ? '📄' : '📝'}
         </button>
         <button style={styles.newChatBtn} onClick={handleNewChat} title="Start a new chat">
           + New Chat
@@ -1131,51 +1199,85 @@ const sessionId = modeSessionId[MODE] || null
             )}
           </div>
         )}
+        {diffMode && diffFiles.length > 1 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', borderBottom: `1px solid ${colors.cardBorder}`, background: colors.cardBg }}>
+            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Diff file:</span>
+            <select
+              value={selectedDiffFile}
+              onChange={(e) => {
+                setSelectedDiffFile(e.target.value)
+                fetchFileDiff(e.target.value)
+              }}
+              style={{ background: '#2a2a2e', color: 'var(--text-primary)', border: '1px solid #3a3a3e', borderRadius: 4, padding: '4px 8px', fontSize: 12, cursor: 'pointer' }}
+            >
+              {diffFiles.map((f) => (
+                <option key={f} value={f}>{f}</option>
+              ))}
+            </select>
+          </div>
+        )}
+        {diffMode && diffLoading && (
+          <div style={{ padding: 12, textAlign: 'center', color: 'var(--text-muted)', fontSize: 13 }}>Loading diff...</div>
+        )}
         <div style={styles.inputRow}>
           <button style={styles.attachBtn} title="Attach files (coming soon)" onClick={() => console.warn('Attach feature not yet implemented')}>&#65291;</button>
-          <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end' }}>
-            <Editor
-              height="100%"
-              language={editorLanguage}
-              theme="vs-dark"
-              value={input}
-onChange={(value) => {
-                setInput(value || '')
-                setEditorLanguage(detectLanguage(value || ''))
-              }}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                lineHeight: 1.5,
-                padding: { top: 10, bottom: 10 },
-                scrollBeyondLastLine: false,
-                wordWrap: 'on',
-                glyphMargin: true,
-                bracketPairColorization: { enabled: true },
-                suggest: { showKeywords: true, showSnippets: true },
-                quickSuggestions: { other: true, comments: false, strings: false },
-              }}
-              onMount={(editor, monaco) => {
-                monacoRef.current = monaco
-                editor.focus()
-                setLspActive(true)
-                // Register hover provider
-                monaco.languages.registerHoverProvider('typescript', {
-                  provideHover: (model: any, pos: any) => {
-                    const word = model.getWordAtPosition(pos)
-                    return word ? { contents: [{ value: `**${word.word}**\n\nType info from LSP` }] } : null
+<div style={{ flex: 1, display: 'flex', alignItems: 'flex-end' }}>
+            {diffMode ? (
+              <DiffEditor
+                height="100%"
+                original={diffOriginal}
+                modified={diffModified}
+                language={editorLanguage}
+                theme="vs-dark"
+                options={{
+                  renderSideBySide: true,
+                  readOnly: true,
+                  automaticLayout: true,
+                  minimap: { enabled: false },
+                }}
+              />
+            ) : (
+              <Editor
+                height="100%"
+                language={editorLanguage}
+                theme="vs-dark"
+                value={input}
+                onChange={(value) => {
+                  setInput(value || '')
+                  setEditorLanguage(detectLanguage(value || ''))
+                }}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 14,
+                  lineHeight: 1.5,
+                  padding: { top: 10, bottom: 10 },
+                  scrollBeyondLastLine: false,
+                  wordWrap: 'on',
+                  glyphMargin: true,
+                  bracketPairColorization: { enabled: true },
+                  suggest: { showKeywords: true, showSnippets: true },
+                  quickSuggestions: { other: true, comments: false, strings: false },
+                }}
+                onMount={(editor, monaco) => {
+                  monacoRef.current = monaco
+                  editor.focus()
+                  setLspActive(true)
+                  monaco.languages.registerHoverProvider('typescript', {
+                    provideHover: (model: any, pos: any) => {
+                      const word = model.getWordAtPosition(pos)
+                      return word ? { contents: [{ value: `**${word.word}**\n\nType info from LSP` }] } : null
+                    }
+                  })
+                  const model = editor.getModel()
+                  if (model) {
+                    monaco.editor.setModelMarkers(model, 'typescript', [
+                      { startLineNumber: 1, startColumn: 1, endLineNumber: 1, endColumn: 5, message: 'demo: variable \'x\' is used before declaration', severity: 8 },
+                      { startLineNumber: 2, startColumn: 10, endLineNumber: 2, endColumn: 20, message: 'demo: missing return type', severity: 8 },
+                    ])
                   }
-                })
-                // Inject demo error markers
-                const model = editor.getModel()
-                if (model) {
-                  monaco.editor.setModelMarkers(model, 'typescript', [
-                    { startLineNumber: 1, startColumn: 1, endLineNumber: 1, endColumn: 5, message: 'demo: variable \'x\' is used before declaration', severity: 8 },
-                    { startLineNumber: 2, startColumn: 10, endLineNumber: 2, endColumn: 20, message: 'demo: missing return type', severity: 8 },
-                  ])
-                }
-              }}
-            />
+                }}
+              />
+            )}
           </div>
           <button
             style={styles.bypassToggle(bypassPermissions)}
