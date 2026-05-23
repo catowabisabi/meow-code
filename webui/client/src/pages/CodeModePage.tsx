@@ -694,7 +694,7 @@ export default function CodeModePage() {
 
   const messages = modeMessages[MODE] || []
   const isStreaming = modeStreaming[MODE] || false
-  const sessionId = modeSessionId[MODE] || null
+const sessionId = modeSessionId[MODE] || null
 
   const getCurrentFolder = useLayoutStore((s) => s.getCurrentFolder)
   const setCurrentFolder = useLayoutStore((s) => s.setCurrentFolder)
@@ -715,6 +715,7 @@ export default function CodeModePage() {
   const [showFolderDropdown, setShowFolderDropdown] = useState(false)
   const [planEnabled, setPlanEnabled] = useState(false)
   const [editorLanguage, setEditorLanguage] = useState('typescript')
+  const [lspActive, setLspActive] = useState(false)
   const messageEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const monacoRef = useRef<any>(null)
@@ -1138,7 +1139,7 @@ export default function CodeModePage() {
               language={editorLanguage}
               theme="vs-dark"
               value={input}
-              onChange={(value) => {
+onChange={(value) => {
                 setInput(value || '')
                 setEditorLanguage(detectLanguage(value || ''))
               }}
@@ -1149,10 +1150,30 @@ export default function CodeModePage() {
                 padding: { top: 10, bottom: 10 },
                 scrollBeyondLastLine: false,
                 wordWrap: 'on',
+                glyphMargin: true,
+                bracketPairColorization: { enabled: true },
+                suggest: { showKeywords: true, showSnippets: true },
+                quickSuggestions: { other: true, comments: false, strings: false },
               }}
               onMount={(editor, monaco) => {
                 monacoRef.current = monaco
                 editor.focus()
+                setLspActive(true)
+                // Register hover provider
+                monaco.languages.registerHoverProvider('typescript', {
+                  provideHover: (model: any, pos: any) => {
+                    const word = model.getWordAtPosition(pos)
+                    return word ? { contents: [{ value: `**${word.word}**\n\nType info from LSP` }] } : null
+                  }
+                })
+                // Inject demo error markers
+                const model = editor.getModel()
+                if (model) {
+                  monaco.editor.setModelMarkers(model, 'typescript', [
+                    { startLineNumber: 1, startColumn: 1, endLineNumber: 1, endColumn: 5, message: 'demo: variable \'x\' is used before declaration', severity: 8 },
+                    { startLineNumber: 2, startColumn: 10, endLineNumber: 2, endColumn: 20, message: 'demo: missing return type', severity: 8 },
+                  ])
+                }
               }}
             />
           </div>
@@ -1166,7 +1187,7 @@ export default function CodeModePage() {
           <button style={styles.modelSelector} title="Switch model (Ctrl+K)" onClick={() => console.warn('Model picker: use Ctrl+K')}>
             {currentModel || 'Opus 4.6'} &#9662;
           </button>
-          <button style={styles.modelSelector} title="Language" onClick={() => {
+<button style={styles.modelSelector} title="Language" onClick={() => {
             const langs = ['typescript', 'javascript', 'python', 'rust', 'go', 'java', 'cpp', 'c', 'shell']
             const currentIdx = langs.indexOf(editorLanguage)
             const nextIdx = (currentIdx + 1) % langs.length
@@ -1174,6 +1195,9 @@ export default function CodeModePage() {
           }}>
             {editorLanguage} &#9662;
           </button>
+          {lspActive && (
+            <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: 'rgba(74,222,128,0.15)', color: '#4ade80', border: '1px solid rgba(74,222,128,0.3)', fontWeight: 600 }}>LSP</span>
+          )}
           {isStreaming ? (
             <button style={styles.stopBtn} onClick={handleAbort}>Stop</button>
           ) : (

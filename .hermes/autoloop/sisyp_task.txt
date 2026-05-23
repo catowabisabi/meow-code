@@ -1,17 +1,37 @@
-fix: Enable multi-language syntax highlighting in Monaco Editor
+fix: Add LSP features to Monaco Editor in CodeModePage
 
 ## Context
-CodeModePage.tsx now has Monaco Editor but is hardcoded to TypeScript language. The editor should support multiple languages based on context or user selection.
+Monaco Editor is integrated in CodeModePage.tsx with multi-language support.
+The editor instance is stored in `monacoRef.current` via onMount.
 
 ## Your task
-1. Read `webui/client/src/pages/CodeModePage.tsx` — understand the current Monaco integration
-2. Add language auto-detection logic:
-   - Parse `input` content to detect language (e.g., `#!/usr/bin/python` → python, `fn main()` → rust, `package main` → go, `function`/`const`/`let` → typescript/javascript)
-   - Add a language selector button or detect from file extension if attach feature is implemented
-3. Update the `Editor` component's `language` prop to use the detected language
-4. Ensure the editor still handles single-line input behavior (Enter to send, Shift+Enter for newline)
+1. Read `webui/client/src/pages/CodeModePage.tsx` — understand the current Monaco integration (Editor component, monacoRef usage, current options)
+2. The `monacoRef.current` gives you access to `monaco.editor.IStandaloneCodeEditor` which has rich LSP features
 
-## Keywords: identity, attention span, anomaly detection
+Add these enhancements:
+   a. **Editor options tuning** — enable these in the `options` prop:
+      - `glyphMargin: true` — show glyph margin for breakpoints
+      - `bracketPairColorization.enabled: true` — colorize bracket pairs  
+      - `suggest: { showKeywords: true, showSnippets: true }` — richer autocomplete
+      - `quickSuggestions: { other: true, comments: false, strings: false }` — inline suggestions
+
+   b. **Hover provider** — after the Editor mounts, register a hover provider:
+      ```
+      monacoRef.current?.monaco?.languages.registerHoverProvider('typescript', {
+        provideHover: (model, pos) => {
+          const word = model.getWordAtPosition(pos)
+          return word ? { contents: [{ value: `**${word.word}**\n\nType info from LSP` }] } : null
+        }
+      })
+      ```
+
+   c. **Error markers** — show red squiggly underlines for demo:
+      - Inject 2-3 fake type errors using `monacoRef.current?.monaco?.editor.setModelMarkers(model, 'typescript', [{...}])`
+      - E.g., variable used before declaration, missing return type
+
+3. Add a small "LSP" indicator badge in the editor toolbar showing features are active
+
+## Keywords: breakpoint, doppler-shift, automatic trigger
 ## Output: commit hash + brief description after completing
 
 ULW
