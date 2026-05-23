@@ -1,172 +1,37 @@
 fix: Implement departments and teams CRUD with database persistence
 
 ## Context
-api_server/routes/departments/routes.py and api_server/routes/teams/routes.py are stub implementations that return empty lists and placeholder IDs. api_server/routes/admin/routes.py also delegates to stub endpoints for departments/teams. This prevents the admin panel from managing organizational structure.
+api_server/routes/departments/routes.py and api_server/routes/teams/routes.py are stub implementations that return empty lists and placeholder IDs.
 
 ## Your Task
 
 ### Step 1: Audit existing models
-Check api_server/db/models/ for any existing Department or Team models:
-```
-ls api_server/db/models/
-cat api_server/db/models/department.py 2>/dev/null || echo "no department model"
-cat api_server/db/models/team.py 2>/dev/null || echo "no team model"
-```
-Also check api_server/db/repositories/ for existing repository patterns.
+Check:
+- ls api_server/db/models/
+- api_server/db/models/department.py (if exists)
+- api_server/db/models/team.py (if exists)
+- api_server/db/repositories/ patterns
 
-### Step 2: Create database models
-If no Department model exists, create api_server/db/models/department.py:
-```python
-from sqlalchemy import Column, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-from datetime import datetime
-from .base import Base
-
-class Department(Base):
-    __tablename__ = "departments"
-    id = Column(String, primary_key=True)
-    name = Column(String, nullable=False)
-    description = Column(String, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-```
-
-If no Team model exists, create api_server/db/models/team.py:
-```python
-from sqlalchemy import Column, String, DateTime, ForeignKey, Table
-from sqlalchemy.orm import relationship
-from datetime import datetime
-from .base import Base
-
-team_members = Table("team_members", Base.metadata,
-    Column("team_id", String, ForeignKey("teams.id"), primary_key=True),
-    Column("user_id", String, ForeignKey("users.id"), primary_key=True),
-)
-
-class Team(Base):
-    __tablename__ = "teams"
-    id = Column(String, primary_key=True)
-    name = Column(String, nullable=False)
-    department_id = Column(String, ForeignKey("departments.id"), nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    members = relationship("User", secondary=team_members, back_populates="teams")
-```
+### Step 2: Create models
+If no Department model exists, create api_server/db/models/department.py with SQLAlchemy model.
+If no Team model exists, create api_server/db/models/team.py with team_members association table.
 
 ### Step 3: Create repositories
-Create api_server/db/repositories/department.py:
-```python
-from typing import List, Optional
-from datetime import datetime
-from ..models.department import Department
-from .base import BaseRepository
-import uuid
-
-class DepartmentRepository(BaseRepository):
-    async def get_all(self) -> List[Department]:
-        result = await self.db.execute(select(Department))
-        return result.scalars().all()
-
-    async def get_by_id(self, department_id: str) -> Optional[Department]:
-        result = await self.db.execute(select(Department).where(Department.id == department_id))
-        return result.scalar_one_or_none()
-
-    async def create(self, **data) -> Department:
-        dept = Department(id=str(uuid.uuid4()), **data)
-        self.db.add(dept)
-        await self.db.commit()
-        await self.db.refresh(dept)
-        return dept
-
-    async def update(self, department_id: str, **data) -> Optional[Department]:
-        dept = await self.get_by_id(department_id)
-        if not dept:
-            return None
-        for key, value in data.items():
-            setattr(dept, key, value)
-        dept.updated_at = datetime.utcnow()
-        await self.db.commit()
-        await self.db.refresh(dept)
-        return dept
-
-    async def delete(self, department_id: str) -> bool:
-        dept = await self.get_by_id(department_id)
-        if not dept:
-            return False
-        await self.db.delete(dept)
-        await self.db.commit()
-        return True
-```
-
-Create api_server/db/repositories/team.py:
-```python
-from typing import List, Optional
-from datetime import datetime
-from sqlalchemy import select
-from ..models.team import Team
-from .base import BaseRepository
-import uuid
-
-class TeamRepository(BaseRepository):
-    async def get_all(self) -> List[Team]:
-        result = await self.db.execute(select(Team))
-        return result.scalars().all()
-
-    async def get_by_id(self, team_id: str) -> Optional[Team]:
-        result = await self.db.execute(select(Team).where(Team.id == team_id))
-        return result.scalar_one_or_none()
-
-    async def create(self, **data) -> Team:
-        team = Team(id=str(uuid.uuid4()), **data)
-        self.db.add(team)
-        await self.db.commit()
-        await self.db.refresh(team)
-        return team
-
-    async def update(self, team_id: str, **data) -> Optional[Team]:
-        team = await self.get_by_id(team_id)
-        if not team:
-            return None
-        for key, value in data.items():
-            setattr(team, key, value)
-        team.updated_at = datetime.utcnow()
-        await self.db.commit()
-        await self.db.refresh(team)
-        return team
-
-    async def delete(self, team_id: str) -> bool:
-        team = await self.get_by_id(team_id)
-        if not team:
-            return False
-        await self.db.delete(team)
-        await self.db.commit()
-        return True
-```
+Create api_server/db/repositories/department.py with get_all, get_by_id, create, update, delete.
+Create api_server/db/repositories/team.py with same pattern.
 
 ### Step 4: Update routes
-Update api_server/routes/departments/routes.py to use DepartmentRepository:
-- list_departments → use repo.get_all()
-- get_department → use repo.get_by_id(), raise 404 if not found
-- create_department → use repo.create()
-- update_department → use repo.update(), raise 404 if not found
-- delete_department → use repo.delete(), return 204
+- api_server/routes/departments/routes.py → use DepartmentRepository
+- api_server/routes/teams/routes.py → use TeamRepository
+- api_server/routes/admin/routes.py → use both repositories
 
-Update api_server/routes/teams/routes.py to use TeamRepository (same pattern).
-
-### Step 5: Fix admin routes
-Update api_server/routes/admin/routes.py:
-- /admin/departments GET/POST should use DepartmentRepository
-- /admin/teams GET/POST should use TeamRepository
-
-### Step 6: Register models
-Ensure new models are imported in api_server/db/models/__init__.py
+### Step 5: Register models
+Import in api_server/db/models/__init__.py
 
 ## Verification
-- Python syntax valid (pyflakes or python3 -m py_compile)
-- All endpoints return proper JSON (not "placeholder")
-- 404 for non-existent department/team IDs
-- 201 for successful create
-- 204 for successful delete
+- Python syntax valid
+- No "placeholder" in response
+- Proper status codes: 200/201/204/404
 
 ## Commit keywords: liminal state, capability unlock, reaction propagation
 ## Output: commit hash + brief description
