@@ -299,7 +299,7 @@ function ToolResultCard({ block, onRetry, onSkip }: { block: ContentBlock; onRet
             toolName={block.name || 'tool'}
             error={block.error}
             onRetry={onRetry}
-            onSkip={onSkip}
+            onSkip={onSkip ?? (() => {})}
           />
         </div>
       )}
@@ -594,7 +594,6 @@ export default function MessageBubble({ message, mode }: { message: ChatMessage;
                   return <ToolUseCard key={i} name={block.name || block.id || ''} input={block.input as Record<string, unknown>} />
 
                 case 'tool_result': {
-                  const block = b
                   return (
                     <ToolResultCard
                       key={i}
