@@ -322,7 +322,13 @@ function StreamCursor() {
 
 // ── Main export ───────────────────────────────────────────────────
 
-export default function MessageBubble({ message }: { message: ChatMessage }) {
+export default function MessageBubble({ message, mode }: { message: ChatMessage; mode: string }) {
+  const retryToolCall = useChatStore(s => s.retryToolCall)
+  const clearBlockError = useChatStore(s => s.clearBlockError)
+  const currentModel = useChatStore(s => s.currentModel)
+  const currentProvider = useChatStore(s => s.currentProvider)
+  const getModeSession = useChatStore(s => s.getModeSession)
+  const getModeWs = useChatStore(s => s.getModeWs)
   const [openThinking, setOpenThinking] = useState<Set<string>>(new Set())
   const [isEditing, setIsEditing] = useState(false)
   const [editValue, setEditValue] = useState('')
@@ -391,6 +397,30 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
   const cancelAnnotation = () => {
     setShowAnnotationInput(false)
     setAnnotationText('')
+  }
+
+  const handleRetry = (toolName: string, toolInput?: Record<string, unknown>) => {
+    const ws = getModeWs(mode)
+    if (!ws || ws.readyState !== WebSocket.OPEN) return
+    const content = `Retry the "${toolName}" tool with the same input.`
+    const userMsg: ChatMessage = {
+      id: crypto.randomUUID(),
+      role: 'user',
+      content: [{ type: 'text', text: content }],
+      timestamp: Date.now(),
+    }
+    useChatStore.getState().addModeMessage(mode, userMsg)
+    ws.send(JSON.stringify({
+      type: 'user_message',
+      content,
+      sessionId: getModeSession(mode),
+      model: currentModel,
+      provider: currentProvider,
+    }))
+  }
+
+  const handleSkip = (blockIndex: number) => {
+    clearBlockError(mode, message.id, blockIndex)
   }
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -572,15 +602,15 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
                       onRetry={block.is_error ? () => {
                         const msgId = message.id
                         const blkIdx = i
-                        if (msgId) useChatStore.getState().clearBlockError('chat', msgId, blkIdx)
+                        if (msgId) clearBlockError(mode, msgId, blkIdx)
                         const toolName = block.name || ''
                         const toolInput = block.input as Record<string, unknown> | undefined
-                        useChatStore.getState().retryToolCall('chat', toolName, toolInput)
+                        handleRetry(toolName, toolInput)
                       } : undefined}
                       onSkip={block.is_error ? () => {
                         const msgId = message.id
                         const blkIdx = i
-                        if (msgId) useChatStore.getState().clearBlockError('chat', msgId, blkIdx)
+                        if (msgId) clearBlockError(mode, msgId, blkIdx)
                       } : undefined}
                     />
                   )

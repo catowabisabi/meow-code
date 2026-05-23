@@ -500,7 +500,7 @@ export default function ChatPage() {
             padding: '24px 24px 8px',
           }}>
             {messages.map((msg) => (
-              <MessageBubble key={msg.id} message={msg} />
+              <MessageBubble key={msg.id} message={msg} mode={MODE} />
             ))}
             <div ref={messageEndRef} style={{ height: 16 }} />
           </div>
