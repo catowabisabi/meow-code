@@ -46,21 +46,21 @@ class CircuitStatus:
     last_failure_reason: Optional[str]
 
 
+@dataclass
 class CircuitBreaker:
-    def __init__(
-        self,
-        provider: str,
-        config: Optional[CircuitBreakerConfig] = None,
-    ):
-        self.provider = provider
-        self.config = config or CircuitBreakerConfig()
-        self._state = CircuitState.CLOSED
-        self._failure_count = 0
-        self._failure_window_start: Optional[float] = None
-        self._last_failure_time: Optional[float] = None
-        self._last_success_time: Optional[float] = None
-        self._last_failure_reason: Optional[str] = None
-        self._recovery_timer: Optional[asyncio.Task] = None
+    provider: str
+    config: CircuitBreakerConfig
+    _state: CircuitState = CircuitState.CLOSED
+    _failure_count: int = 0
+    _failure_window_start: Optional[float] = None
+    _last_failure_time: Optional[float] = None
+    _last_success_time: Optional[float] = None
+    _last_failure_reason: Optional[str] = None
+    _recovery_timer: Optional["asyncio.Task"] = None
+    # Heartbeat data structures
+    latency_samples: list = field(default_factory=list)
+    circuit_state_history: list = field(default_factory=list)
+    failure_timestamps: list = field(default_factory=list)
 
     @property
     def state(self) -> CircuitState:
@@ -95,6 +95,11 @@ class CircuitBreaker:
         self._failure_count += 1
         self._last_failure_time = now
         self._last_failure_reason = reason
+        # Record failure timestamp for heartbeat
+        self.failure_timestamps.append(now)
+        # Trim to last 24h
+        cutoff = now - 86400
+        self.failure_timestamps = [t for t in self.failure_timestamps if t > cutoff]
         if self._state == CircuitState.HALF_OPEN:
             self._transition_to_open()
         elif (
@@ -109,10 +114,14 @@ class CircuitBreaker:
             self._transition_to_closed()
 
     def _transition_to_open(self) -> None:
+        now = time.time()
+        self.circuit_state_history.append({"timestamp": now, "from_state": self._state.value, "to_state": CircuitState.OPEN.value})
         self._state = CircuitState.OPEN
         self._start_recovery_timer()
 
     def _transition_to_closed(self) -> None:
+        now = time.time()
+        self.circuit_state_history.append({"timestamp": now, "from_state": self._state.value, "to_state": CircuitState.CLOSED.value})
         self._state = CircuitState.CLOSED
         self._failure_count = 0
         self._failure_window_start = None
@@ -121,6 +130,8 @@ class CircuitBreaker:
             self._recovery_timer = None
 
     def _transition_to_half_open(self) -> None:
+        now = time.time()
+        self.circuit_state_history.append({"timestamp": now, "from_state": self._state.value, "to_state": CircuitState.HALF_OPEN.value})
         self._state = CircuitState.HALF_OPEN
 
     def _start_recovery_timer(self) -> None:
@@ -132,11 +143,13 @@ class CircuitBreaker:
         self._recovery_timer = asyncio.create_task(_timer())
 
     def force_open(self) -> None:
+        self.circuit_state_history.append({"timestamp": time.time(), "from_state": self._state.value, "to_state": CircuitState.OPEN.value})
         self._state = CircuitState.OPEN
         self._failure_count = self.config.failure_threshold
         self._start_recovery_timer()
 
     def reset(self) -> None:
+        self.circuit_state_history.append({"timestamp": time.time(), "from_state": self._state.value, "to_state": CircuitState.CLOSED.value})
         self._transition_to_closed()
         self._last_failure_time = None
         self._last_failure_reason = None
@@ -167,7 +180,8 @@ class CircuitBreakerService:
 
     def get_breaker(self, provider: str) -> CircuitBreaker:
         if provider not in self._breakers:
-            self._breakers[provider] = CircuitBreaker(provider, self._config)
+            config = self._config if self._config else CircuitBreakerConfig()
+            self._breakers[provider] = CircuitBreaker(provider=provider, config=config)
         return self._breakers[provider]
 
     def is_available(self, provider: str) -> bool:
@@ -178,15 +192,25 @@ class CircuitBreakerService:
         self,
         provider: str,
         fn: Callable[[], Awaitable[Any]],
+        request_start: Optional[float] = None,
     ) -> Any:
         breaker = self.get_breaker(provider)
         if breaker.state == CircuitState.OPEN:
             raise CircuitOpenError(provider, "Circuit is open")
+        start_time = request_start or time.time()
         try:
             result = await fn()
+            latency_ms = (time.time() - start_time) * 1000
+            breaker.latency_samples.append(latency_ms)
+            if len(breaker.latency_samples) > 60:
+                breaker.latency_samples = breaker.latency_samples[-60:]
             breaker._record_success()
             return result
         except Exception as e:
+            latency_ms = (time.time() - start_time) * 1000
+            breaker.latency_samples.append(latency_ms)
+            if len(breaker.latency_samples) > 60:
+                breaker.latency_samples = breaker.latency_samples[-60:]
             reason = str(e)
             breaker._record_failure(reason)
             raise
