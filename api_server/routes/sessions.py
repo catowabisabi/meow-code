@@ -184,6 +184,60 @@ async def list_sessions():
         raise HTTPException(status_code=500, detail="Error: " + str(e))
 
 
+class SessionImportRequest(BaseModel):
+    messages: list[Message]
+    session: Optional[dict] = None
+
+
+@router.post("/import")
+async def import_session(data: SessionImportRequest):
+    """
+    Import a session from JSON (e.g. exported from another instance).
+    Accepts messages array + optional session metadata.
+    """
+    try:
+        db = get_history_db()
+
+        # Determine session_id
+        session_id = data.session.get("id") if data.session else None
+        if not session_id:
+            session_id = str(uuid.uuid4())
+
+        # Upsert session if metadata provided
+        if data.session:
+            existing = db.get_session(session_id)
+            if existing is None:
+                db.create_session(HistorySession(
+                    id=session_id,
+                    title=data.session.get("title", ""),
+                    mode=data.session.get("mode", "chat"),
+                    folder=data.session.get("folder"),
+                    model=data.session.get("model", ""),
+                    provider=data.session.get("provider", ""),
+                ))
+
+        # Bulk-insert messages
+        count = 0
+        for msg in data.messages:
+            if isinstance(msg, dict) and "role" in msg:
+                content = msg.get("content", "")
+                if isinstance(content, list):
+                    content = json.dumps(content, ensure_ascii=False, default=str)
+                db.add_message(HistoryMessage(
+                    session_id=session_id,
+                    role=msg.get("role", "user"),
+                    content=str(content),
+                    tool_call_id=msg.get("tool_call_id"),
+                    token_count=0,
+                ))
+                count += 1
+
+        return {"ok": True, "session_id": session_id, "message_count": count}
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Import failed: {str(e)}")
+
+
 @router.post("", response_model=SessionResponse)
 async def create_session(data: Optional[SessionCreate] = None):
     model = data.model if data else None

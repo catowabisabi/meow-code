@@ -9,15 +9,25 @@ export default function IntrospectionPanel() {
   const [collapsed, setCollapsed] = useState(false)
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  const idleStartRef = useRef<number | null>(null)
+
   useEffect(() => {
-    if (status === 'idle') {
-      idleTimerRef.current = setTimeout(() => { setCollapsed(true); setExpanded(false) }, IDLE_TIMEOUT_MS)
-    } else {
-      setCollapsed(false)
+    if (status === 'idle' && !idleStartRef.current) {
+      // Only start idle timer when first entering idle state
+      idleStartRef.current = Date.now()
+      idleTimerRef.current = setTimeout(() => {
+        setCollapsed(true)
+        setExpanded(false)
+        idleStartRef.current = null
+      }, IDLE_TIMEOUT_MS)
+    } else if (status !== 'idle') {
+      // Clear idle timer when leaving idle state
+      idleStartRef.current = null
       if (idleTimerRef.current) { clearTimeout(idleTimerRef.current); idleTimerRef.current = null }
+      setCollapsed(false)
     }
     return () => { if (idleTimerRef.current) clearTimeout(idleTimerRef.current) }
-  }, [status, lastActivity])
+  }, [status])
 
   if (collapsed && status === 'idle') return null
 

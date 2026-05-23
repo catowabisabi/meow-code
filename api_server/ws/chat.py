@@ -75,7 +75,7 @@ async def _persist_message_to_db_async(session: ChatSession, role: str, content_
                 folder=session.folder,
                 model=session.model,
                 provider=session.provider,
-            ))
+))
         db.add_message(HistoryMessage(
             session_id=session.id,
             role=role,
@@ -83,8 +83,9 @@ async def _persist_message_to_db_async(session: ChatSession, role: str, content_
             tool_call_id=tool_call_id,
             token_count=0,
         ))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning("Failed to persist message to DB: session=%s role=%s error=%s",
+                       session.id, role, e)
 
 
 def _get_provider_config(provider: str) -> dict:
