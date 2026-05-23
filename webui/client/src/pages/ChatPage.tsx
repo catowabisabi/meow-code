@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { useChatStore, type ChatMessage } from '../stores/chatStore.ts'
+import { useIntrospectionStore } from '../stores/introspectionStore'
 import MessageBubble from '../components/chat/MessageBubble.tsx'
 import PermissionDialog from '../components/chat/PermissionDialog.tsx'
 import { ConnectionBanner, ConnectionStatusBadge } from '../components/ConnectionStatus.tsx'
+import IntrospectionPanel from '../components/IntrospectionPanel.tsx'
 
 const MODE = 'chat'
 
@@ -344,6 +346,8 @@ export default function ChatPage() {
       }
       case 'stream_start': {
         s.setModeStreaming(MODE, true)
+        useIntrospectionStore.getState().reset()
+        useIntrospectionStore.getState().setStatus('thinking')
         const { currentModel, currentProvider } = useChatStore.getState()
         s.addModeMessage(MODE, {
           id: (msg.messageId as string) || crypto.randomUUID(),
@@ -362,12 +366,14 @@ export default function ChatPage() {
         break
       case 'stream_thinking_delta':
         s.appendModeThinkingDelta(MODE, msg.text as string)
+        useIntrospectionStore.getState().appendThinking(msg.text as string)
         break
       case 'tool_use_start':
         s.updateLastModeAssistant(MODE, (m) => ({
           ...m,
           content: [...m.content, { type: 'tool_use', id: msg.toolId as string, name: msg.toolName as string, input: msg.input as Record<string, unknown> }],
         }))
+        useIntrospectionStore.getState().setStatus('tool-use')
         break
       case 'tool_result':
         s.updateLastModeAssistant(MODE, (m) => ({
@@ -379,10 +385,18 @@ export default function ChatPage() {
       case 'stream_end':
         s.setModeStreaming(MODE, false)
         s.updateLastModeAssistant(MODE, { streaming: false, usage: msg.usage as { inputTokens: number; outputTokens: number } })
+        if (msg.usage) {
+          useIntrospectionStore.getState().setUsage(
+            (msg.usage as { inputTokens: number; outputTokens: number }).inputTokens,
+            (msg.usage as { inputTokens: number; outputTokens: number }).outputTokens
+          )
+        }
+        useIntrospectionStore.getState().setStatus('idle')
         window.dispatchEvent(new CustomEvent('sessions-updated'))
         break
       case 'error':
         s.setModeStreaming(MODE, false)
+        useIntrospectionStore.getState().setStatus('error')
         s.addModeMessage(MODE, {
           id: crypto.randomUUID(), role: 'system',
           content: [{ type: 'text', text: `Error: ${msg.message}` }],
@@ -532,6 +546,8 @@ export default function ChatPage() {
           }}
         />
       )}
+
+      <IntrospectionPanel />
     </div>
   )
 }
