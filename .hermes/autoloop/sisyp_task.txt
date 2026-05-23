@@ -1,34 +1,17 @@
-## Task: Implement Adaptive Error Recovery UI for agent tool failures
+## Task: Enable multi-language syntax highlighting in Monaco Editor
 
 **Context:**
-When an agent tool call fails in the chat, users see a raw error state with no recovery path. The backend sends tool failure events but the frontend has no structured way to handle them.
+CodeModePage.tsx now has Monaco Editor but is hardcoded to TypeScript language. The editor should support multiple languages based on context or user selection.
 
 **Your task:**
-1. Read `webui/client/src/stores/chatStore.ts` — understand how tool_use/tool_result messages are stored
-2. Read `webui/client/src/components/chat/MessageBubble.tsx` — see how tool_result blocks are rendered
-3. Read `webui/client/src/services/historyApi.ts` — check for existing retry mechanism
+1. Read `webui/client/src/pages/CodeModePage.tsx` — understand the current Monaco integration
+2. Add language auto-detection logic:
+   - Parse `input` content to detect language (e.g., `#!/usr/bin/python` → python, `fn main()` → rust, `package main` → go, `function`/`const`/`let` → typescript/javascript)
+   - Add a language selector button or detect from file extension if attach feature is implemented
+3. Update the `Editor` component's `language` prop to use the detected language
+4. Ensure the editor still handles single-line input behavior (Enter to send, Shift+Enter for newline)
 
-4. Add `error` field to ContentBlock tool_result:
-```ts
-error?: ToolErrorInfo
-interface ToolErrorInfo {
-  retryable: boolean
-  suggestion?: string
-  canSkip?: boolean
-}
-```
-
-5. Create `webui/client/src/components/chat/ErrorRecoveryCard.tsx`:
-- Small inline card with red-ish border, icon, hint text
-- Retry button + Skip button (conditional)
-- On retry: re-dispatch tool call via chatApi
-- On skip: acknowledge and clear error state
-
-6. In `MessageBubble.tsx`, update the `tool_result` render case:
-- If result has `error` field: render `<ErrorRecoveryCard />` below it
-
-7. Check/add retry mechanism in historyApi.ts or chatApi.ts
-
-Commit hash: f67fce3
+**Keywords:** identity, attention span, anomaly detection
+**Output:** commit hash + brief description after completing
 
 ULW
