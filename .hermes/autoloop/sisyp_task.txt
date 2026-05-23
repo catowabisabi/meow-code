@@ -26,7 +26,7 @@ Editor options for diff:
 
 4. Add a small "Diff" badge/button in the editor toolbar with icon
 
-## Keywords: git, monaco, inline-diff
+## Keywords: hippocampal-indexing, butterfly-effect, cmm-probe
 ## Output: commit hash + brief description after completing
 
 ULW
