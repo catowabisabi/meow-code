@@ -3,6 +3,7 @@ import type { ChatMessage, ContentBlock } from '../../stores/chatStore.ts'
 import { historyApi } from '../../services/historyApi.ts'
 import { useChatStore } from '../../stores/chatStore.ts'
 import CodeBlock from '../shared/CodeBlock.tsx'
+import ErrorRecoveryCard from './ErrorRecoveryCard.tsx'
 
 // ── Avatars ──────────────────────────────────────────────────────
 
@@ -257,7 +258,7 @@ function ToolUseCard({ name, input }: { name: string; input?: Record<string, unk
   )
 }
 
-function ToolResultCard({ block }: { block: ContentBlock }) {
+function ToolResultCard({ block, onRetry, onSkip }: { block: ContentBlock; onRetry?: () => void; onSkip?: () => void }) {
   const [expanded, setExpanded] = useState(false)
   const content = block.content || block.text || '(empty)'
   const isLong = content.length > 200
@@ -292,6 +293,16 @@ function ToolResultCard({ block }: { block: ContentBlock }) {
       }}>
         {content}
       </div>
+      {block.is_error && block.error && onRetry && (
+        <div style={{ padding: '0 12px 8px' }}>
+          <ErrorRecoveryCard
+            toolName={block.name || 'tool'}
+            error={block.error}
+            onRetry={onRetry}
+            onSkip={onSkip}
+          />
+        </div>
+      )}
     </div>
   )
 }
@@ -552,8 +563,28 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
                 case 'tool_use':
                   return <ToolUseCard key={i} name={block.name || block.id || ''} input={block.input as Record<string, unknown>} />
 
-                case 'tool_result':
-                  return <ToolResultCard key={i} block={block} />
+                case 'tool_result': {
+                  const block = b
+                  return (
+                    <ToolResultCard
+                      key={i}
+                      block={block}
+                      onRetry={block.is_error ? () => {
+                        const msgId = message.id
+                        const blkIdx = i
+                        if (msgId) useChatStore.getState().clearBlockError('chat', msgId, blkIdx)
+                        const toolName = block.name || ''
+                        const toolInput = block.input as Record<string, unknown> | undefined
+                        useChatStore.getState().retryToolCall('chat', toolName, toolInput)
+                      } : undefined}
+                      onSkip={block.is_error ? () => {
+                        const msgId = message.id
+                        const blkIdx = i
+                        if (msgId) useChatStore.getState().clearBlockError('chat', msgId, blkIdx)
+                      } : undefined}
+                    />
+                  )
+                }
 
                 default:
                   return null

@@ -1,39 +1,33 @@
 ## Task: Implement Adaptive Error Recovery UI for agent tool failures
 
 **Context:**
-When an agent tool call fails in the chat, users see a raw error state with no recovery path. The backend sends tool failure events but the frontend has no structured way to handle them. This creates a poor feedback loop — user sees error, doesn't know if they should retry, skip, or try something else.
+When an agent tool call fails in the chat, users see a raw error state with no recovery path. The backend sends tool failure events but the frontend has no structured way to handle them.
 
 **Your task:**
-1. Read `webui/client/src/stores/chatStore.ts` — understand how tool_use/tool_result messages are stored and rendered
-2. Read `webui/client/src/components/chat/MessageBubble.tsx` — see how tool_result blocks are rendered (around the `tool_result` case)
-3. Read `webui/client/src/services/chatApi.ts` or similar — check if there's an existing retry mechanism
+1. Read `webui/client/src/stores/chatStore.ts` — understand how tool_use/tool_result messages are stored
+2. Read `webui/client/src/components/chat/MessageBubble.tsx` — see how tool_result blocks are rendered
+3. Read `webui/client/src/services/historyApi.ts` — check for existing retry mechanism
 
-4. Add an `error-recovery` field to tool_result blocks in chatStore.ts:
-   ```ts
-   interface ToolErrorInfo {
-     retryable: boolean
-     suggestion?: string
-     canSkip?: boolean
-   }
-   ```
+4. Add `error` field to ContentBlock tool_result:
+```ts
+error?: ToolErrorInfo
+interface ToolErrorInfo {
+  retryable: boolean
+  suggestion?: string
+  canSkip?: boolean
+}
+```
 
-5. Create a new component `ErrorRecoveryCard.tsx`:
-   - Shows when a tool_result has an `error` field (not just success/failure boolean)
-   - If `error.retryable === true`: show "Retry" button (re-send the same tool call) + "Skip" button
-   - If `error.suggestion` exists: show it as a hint text
-   - If `error.canSkip === false`: hide Skip button
-   - Small, inline card style — not a modal. Think: subtle bordered box below the error result
-   - Use muted colors (red-ish border), small font, icon for visual cue
+5. Create `webui/client/src/components/chat/ErrorRecoveryCard.tsx`:
+- Small inline card with red-ish border, icon, hint text
+- Retry button + Skip button (conditional)
+- On retry: re-dispatch tool call via chatApi
+- On skip: acknowledge and clear error state
 
-6. In `MessageBubble.tsx`, update the `tool_result` render case to:
-   - Check if the result has an `error` field
-   - If yes: render `<ErrorRecoveryCard error={result.error} toolCallId={result.id} />` below the result
-   - The card should use `chatApi.retryToolCall()` or a similar mechanism
+6. In `MessageBubble.tsx`, update the `tool_result` render case:
+- If result has `error` field: render `<ErrorRecoveryCard />` below it
 
-7. The retry handler should re-dispatch the tool call through the agent pipeline — check if there's an existing mechanism or if you need to create one in chatApi.
-
-**Keywords:** signal, circuit breaker, nudge, feedback loop, error-prone
-**Source files:** `webui/client/src/stores/chatStore.ts`, `webui/client/src/components/chat/MessageBubble.tsx`, `webui/client/src/services/chatApi.ts`
+7. Check/add retry mechanism in historyApi.ts or chatApi.ts
 
 Commit hash: f67fce3
 

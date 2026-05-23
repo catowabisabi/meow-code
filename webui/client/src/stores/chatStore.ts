@@ -1,5 +1,11 @@
 import { create } from 'zustand'
 
+export interface ToolErrorInfo {
+  retryable: boolean
+  suggestion?: string
+  canSkip?: boolean
+}
+
 export interface ContentBlock {
   type: 'text' | 'thinking' | 'tool_use' | 'tool_result' | 'image'
   text?: string
@@ -9,6 +15,7 @@ export interface ContentBlock {
   tool_use_id?: string
   content?: string
   is_error?: boolean
+  error?: ToolErrorInfo
 }
 
 export interface ChatMessage {
@@ -174,6 +181,10 @@ interface ChatState {
   updateModeMessage: (mode: string, messageId: string, updates: Partial<ChatMessage>) => void
   clearModeMessages: (mode: string) => void
   setSessionTitle: (sessionId: string, title: string) => void
+  /** Remove error field from a tool_result block */
+  clearBlockError: (mode: string, messageId: string, blockIndex: number) => void
+  /** Send a retry message for a failed tool via WebSocket */
+  retryToolCall: (mode: string, toolName: string, toolInput?: Record<string, unknown>) => void
   /** Connect WebSocket for a mode and register its message handler */
   connectModeWs: (mode: string, handler: (msg: Record<string, unknown>) => void) => void
   /** Disconnect WebSocket for a mode */
@@ -429,6 +440,34 @@ editMessage: (messageId, newContent) =>
       )
       return { modeMessages: { ...s.modeMessages, [mode]: msgs } }
     }),
+
+  clearBlockError: (mode, messageId, blockIndex) =>
+    set((s) => {
+      const msgs = (s.modeMessages[mode] ?? []).map(m => {
+        if (m.id !== messageId) return m
+        const content = [...m.content]
+        if (content[blockIndex] && content[blockIndex]!.type === 'tool_result') {
+          const block = { ...content[blockIndex]! }
+          delete block.error
+          content[blockIndex] = block
+        }
+        return { ...m, content }
+      })
+      return { modeMessages: { ...s.modeMessages, [mode]: msgs } }
+    }),
+
+  retryToolCall: (mode, toolName, toolInput) => {
+    const ws = wsManager[mode]?.ws
+    if (!ws || ws.readyState !== WebSocket.OPEN) return
+    const msg = `Retry the "${toolName}" tool with the same input.`
+    ws.send(JSON.stringify({
+      type: 'user_message',
+      content: msg,
+      sessionId: get().getModeSession(mode),
+      model: get().currentModel,
+      provider: get().currentProvider,
+    }))
+  },
 
   clearModeMessages: (mode) =>
     set((s) => ({
