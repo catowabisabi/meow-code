@@ -37,6 +37,8 @@ class HistoryMessage(BaseModel):
     edited: bool = False
     edit_history: list[str] = []
     deleted_at: Optional[str] = None
+    annotations: dict = {}
+    tool_call_id: Optional[str] = None
 
 
 class HistorySearchResult(BaseModel):
@@ -143,6 +145,10 @@ class HistoryDB:
             cursor.execute("ALTER TABLE messages ADD COLUMN edit_history TEXT DEFAULT '[]'")
         if 'deleted_at' not in cols:
             cursor.execute("ALTER TABLE messages ADD COLUMN deleted_at TEXT")
+        if 'annotations' not in cols:
+            cursor.execute("ALTER TABLE messages ADD COLUMN annotations JSON DEFAULT '{}'")
+        if 'tool_call_id' not in cols:
+            cursor.execute("ALTER TABLE messages ADD COLUMN tool_call_id TEXT")
 
         conn.commit()
         conn.close()
@@ -272,12 +278,14 @@ class HistoryDB:
         now = datetime.utcnow().isoformat()
         message.created_at = now
 
+        annotations_json = json.dumps(message.annotations) if message.annotations else '{}'
+
         cursor.execute("""
-            INSERT INTO messages (session_id, role, content, token_count, created_at)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO messages (session_id, role, content, token_count, created_at, annotations, tool_call_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         """, (
-            message.session_id, message.role, message.content, 
-            message.token_count, message.created_at
+            message.session_id, message.role, message.content,
+            message.token_count, message.created_at, annotations_json, message.tool_call_id
         ))
 
         message.id = cursor.lastrowid
@@ -288,9 +296,9 @@ class HistoryDB:
             VALUES (?, ?)
         """, (message.session_id, message.content))
 
-        # 更新會話統計
+        # 更新会话统计
         cursor.execute("""
-            UPDATE sessions 
+            UPDATE sessions
             SET message_count = message_count + 1,
                 total_tokens = total_tokens + ?,
                 updated_at = ?
@@ -300,6 +308,55 @@ class HistoryDB:
         conn.commit()
         conn.close()
         return message
+
+    def add_messages_bulk(self, messages: List[HistoryMessage]) -> List[HistoryMessage]:
+        """批量添加消息（在一个事务中）"""
+        if not messages:
+            return []
+
+        conn = self._get_conn()
+        cursor = conn.cursor()
+
+        now = datetime.utcnow().isoformat()
+        inserted_ids = []
+
+        for message in messages:
+            message.created_at = now
+            annotations_json = json.dumps(message.annotations) if message.annotations else '{}'
+
+            cursor.execute("""
+                INSERT INTO messages (session_id, role, content, token_count, created_at, annotations, tool_call_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                message.session_id, message.role, message.content,
+                message.token_count, message.created_at, annotations_json, message.tool_call_id
+            ))
+
+            message.id = cursor.lastrowid
+            inserted_ids.append(message.id)
+
+            # 更新 FTS
+            cursor.execute("""
+                INSERT INTO messages_fts (session_id, content)
+                VALUES (?, ?)
+            """, (message.session_id, message.content))
+
+        # 批量更新会话统计
+        total_tokens = sum(m.token_count for m in messages)
+        session_ids = set(m.session_id for m in messages)
+        for session_id in session_ids:
+            count = sum(1 for m in messages if m.session_id == session_id)
+            cursor.execute("""
+                UPDATE sessions
+                SET message_count = message_count + ?,
+                    total_tokens = total_tokens + ?,
+                    updated_at = ?
+                WHERE id = ?
+            """, (count, total_tokens, now, session_id))
+
+        conn.commit()
+        conn.close()
+        return messages
 
     def get_messages(
         self,
@@ -336,6 +393,9 @@ class HistoryDB:
         edit_history = data.get('edit_history', '[]')
         if isinstance(edit_history, str):
             edit_history = json.loads(edit_history)
+        annotations = data.get('annotations', '{}')
+        if isinstance(annotations, str):
+            annotations = json.loads(annotations)
         return HistoryMessage(
             id=data['id'],
             session_id=data['session_id'],
@@ -346,6 +406,8 @@ class HistoryDB:
             edited=bool(data.get('edited', 0)),
             edit_history=edit_history,
             deleted_at=data.get('deleted_at'),
+            annotations=annotations,
+            tool_call_id=data.get('tool_call_id'),
         )
 
     def update_message(self, message_id: int, content: str) -> Optional[HistoryMessage]:

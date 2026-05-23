@@ -1,70 +1,40 @@
-## Task: Provider Heartbeat WebUI — SettingsPage Timeline Chart
+fix: Implement Session Persistence — save chat messages to DB, export/import/share sessions
 
-### Objective
-Update the SettingsPage providers tab to show provider heartbeat data from GET /api/providers/heartbeat as a mini timeline chart instead of just a colored dot.
+## Context
+Cato Claude holds chat messages in-memory via WebSocket. Sessions are lost on reload. Users cannot revisit previous conversations, export chat history, or share sessions. This is a critical UX gap for a professional AI coding tool.
 
-### Context
-The backend now exposes GET /api/providers/heartbeat which returns:
-```
-{
-  "providers": [
-    {
-      "provider_id": "anthropic",
-      "latency_samples": [245, 312, 289, ...],  // last 60 samples in ms
-      "circuit_state_history": [{timestamp, from_state, to_state}, ...],
-      "failure_timestamps": [1716460800.5, ...],
-      "custom_thresholds": {"latency_ms": 2000, "failure_count": 5}
-    }
-  ],
-  "server_time": 1716464400.0
-}
-```
+## Your Task
 
-### Requirements
+### Step 1: Survey existing chat/message storage
+Search for:
+- api_server/models/ — existing message/session models
+- api_server/routes/history.py — how history API works
+- chatStore.ts — how messages are currently held in memory
+- WebSocket chat.py — where messages enter the system
 
-**1. Update SettingsPage providers tab** (webui/client/src/pages/SettingsPage.tsx):
-The providers section currently shows a simple status dot per provider. Replace with:
+### Step 2: Design session/message DB schema
+In api_server/db/models/ or a new migration:
+- messages table: id, session_id, role, content (text), tool_call_id, timestamp, annotations(JSON)
+- sessions table: id, title, created_at, updated_at, model, provider, metadata(JSON)
 
-**2. Fetch heartbeat data**:
-On mount, call GET /api/providers/heartbeat. Store in a local state or dedicated Zustand store (e.g., useProviderHeartbeatStore).
+### Step 3: Persist messages on WebSocket receive
+In api_server/ws/chat.py — on each message event:
+- Write to messages table (async, fire-and-forget)
+- Use session_id from the WebSocket session context
 
-**3. Render mini sparkline chart per provider**:
-For each provider, show a sparkline bar chart of latency_samples (last 60 points):
-- X-axis: time (implicit — samples are sequential, oldest on left)
-- Y-axis: latency in ms
-- Bar color gradient: green (under threshold) → yellow (near threshold) → red (over threshold)
-- Use custom_thresholds.latency_ms to determine coloring
-- Show threshold line as a subtle horizontal dashed line at custom_thresholds.latency_ms
-- If latency_samples is empty, show flat line at 0
+### Step 4: Session export API
+Add to api_server/routes/sessions.py:
+- GET /api/sessions/{session_id}/export — return full session JSON (messages + metadata)
+- POST /api/sessions/import — accept JSON, recreate session + messages in DB
 
-**4. Show circuit state bands**:
-Below or overlaid on the sparkline, show circuit state color bands from circuit_state_history:
-- closed: green band
-- half_open: yellow band
-- open: red band
+### Step 5: HistoryPage integration
+In webui/client/src/pages/HistoryPage.tsx:
+- Wire export button (download JSON)
+- Wire import button (file input → POST /api/sessions/import)
+- Show session list with timestamps
 
-**5. Display additional info**:
-- Provider name
-- Last 5 failure timestamps as small dots (if any)
-- Current circuit state indicator dot
-
-**6. Implementation notes**:
-- Use SVG or Canvas for the sparkline (no external charting lib needed for simple sparkline)
-- Sparkline dimensions: approximately 200px wide, 40px tall
-- Update heartbeat every 30 seconds via polling or useWebSocket for live updates
-- Handle the case where /api/providers/heartbeat returns empty providers list gracefully
-
-### Files to modify
-- webui/client/src/pages/SettingsPage.tsx
-- (Optionally create webui/client/src/stores/providerHeartbeatStore.ts)
-
-### Keywords (do NOT use in code)
-heartbeat, latency buffer, circuit state, circular buffer, time-series, rolling window
-
-### Verify
-- Navigate to Settings → Providers tab
-- Each provider shows a sparkline of last 60 latency samples
-- Circuit state is visible as colored bands
-- No TypeScript errors
+### Step 6: Commit
+Commit keywords: density, iris, trajectory
+Output: commit hash + brief description
 
 ULW

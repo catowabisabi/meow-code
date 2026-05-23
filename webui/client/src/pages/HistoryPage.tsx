@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const styles = {
@@ -25,6 +25,40 @@ const styles = {
     color: '#fff',
     fontSize: '14px',
     fontWeight: 600,
+    cursor: 'pointer',
+  },
+  headerButtons: {
+    display: 'flex',
+    gap: '8px',
+  },
+  exportBtn: {
+    padding: '8px 16px',
+    borderRadius: '8px',
+    border: '1px solid var(--border-default)',
+    background: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
+    fontSize: '14px',
+    fontWeight: 600,
+    cursor: 'pointer',
+  },
+  importBtn: {
+    padding: '8px 16px',
+    borderRadius: '8px',
+    border: '1px solid var(--border-default)',
+    background: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
+    fontSize: '14px',
+    fontWeight: 600,
+    cursor: 'pointer',
+  },
+  cardExportBtn: {
+    padding: '4px 10px',
+    borderRadius: '6px',
+    border: '1px solid var(--border-default)',
+    background: 'var(--bg-tertiary)',
+    color: 'var(--text-secondary)',
+    fontSize: '12px',
+    fontWeight: 500,
     cursor: 'pointer',
   },
   searchBar: {
@@ -105,6 +139,7 @@ export default function HistoryPage() {
   const [sessions, setSessions] = useState<SessionSummary[]>([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -136,6 +171,53 @@ export default function HistoryPage() {
     }
   }
 
+  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    try {
+      const text = await file.text()
+      const data = JSON.parse(text)
+      if (!data.messages || !Array.isArray(data.messages)) {
+        alert('Invalid file format: missing messages array')
+        return
+      }
+      const res = await fetch('/api/sessions/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Import failed' }))
+        alert(err.error || 'Import failed')
+        return
+      }
+      await fetchSessions()
+      window.dispatchEvent(new Event('sessions-updated'))
+    } catch (e) {
+      alert('Failed to read or parse file')
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
+
+  const handleExportSession = async (sessionId: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    try {
+      const res = await fetch(`/api/sessions/${sessionId}/export/json`)
+      if (!res.ok) throw new Error('Export failed')
+      const data = await res.json()
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `session-${sessionId.slice(0, 8)}.json`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch (e) {
+      alert('Failed to export session')
+    }
+  }
+
   const filtered = sessions.filter(
     (s) =>
       s.preview.toLowerCase().includes(search.toLowerCase()) ||
@@ -161,10 +243,26 @@ export default function HistoryPage() {
     <div style={styles.container}>
       <div style={styles.header}>
         <div style={styles.title}>歷史記錄</div>
-        <button style={styles.newChatBtn} onClick={createNewSession}>
-          + 新對話
-        </button>
+        <div style={styles.headerButtons}>
+          <button style={styles.exportBtn} onClick={() => fileInputRef.current?.click()}>
+            匯出
+          </button>
+          <button style={styles.importBtn} onClick={() => fileInputRef.current?.click()}>
+            匯入
+          </button>
+          <button style={styles.newChatBtn} onClick={createNewSession}>
+            + 新對話
+          </button>
+        </div>
       </div>
+
+      <input
+        type="file"
+        accept=".json"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleImport}
+      />
 
       <input
         style={styles.searchBar}
@@ -201,7 +299,15 @@ export default function HistoryPage() {
             >
               <div style={styles.sessionTop}>
                 <span style={styles.sessionModel}>{session.model}</span>
-                <span style={styles.sessionTime}>{formatDate(session.created_at ?? session.createdAt)}</span>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <button
+                    style={styles.cardExportBtn}
+                    onClick={(e) => handleExportSession(session.id, e)}
+                  >
+                    匯出
+                  </button>
+                  <span style={styles.sessionTime}>{formatDate(session.created_at ?? session.createdAt)}</span>
+                </div>
               </div>
               <div style={styles.sessionPreview}>
                 {session.preview || '(空對話)'}

@@ -10,6 +10,8 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, validator
 
+from api_server.services.history import get_history_db, HistorySession, HistoryMessage
+
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
 SESSIONS_DIR = Path.home() / ".claude" / "sessions"
@@ -280,7 +282,24 @@ async def delete_session(session_id: str):
     if path.exists():
         path.unlink()
     _active_sessions.pop(session_id, None)
+    # Also delete from HistoryDB
+    get_history_db().delete_session(session_id)
     return {"ok": True}
+
+
+@router.get("/{session_id}/export/json")
+async def export_session_json(session_id: str):
+    """
+    Export a session as raw JSON.
+    First tries in-memory active session, then falls back to JSON file.
+    """
+    session = _get_active_session(session_id)
+    if not session:
+        session = _load_session_file(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    return session
 
 
 @router.post("/{session_id}/save")

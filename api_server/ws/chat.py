@@ -54,8 +54,37 @@ from api_server.adapters.deepseek import DeepSeekAdapter
 from api_server.models.message import Message
 from api_server.models.tool import ToolDefinition
 from api_server.services.memory import MemoryService
+from api_server.services.history import get_history_db, HistorySession, HistoryMessage
 
 MAX_AGENT_ITERATIONS = 25
+
+
+def _persist_message_to_db(session: ChatSession, role: str, content_blocks: list, tool_call_id: Optional[str] = None) -> None:
+    asyncio.ensure_future(_persist_message_to_db_async(session, role, content_blocks, tool_call_id))
+
+
+async def _persist_message_to_db_async(session: ChatSession, role: str, content_blocks: list, tool_call_id: Optional[str] = None) -> None:
+    try:
+        db = get_history_db()
+        history_session = db.get_session(session.id)
+        if history_session is None:
+            db.create_session(HistorySession(
+                id=session.id,
+                title=session.title or "",
+                mode=session.mode,
+                folder=session.folder,
+                model=session.model,
+                provider=session.provider,
+            ))
+        db.add_message(HistoryMessage(
+            session_id=session.id,
+            role=role,
+            content=json.dumps(content_blocks, ensure_ascii=False, default=str),
+            tool_call_id=tool_call_id,
+            token_count=0,
+        ))
+    except Exception:
+        pass
 
 
 def _get_provider_config(provider: str) -> dict:
@@ -495,6 +524,7 @@ async def handle_user_message(
                 })
     
     session.messages.append({"role": "user", "content": content_blocks})
+    _persist_message_to_db(session, "user", content_blocks)
     session.iteration_count = 0
     await agentic_loop(websocket, session)
 
@@ -532,6 +562,7 @@ async def agentic_loop(websocket: WebSocket, session: ChatSession) -> None:
                     "role": "assistant",
                     "content": result["assistant_blocks"],
                 })
+                _persist_message_to_db(session, "assistant", result["assistant_blocks"])
 
             if not result["tool_calls"] or result["stop_reason"] != "tool_use":
                 await send_message(websocket, ServerStreamEnd(
@@ -620,6 +651,8 @@ async def agentic_loop(websocket: WebSocket, session: ChatSession) -> None:
                 })
 
             session.messages.append({"role": "user", "content": tool_result_blocks})
+            tool_call_id = next((b.get("tool_use_id") for b in tool_result_blocks if b.get("tool_use_id")), None)
+            _persist_message_to_db(session, "user", tool_result_blocks, tool_call_id=tool_call_id)
         
         if session.iteration_count >= MAX_AGENT_ITERATIONS:
             await send_message(websocket, ServerError(
