@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
+import Editor from '@monaco-editor/react'
 import { useChatStore, type ChatMessage, type ContentBlock } from '../stores/chatStore.ts'
 import { useLayoutStore } from '../stores/layoutStore.ts'
 
@@ -1091,15 +1092,23 @@ export default function CodeModePage() {
         )}
         <div style={styles.inputRow}>
           <button style={styles.attachBtn} title="Attach files (coming soon)" onClick={() => console.warn('Attach feature not yet implemented')}>&#65291;</button>
-          <textarea
-            ref={textareaRef}
-            style={styles.textarea}
-            placeholder="Enter a query..."
-            value={input}
-            onChange={handleTextareaInput}
-            onKeyDown={handleKeyDown}
-            rows={1}
-          />
+          <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end' }}>
+            <Editor
+              height="100%"
+              language="typescript"
+              theme="vs-dark"
+              value={input}
+              onChange={(value) => setInput(value || '')}
+              options={{
+                minimap: { enabled: false },
+                fontSize: 14,
+                lineHeight: 1.5,
+                padding: { top: 10, bottom: 10 },
+                scrollBeyondLastLine: false,
+                wordWrap: 'on',
+              }}
+            />
+          </div>
           <button
             style={styles.bypassToggle(bypassPermissions)}
             onClick={() => setBypassPermissions(!bypassPermissions)}
