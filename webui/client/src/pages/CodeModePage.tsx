@@ -372,6 +372,44 @@ const styles = {
 }
 
 // ---------------------------------------------------------------------------
+// Language detection
+// ---------------------------------------------------------------------------
+
+const SUPPORTED_LANGUAGES = ['typescript', 'javascript', 'python', 'rust', 'go', 'java', 'cpp', 'c', 'ruby', 'php', 'html', 'css', 'json', 'yaml', 'markdown', 'sql', 'shell']
+
+function detectLanguage(code: string): string {
+  const firstLine = code.split('\n')[0]?.trim() || ''
+  const codeLower = code.toLowerCase()
+
+  // Shebang detection
+  if (firstLine.startsWith('#!')) {
+    if (firstLine.includes('python')) return 'python'
+    if (firstLine.includes('node') || firstLine.includes('deno') || firstLine.includes('bun')) return 'javascript'
+    if (firstLine.includes('ruby')) return 'ruby'
+    if (firstLine.includes('bash') || firstLine.includes('sh')) return 'shell'
+  }
+
+  // Pattern-based detection
+  if (codeLower.includes('fn main(') || codeLower.includes('let mut ') || codeLower.includes('println!')) return 'rust'
+  if (codeLower.includes('package main')) return 'go'
+  if (codeLower.includes('def ') || codeLower.includes('import ') && !codeLower.includes('{') && code.includes(':')) return 'python'
+  if (codeLower.includes('func ') && codeLower.includes('package ')) return 'go'
+  if (codeLower.includes('public class ') || codeLower.includes('public static void main')) return 'java'
+  if (code.includes('#include <stdio.h>') || code.includes('#include <iostream>')) return 'cpp'
+  if (codeLower.includes('<html') || codeLower.includes('<div') || codeLower.includes('<!DOCTYPE')) return 'html'
+  if (codeLower.includes('{') && (codeLower.includes('color:') || codeLower.includes('margin:') || codeLower.includes('padding:'))) return 'css'
+  if (code.startsWith('{') || code.startsWith('[')) {
+    try { JSON.parse(code); return 'json' } catch {}
+  }
+  if (codeLower.includes('---') || codeLower.match(/^\w+:\s*\w/m)) return 'yaml'
+  if (codeLower.includes('select ') && codeLower.includes(' from ')) return 'sql'
+  if (codeLower.includes('function ') || codeLower.includes('const ') || codeLower.includes('let ') || codeLower.includes('=>')) return 'typescript'
+
+  // Default to typescript for short query-like inputs
+  return 'typescript'
+}
+
+// ---------------------------------------------------------------------------
 // Simple Markdown Renderer
 // ---------------------------------------------------------------------------
 
@@ -676,8 +714,10 @@ export default function CodeModePage() {
   const [directories, setDirectories] = useState<{ path: string; label: string }[]>([])
   const [showFolderDropdown, setShowFolderDropdown] = useState(false)
   const [planEnabled, setPlanEnabled] = useState(false)
+  const [editorLanguage, setEditorLanguage] = useState('typescript')
   const messageEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const monacoRef = useRef<any>(null)
   // Page-local WebSocket ref
   const localWsRef = useRef<WebSocket | null>(null)
 
@@ -1095,10 +1135,13 @@ export default function CodeModePage() {
           <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end' }}>
             <Editor
               height="100%"
-              language="typescript"
+              language={editorLanguage}
               theme="vs-dark"
               value={input}
-              onChange={(value) => setInput(value || '')}
+              onChange={(value) => {
+                setInput(value || '')
+                setEditorLanguage(detectLanguage(value || ''))
+              }}
               options={{
                 minimap: { enabled: false },
                 fontSize: 14,
@@ -1106,6 +1149,10 @@ export default function CodeModePage() {
                 padding: { top: 10, bottom: 10 },
                 scrollBeyondLastLine: false,
                 wordWrap: 'on',
+              }}
+              onMount={(editor, monaco) => {
+                monacoRef.current = monaco
+                editor.focus()
               }}
             />
           </div>
@@ -1118,6 +1165,14 @@ export default function CodeModePage() {
           </button>
           <button style={styles.modelSelector} title="Switch model (Ctrl+K)" onClick={() => console.warn('Model picker: use Ctrl+K')}>
             {currentModel || 'Opus 4.6'} &#9662;
+          </button>
+          <button style={styles.modelSelector} title="Language" onClick={() => {
+            const langs = ['typescript', 'javascript', 'python', 'rust', 'go', 'java', 'cpp', 'c', 'shell']
+            const currentIdx = langs.indexOf(editorLanguage)
+            const nextIdx = (currentIdx + 1) % langs.length
+            setEditorLanguage(langs[nextIdx])
+          }}>
+            {editorLanguage} &#9662;
           </button>
           {isStreaming ? (
             <button style={styles.stopBtn} onClick={handleAbort}>Stop</button>
