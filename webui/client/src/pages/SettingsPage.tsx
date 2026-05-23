@@ -66,7 +66,7 @@ const S = {
 
 // ─── Tabs ──────────────────────────────────────────────────────
 
-type TabId = 'general' | 'appearance' | 'security' | 'hotkeys' | 'server' | 'about'
+type TabId = 'general' | 'appearance' | 'security' | 'hotkeys' | 'server' | 'about' | 'providers'
 
 const TABS: { id: TabId; icon: string; label: string }[] = [
   { id: 'general', icon: '🎯', label: '一般' },
@@ -75,6 +75,7 @@ const TABS: { id: TabId; icon: string; label: string }[] = [
   { id: 'hotkeys', icon: '⌨️', label: '快捷鍵' },
   { id: 'server', icon: '🌐', label: '伺服器' },
   { id: 'about', icon: 'ℹ️', label: '關於' },
+  { id: 'providers', icon: '🔄', label: '提供商' },
 ]
 
 // ─── Component ────────────────────────────────────────────────
@@ -94,6 +95,23 @@ export default function SettingsPage() {
   const [systemPrompt, setSystemPrompt] = useState('')
   const [systemPromptSaved, setSystemPromptSaved] = useState(false)
   const [systemPromptError, setSystemPromptError] = useState<string | null>(null)
+  const [providerHealth, setProviderHealth] = useState<Record<string, { state: string; failure_count: number; last_failure_time?: number; last_failure_reason?: string }>>({})
+  const [providerOrder, setProviderOrder] = useState<string[]>([])
+
+  useEffect(() => {
+    fetch('/api/providers/health').then(r => r.json()).then(data => {
+      if (data.providers) setProviderHealth(data.providers)
+    }).catch(() => {})
+    fetch('/api/providers/order').then(r => r.json()).then(data => {
+      if (data.order) setProviderOrder(data.order)
+    }).catch(() => {})
+    const interval = setInterval(() => {
+      fetch('/api/providers/health').then(r => r.json()).then(data => {
+        if (data.providers) setProviderHealth(data.providers)
+      }).catch(() => {})
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
   useEffect(() => {
     fetchModels()
@@ -326,6 +344,48 @@ export default function SettingsPage() {
               • Ctrl+1/2/3 — 快速切換預設模型<br />
               • Enter — 發送消息<br />
               • Shift+Enter — 換行
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'providers' && (
+          <div style={S.section}>
+            <div style={S.sectionTitle}><span>🔄</span> 提供商狀態</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {providerOrder.map(provider => {
+                const status = providerHealth[provider]
+                const state = status?.state || 'unknown'
+                const stateColors: Record<string, string> = {
+                  closed: '#4ade80',
+                  open: '#f85149',
+                  half_open: '#facc15',
+                  unknown: '#888',
+                }
+                const stateLabels: Record<string, string> = {
+                  closed: '正常',
+                  open: '斷路',
+                  half_open: '測試中',
+                  unknown: '未知',
+                }
+                return (
+                  <div key={provider} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: '8px', background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
+                    <div style={{ width: 10, height: 10, borderRadius: '50%', background: stateColors[state] || '#888' }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: '14px', fontWeight: 500 }}>{provider}</div>
+                      <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                        {stateLabels[state] || state} {status?.failure_count ? `• 失敗 ${status.failure_count} 次` : ''}
+                      </div>
+                    </div>
+                    <button style={{ ...S.btn('secondary'), padding: '4px 8px', fontSize: '12px' }}
+                      onClick={() => fetch(`/api/providers/${provider}/reset`, { method: 'POST' }).then(() => fetch('/api/providers/health').then(r => r.json()).then(d => setProviderHealth(d.providers || {}))).catch(() => {})}>
+                      重置
+                    </button>
+                  </div>
+                )
+              })}
+              {providerOrder.length === 0 && (
+                <div style={{ ...S.desc, color: 'var(--text-muted)', textAlign: 'center', padding: '20px' }}>暫無提供商數據</div>
+              )}
             </div>
           </div>
         )}

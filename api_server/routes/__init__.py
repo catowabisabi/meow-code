@@ -26,6 +26,7 @@ from api_server.routes.bootstrap import router as bootstrap_router
 from api_server.routes.admin_requests import router as admin_requests_router
 from api_server.routes.container import router as container_router
 from api_server.routes.mcp import router as mcp_router
+from api_server.routes.providers import router as providers_router
 
 __all__ = [
     "auth_router",
@@ -56,4 +57,5 @@ __all__ = [
     "admin_requests_router",
     "container_router",
     "mcp_router",
+    "providers_router",
 ]
