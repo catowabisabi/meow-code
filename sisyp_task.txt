@@ -1,46 +1,70 @@
-## Task: Provider Heartbeat Endpoint
+## Task: Provider Heartbeat WebUI — SettingsPage Timeline Chart
 
 ### Objective
-Implement GET /api/providers/heartbeat returning rolling time-series health data per provider.
+Update the SettingsPage providers tab to show provider heartbeat data from GET /api/providers/heartbeat as a mini timeline chart instead of just a colored dot.
+
+### Context
+The backend now exposes GET /api/providers/heartbeat which returns:
+```
+{
+  "providers": [
+    {
+      "provider_id": "anthropic",
+      "latency_samples": [245, 312, 289, ...],  // last 60 samples in ms
+      "circuit_state_history": [{timestamp, from_state, to_state}, ...],
+      "failure_timestamps": [1716460800.5, ...],
+      "custom_thresholds": {"latency_ms": 2000, "failure_count": 5}
+    }
+  ],
+  "server_time": 1716464400.0
+}
+```
 
 ### Requirements
 
-**1. CircuitBreakerService** (api_server/services/circuit_breaker.py):
-Add to CircuitBreakerState class:
-- latency_samples: list of float, circular buffer last 60 samples in ms
-- circuit_state_history: list of dicts, each {timestamp: float, from_state: str, to_state: str}
-- failure_timestamps: list of float, failure timestamps from last 24h
+**1. Update SettingsPage providers tab** (webui/client/src/pages/SettingsPage.tsx):
+The providers section currently shows a simple status dot per provider. Replace with:
 
-On request completion: append latency sample using time.time() minus request_start.
-On state transition: record from_state and to_state with current timestamp.
+**2. Fetch heartbeat data**:
+On mount, call GET /api/providers/heartbeat. Store in a local state or dedicated Zustand store (e.g., useProviderHeartbeatStore).
 
-**2. GET /api/providers/heartbeat endpoint** (api_server/routes/providers.py):
-Add new endpoint. Return ProviderHeartbeatResponse with providers list.
-Each provider entry:
-- provider_id: string
-- latency_samples: list of int (last 60 samples in ms)
-- circuit_state_history: list of dicts [{timestamp, from_state, to_state}]
-- failure_timestamps: list of float
-- custom_thresholds: dict {latency_ms: int, failure_count: int}
-- server_time: float (current unix timestamp)
+**3. Render mini sparkline chart per provider**:
+For each provider, show a sparkline bar chart of latency_samples (last 60 points):
+- X-axis: time (implicit — samples are sequential, oldest on left)
+- Y-axis: latency in ms
+- Bar color gradient: green (under threshold) → yellow (near threshold) → red (over threshold)
+- Use custom_thresholds.latency_ms to determine coloring
+- Show threshold line as a subtle horizontal dashed line at custom_thresholds.latency_ms
+- If latency_samples is empty, show flat line at 0
 
-**3. Config thresholds**:
-In config.yaml add providers.thresholds section:
-- default.latency_ms: 2000
-- default.failure_count: 5
-- per_provider: {} (overrides per provider name)
+**4. Show circuit state bands**:
+Below or overlaid on the sparkline, show circuit state color bands from circuit_state_history:
+- closed: green band
+- half_open: yellow band
+- open: red band
+
+**5. Display additional info**:
+- Provider name
+- Last 5 failure timestamps as small dots (if any)
+- Current circuit state indicator dot
+
+**6. Implementation notes**:
+- Use SVG or Canvas for the sparkline (no external charting lib needed for simple sparkline)
+- Sparkline dimensions: approximately 200px wide, 40px tall
+- Update heartbeat every 30 seconds via polling or useWebSocket for live updates
+- Handle the case where /api/providers/heartbeat returns empty providers list gracefully
 
 ### Files to modify
-- api_server/services/circuit_breaker.py
-- api_server/routes/providers.py
-- config.yaml
+- webui/client/src/pages/SettingsPage.tsx
+- (Optionally create webui/client/src/stores/providerHeartbeatStore.ts)
 
 ### Keywords (do NOT use in code)
 heartbeat, latency buffer, circuit state, circular buffer, time-series, rolling window
 
 ### Verify
-- GET /api/providers/heartbeat returns JSON with providers array
-- latency_samples grows from empty to 60 over time
-- circuit_state_history records all state transitions
+- Navigate to Settings → Providers tab
+- Each provider shows a sparkline of last 60 latency samples
+- Circuit state is visible as colored bands
+- No TypeScript errors
 
 ULW
