@@ -1,37 +1,32 @@
-fix: Add LSP features to Monaco Editor in CodeModePage
+fix: Git diff view in Monaco — show staged/unstaged changes inline
 
 ## Context
-Monaco Editor is integrated in CodeModePage.tsx with multi-language support.
-The editor instance is stored in `monacoRef.current` via onMount.
+CodeModePage.tsx uses Monaco Editor for code editing. The next phase adds Git integration to show diffs directly in Monaco (vs. a separate git panel).
 
 ## Your task
-1. Read `webui/client/src/pages/CodeModePage.tsx` — understand the current Monaco integration (Editor component, monacoRef usage, current options)
-2. The `monacoRef.current` gives you access to `monaco.editor.IStandaloneCodeEditor` which has rich LSP features
+1. Read `webui/client/src/pages/CodeModePage.tsx` — understand current Monaco setup (Editor component, options, onMount pattern, toolbar)
+2. Research Monaco's built-in diff editor API: `monaco.editor.createDiffEditor()` — it creates a side-by-side diff view
+3. Implement a toggle in the CodeModePage toolbar to switch between:
+   - **Edit mode** — normal Monaco code editor (current behavior)
+   - **Diff mode** — show staged/unstaged changes using DiffEditor
 
-Add these enhancements:
-   a. **Editor options tuning** — enable these in the `options` prop:
-      - `glyphMargin: true` — show glyph margin for breakpoints
-      - `bracketPairColorization.enabled: true` — colorize bracket pairs  
-      - `suggest: { showKeywords: true, showSnippets: true }` — richer autocomplete
-      - `quickSuggestions: { other: true, comments: false, strings: false }` — inline suggestions
+Implementation plan:
+   a. **Toolbar toggle** — add a "Diff" button in the editor toolbar that switches mode
+   b. **DiffEditor component** — use `monaco.editor.createDiffEditor()` to show:
+      - Left: original (HEAD or working tree baseline)
+      - Right: modified version
+   c. **Git status detection** — read git status via `child_process.exec('git status --porcelain')` and `git diff --name-only`
+   d. **File selection** — if multiple changed files, show a dropdown to pick which file to diff
+   e. **Read file content** — use `git show HEAD:path` for original, fs.readFile for working copy
 
-   b. **Hover provider** — after the Editor mounts, register a hover provider:
-      ```
-      monacoRef.current?.monaco?.languages.registerHoverProvider('typescript', {
-        provideHover: (model, pos) => {
-          const word = model.getWordAtPosition(pos)
-          return word ? { contents: [{ value: `**${word.word}**\n\nType info from LSP` }] } : null
-        }
-      })
-      ```
+Editor options for diff:
+   - `renderSideBySide: true` (default, can toggle)
+   - `readOnly: true` for both sides
+   - `theme: 'vs-dark'`
 
-   c. **Error markers** — show red squiggly underlines for demo:
-      - Inject 2-3 fake type errors using `monacoRef.current?.monaco?.editor.setModelMarkers(model, 'typescript', [{...}])`
-      - E.g., variable used before declaration, missing return type
+4. Add a small "Diff" badge/button in the editor toolbar with icon
 
-3. Add a small "LSP" indicator badge in the editor toolbar showing features are active
-
-## Keywords: breakpoint, doppler-shift, automatic trigger
+## Keywords: git, monaco, inline-diff
 ## Output: commit hash + brief description after completing
 
 ULW
