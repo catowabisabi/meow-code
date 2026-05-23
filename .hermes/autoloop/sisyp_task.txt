@@ -1,27 +1,30 @@
-## Task: Fix backend /auth/logout — add server-side token revocation
+## Task: Add "Add note" annotation button to MessageBubble
 
 **Context:**
-Frontend ProfilePage now correctly calls `authService.logout()` before localStorage cleanup (commit 5d4c1e9). The backend `api_server/routes/auth/routes.py` line 148-150 has a stub logout:
-
-@router.post("/logout", response_model=MessageResponse)
-async def logout():
-    return MessageResponse(message="Logged out successfully")
-
-This does NOT revoke/invalidate the JWT token. Tokens remain valid after logout — security gap.
+MessageBubble.tsx already renders `paste_ref` annotations beautifully (line 573-585):
+```
+{message.annotations?.filter(a => a.type === 'paste_ref').map(ann => (
+  <span>📎 {ann.content}</span>
+))}
+```
+But there's NO UI to CREATE annotations. Users can't add notes to their messages.
 
 **Your task:**
-1. Read `api_server/routes/auth/routes.py` — understand the current token structure (JWT, refresh token flow)
-2. Read `api_server/app/` for existing token/blacklist infrastructure (Redis? JWT library? middleware?)
-3. Implement proper token revocation in the `/logout` endpoint:
-   - Invalidate the access token (add to blacklist OR update DB user record with `token_revoked_at`)
-   - OR use Redis to track revoked token IDs with TTL matching token expiry
-   - Return success only after revocation
-4. Also check if the auth middleware `get_current_active_user` should check the blacklist
-5. Commit with `fix(auth): add server-side token revocation on logout`
+1. Read `webui/client/src/components/chat/MessageBubble.tsx` — focus on the isUser section around line 548-566 (the edit button area)
+2. Read `webui/client/src/services/historyApi.ts` — confirm createAnnotation signature
 
-**Keywords:** ephemerality, ego, upon
-**Source files:** `api_server/routes/auth/routes.py`, `api_server/app/middleware/` if exists, `api_server/services/auth/` if exists
+3. Add an "Add note" button (+) next to the Edit button for user messages:
+   - Small icon button (like `+` or 📝) that appears on hover, same pattern as Edit
+   - On click: show an inline small input field (single line, like the annotation itself) with "Add note" placeholder
+   - On submit (Enter or button): call `historyApi.createAnnotation(message.id, 'paste_ref', noteText)`
+   - On cancel (Esc or blur): hide the input
+   - After successful creation: show the new annotation immediately below the message meta (it'll be rendered by the existing code at line 573)
 
-Commit hash: 5d4c1e9
+4. The annotation input should be a small inline form, not a modal. Think: "Add a note..." placeholder, submit button, cancel button — all inline with the message.
+
+**Keywords:** annotation, contextual, sticky-note
+**Source files:** `webui/client/src/components/chat/MessageBubble.tsx`, `webui/client/src/services/historyApi.ts`
+
+Commit hash: f013a11
 
 ULW
