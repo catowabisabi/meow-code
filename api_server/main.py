@@ -34,6 +34,8 @@ from .routes import (
     mcp_router,
     auth_router,
     providers_router,
+    departments_router,
+    teams_router,
 )
 from .db.settings_db import init_db, init_issues_db, get_db, get_issues_db
 from .ws.chat import websocket_endpoint
@@ -95,13 +97,15 @@ def create_app() -> FastAPI:
     app.include_router(admin_requests_router, prefix="/api", tags=["admin-requests"])
     app.include_router(mcp_router, prefix="/api", tags=["mcp"])
     app.include_router(providers_router, prefix="/api", tags=["providers"])
+    app.include_router(departments_router, prefix="/api", tags=["departments"])
+    app.include_router(teams_router, prefix="/api", tags=["teams"])
     app.include_router(auth_router, prefix="/api", tags=["auth"])
 
     @app.get("/health")
     async def health():
         checks = []
         overall_ok = True
-        
+
         start = time.time()
         try:
             conn = get_db()
@@ -114,7 +118,7 @@ def create_app() -> FastAPI:
         except Exception as e:
             checks.append({"name": "sqlite_db", "status": "error", "error": str(e)})
             overall_ok = False
-        
+
         start = time.time()
         try:
             issues_conn = get_issues_db()
@@ -127,7 +131,7 @@ def create_app() -> FastAPI:
         except Exception as e:
             checks.append({"name": "issues_db", "status": "error", "error": str(e)})
             overall_ok = False
-        
+
         if overall_ok:
             return {"status": "ok", "checks": checks, "timestamp": time.time()}
         else:
