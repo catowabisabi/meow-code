@@ -1,39 +1,50 @@
-fix: Implement departments and teams CRUD with database persistence
+fix: Implement Agent Introspection Dashboard — real-time reasoning state HUD
 
 ## Context
-api_server/routes/departments/routes.py and api_server/routes/teams/routes.py are stub implementations that return empty lists and placeholder IDs.
+Cato Claude's agent emits stream events (stream_thinking_delta, token usage, etc.) but UI only shows spinner. Need a live HUD panel showing agent reasoning state.
 
 ## Your Task
 
-### Step 1: Audit existing models
-Check:
-- ls api_server/db/models/
-- api_server/db/models/department.py (if exists)
-- api_server/db/models/team.py (if exists)
-- api_server/db/repositories/ patterns
+### Step 1: Find agent state events
+Search for:
+- stream_thinking_delta, token usage events in api_server/ws/
+- WebSocket message types in webui/client/src/lib/websocket.ts
+- Any existing agent_state, thinking events
 
-### Step 2: Create models
-If no Department model exists, create api_server/db/models/department.py with SQLAlchemy model.
-If no Team model exists, create api_server/db/models/team.py with team_members association table.
+### Step 2: Create IntrospectionStore
+In webui/client/src/stores/ — create introspectionStore.ts:
+```typescript
+interface IntrospectionState {
+  tokenBudgetUsed: number      // tokens consumed
+  tokenBudgetTotal: number     // context window limit
+  recursionDepth: number       // current loop/recursive depth
+  selfReflectionCount: number  // times agent has self-reflected
+  thinkingContent: string      // latest thinking stream content
+  contextPressure: number       // 0-100% context fill
+  status: 'idle' | 'thinking' | 'tool-use' | 'error'
+}
+```
+Use existing WebSocket message handlers to update state in real-time.
 
-### Step 3: Create repositories
-Create api_server/db/repositories/department.py with get_all, get_by_id, create, update, delete.
-Create api_server/db/repositories/team.py with same pattern.
+### Step 3: Create IntrospectionPanel component
+webui/client/src/components/IntrospectionPanel.tsx:
+- Compact HUD (not full sidebar) — maybe a bottom bar or floating pill
+- Show: token budget bar (used/total), recursion depth counter, context pressure %
+- Expandable to show thinking content ticker (last N tokens of thinking stream)
+- Auto-collapse when agent is idle for >5s
+- Distinct from chat pane — clearly secondary/overlay
 
-### Step 4: Update routes
-- api_server/routes/departments/routes.py → use DepartmentRepository
-- api_server/routes/teams/routes.py → use TeamRepository
-- api_server/routes/admin/routes.py → use both repositories
-
-### Step 5: Register models
-Import in api_server/db/models/__init__.py
+### Step 4: Wire into ChatPage
+Add IntrospectionPanel to ChatPage.tsx — position it above or below message list.
+Only show when agent is actively working.
 
 ## Verification
-- Python syntax valid
-- No "placeholder" in response
-- Proper status codes: 200/201/204/404
+- Load app, start agent task — HUD appears with live numbers
+- Token count increments as response streams
+- Recursion depth shows if agent loops
+- No "placeholder" text in component
 
-## Commit keywords: liminal state, capability unlock, reaction propagation
+## Commit keywords: tickermirror, context pressure, recursion depth
 ## Output: commit hash + brief description
 
 ULW
