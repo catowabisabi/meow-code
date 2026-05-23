@@ -114,24 +114,59 @@ async def delete_role(
 async def list_departments(
     current_user: dict = Depends(get_current_active_user),
 ):
-    return []
+    from api_server.db.database import _get_engine
+    from api_server.db.session import get_session_factory
+    from api_server.db.repositories.department import DepartmentRepository
+    engine = _get_engine()
+    session_factory = get_session_factory(engine)
+    async with session_factory() as db:
+        repo = DepartmentRepository(db)
+        departments = await repo.get_all()
+        return departments
+
 
 @router.post("/departments", status_code=status.HTTP_201_CREATED)
 async def create_department(
-    data: dict,
+    data: DepartmentCreate,
     current_user: dict = Depends(require_admin),
 ):
-    return {"id": "placeholder"}
+    from api_server.db.database import _get_engine
+    from api_server.db.session import get_session_factory
+    from api_server.db.repositories.department import DepartmentRepository
+    engine = _get_engine()
+    session_factory = get_session_factory(engine)
+    async with session_factory() as db:
+        repo = DepartmentRepository(db)
+        department = await repo.create(**data.model_dump(exclude_unset=True))
+        return department
+
 
 @router.get("/teams")
 async def list_teams(
     current_user: dict = Depends(get_current_active_user),
 ):
-    return []
+    from api_server.db.database import _get_engine
+    from api_server.db.session import get_session_factory
+    from api_server.db.repositories.team import TeamRepository
+    engine = _get_engine()
+    session_factory = get_session_factory(engine)
+    async with session_factory() as db:
+        repo = TeamRepository(db)
+        teams = await repo.get_all()
+        return teams
+
 
 @router.post("/teams", status_code=status.HTTP_201_CREATED)
 async def create_team(
-    data: dict,
+    data: TeamCreate,
     current_user: dict = Depends(require_admin),
 ):
-    return {"id": "placeholder"}
+    from api_server.db.database import _get_engine
+    from api_server.db.session import get_session_factory
+    from api_server.db.repositories.team import TeamRepository
+    engine = _get_engine()
+    session_factory = get_session_factory(engine)
+    async with session_factory() as db:
+        repo = TeamRepository(db)
+        team = await repo.create(**data.model_dump(exclude_unset=True))
+        return team
